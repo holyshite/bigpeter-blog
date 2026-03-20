@@ -1,1 +1,50 @@
 // _header.scss
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    /* 磨砂玻璃效果 */
+    background: rgba(255, 255, 255, 0.013); // 半透明
+    backdrop-filter: blur(2px); // 模糊
+    -webkit-backdrop-filter: blur(2px); // 兼容 Safari
+
+    /* 边框 + 阴影（提升质感） */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 15px 20px;
+}
+
+/* 导航文字 */
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* 悬停效果（高级感关键） */
+.nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease;
+}
+
+.nav a:hover::after {
+    width: 100%;
+}
