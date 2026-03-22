@@ -1,1 +1,20 @@
 // _variables.scss
+
+$glass-bg: rgba(255, 255, 255, 0.013);
+$glass-border: rgba(255, 255, 255, 0.2);
+$glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+$nav-color: white;
+$nav-gap: 30px;
+$nav-padding: 15px 20px;
+$transition-duration: 0.3s;
+
+$link-color: #ffea01;
+$link-hover: #ffea00;
+$link-visited: #dfcd00;
+
+// 滚动条变量
+$scrollbar-width: 8px;
+$scrollbar-thumb: rgb(80, 80, 80);
+$scrollbar-thumb-hover: #707070;
+$scrollbar-track: transparent;

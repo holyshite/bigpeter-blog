@@ -1,63 +1,196 @@
-.page-container {
-    /* 和导航栏留出距离 */
-    padding-top: 100px;
-    padding-bottom: 100px;
+// _page.scss
+@import "variables";
 
-    /* 居中 */
+.page-container {
+    padding: {
+        top: 100px;
+        bottom: 100px;
+    }
+
     display: flex;
     justify-content: center;
 }
 
-/* 主体卡片 */
 .glass-card {
     width: 70%;
-    max-width: 1200px; // 防止超宽
-
+    max-width: 1200px;
     padding: 30px;
-
     border-radius: 20px;
 
-    /* ===== 磨砂玻璃核心 ===== */
-    background: rgba(255, 255, 255, 0.013);
+    // 磨砂玻璃效果
+    background: $glass-bg;
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
 
-    /* 边框 + 阴影 */
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    // 边框和阴影
+    border: 1px solid $glass-border;
+    box-shadow: $glass-shadow;
 
-    /* 字体颜色（配合深色背景） */
     color: white;
+
+    // ===== 排版系统（统一控制） =====
+
+    // 标题
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 0 0 20px 0;
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: 0.02em;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 26px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    // 段落
+    p {
+        margin: 0 0 18px 0;
+        font-size: 16px;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    // 最后一个元素去掉多余间距
+    >*:last-child {
+        margin-bottom: 0;
+    }
+
+    // 列表
+    ul,
+    ol {
+        margin: 0 0 20px 20px;
+        padding: 0;
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+    }
+
+    // 引用
+    blockquote {
+        margin: 20px 0;
+        padding: 12px 16px;
+        border-left: 3px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    // 分割线
+    hr {
+        border: none;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 30px 0;
+    }
+
+    // 代码块
+    code {
+        padding: 2px 6px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 14px;
+    }
+
+    pre {
+        margin: 20px 0;
+        padding: 16px;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.4);
+        overflow-x: auto;
+
+        code {
+            background: transparent;
+            padding: 0;
+        }
+    }
+
+    // ===== 提示块（Note / Warning / Error） =====
+
+    .note,
+    .warning,
+    .error {
+        margin: 20px 0;
+        padding: 16px 18px;
+        border-radius: 12px;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+
+        font-size: 15px;
+        line-height: 1.7;
+
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+
+        position: relative;
+    }
+
+    // ===== NOTE（信息）=====
+    .note {
+        background: rgba(80, 160, 255, 0.08);
+        border: 1px solid rgba(80, 160, 255, 0.25);
+        color: rgba(180, 220, 255, 0.95);
+
+        &::before {
+            content: "ℹ️";
+            font-size: 16px;
+            line-height: 1.4;
+        }
+    }
+
+    // ===== WARNING（警告）=====
+    .warning {
+        background: rgba(255, 180, 0, 0.08);
+        border: 1px solid rgba(255, 180, 0, 0.3);
+        color: rgba(255, 220, 120, 0.95);
+
+        &::before {
+            content: "⚠️";
+            font-size: 16px;
+            line-height: 1.4;
+        }
+    }
+
+    // ===== ERROR（错误）=====
+    .error {
+        background: rgba(255, 80, 80, 0.08);
+        border: 1px solid rgba(255, 80, 80, 0.3);
+        color: rgba(255, 150, 150, 0.95);
+
+        &::before {
+            content: "❌";
+            font-size: 16px;
+            line-height: 1.4;
+        }
+    }
 }
 
-/* 标题优化 */
-.glass-card h1 {
-    margin-bottom: 20px;
-}
-
-/* 段落 */
-.glass-card p {
-    line-height: 1.6;
-}
-
-/* 链接 */
-/* 普通状态 */
 .link {
-    color: #ffea01;
-    /* 自定义颜色 */
+    color: $link-color;
     text-decoration: none;
     transition: color 0.3s ease;
-}
 
-/* 鼠标悬停时 */
-.link:hover {
-    color: #ffea00;
-    /* 悬停时的颜色 */
-    text-decoration: underline;
-}
+    &:hover {
+        color: $link-hover;
+        text-decoration: underline;
+    }
 
-/* 点击后的颜色 */
-.link:visited {
-    color: #dfcd00;
-    /* 访问过的链接颜色 */
+    &:visited {
+        color: $link-visited;
+    }
 }

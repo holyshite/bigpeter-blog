@@ -53,3 +53,7 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+markdown: kramdown
+kramdown:
+  input: GFM

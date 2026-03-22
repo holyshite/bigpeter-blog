@@ -1,5 +1,6 @@
-// _sass/_stars.scss
-/* 全局重置（必须独立） */
+@import "variables";
+
+// 全局重置
 html,
 body {
     margin: 0;
@@ -8,21 +9,45 @@ body {
     height: 100%;
 }
 
-/* 页面专属 */
-.star-canvas-page {
+html {
     overflow-y: auto;
-    /* 启用垂直滚动 */
     overflow-x: hidden;
-    /* 隐藏水平滚动条 */
-    touch-action: none;
     background: black;
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE/Edge */
+
+    // 滚动条
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    // 轨道
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    // 滑块（默认隐藏）
+    &::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 10px;
+        transition: background 0.3s;
+    }
+
+    // hover 显示
+    &:hover::-webkit-scrollbar-thumb {
+        background: transparentize($scrollbar-thumb, 0.7);
+    }
+
+    &:hover::-webkit-scrollbar-thumb:hover {
+        background: $scrollbar-thumb-hover;
+    }
 }
 
-/* canvas */
+.star-canvas-page {
+    min-height: 100vh;
+    touch-action: none;
+    background: transparent;
+}
+
+// canvas
 #starCanvas {
     position: fixed;
     top: 0;
