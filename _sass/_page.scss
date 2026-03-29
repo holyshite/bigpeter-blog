@@ -16,6 +16,8 @@
     max-width: 1200px;
     padding: 30px;
     border-radius: 20px;
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 900px;
 
     // 磨砂玻璃效果
     background: $glass-bg;

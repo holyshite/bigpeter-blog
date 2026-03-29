@@ -10,6 +10,7 @@ title: 关于
     <meta charset="UTF-8">
     <title>{{ page.title }} | {{ site.title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
 </head>
 
@@ -18,7 +19,7 @@ title: 关于
 
     {% capture page_content %}
     <h2>关于我</h2>
-    <p>欢迎来到我的个人网站！我是[BigPeter]，一个热爱编程和技术的开发者。</p>
+    <p>欢迎来到我的个人网站！我是[<a href="/BigPeter" class="link">BigPeter</a>]，一个热爱编程和技术的开发者。</p>
     <p>这个网站是我用来分享技术心得、项目经验和生活感悟的地方。</p>
     <h3>我的兴趣</h3>
     <ul>
@@ -38,8 +39,9 @@ title: 关于
     {% include page.html title=page.title content=page_content %}
 
     <canvas id="starCanvas"></canvas>
-    <script src="{{ '/assets/js/stars.js' | absolute_url }}"></script>
-    <script src="{{ '/assets/js/nav.js' | absolute_url }}"></script>
+    <script src="{{ '/assets/js/stars.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
 </body>
 
 </html>

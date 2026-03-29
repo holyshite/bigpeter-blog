@@ -10,6 +10,7 @@ title: 文章详情
     <meta charset="UTF-8">
     <title>{{ page.title }} | {{ site.title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
 </head>
 
@@ -75,9 +76,10 @@ title: 文章详情
     </div>
 
     <canvas id="starCanvas"></canvas>
-    <script src="{{ '/assets/js/stars.js' | absolute_url }}"></script>
-    <script src="{{ '/assets/js/toc.js' | absolute_url }}"></script>
-    <script src="{{ '/assets/js/nav.js' | absolute_url }}"></script>
+    <script src="{{ '/assets/js/stars.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/toc.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
 </body>
 
 </html>
