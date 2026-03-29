@@ -32,20 +32,26 @@
             position: relative;
             transition: all $transition-duration ease;
 
-            // 悬停下划线效果
-            &::after {
-                content: "";
-                position: absolute;
-                left: 0;
-                bottom: -4px;
-                width: 0;
-                height: 2px;
-                background: $nav-color;
-                transition: width $transition-duration ease;
+            // 添加内边距，让椭圆背景有足够空间
+            padding: 8px 20px;
+            border-radius: 40px; // 足够大的值形成椭圆/胶囊形状
+
+            // 背景高亮效果
+            background: transparent;
+            transition: background $transition-duration ease;
+
+            &:hover {
+                background: rgba($nav-color, 0.15); // 使用变量颜色的半透明版本
+                // 或者直接指定颜色：
+                // background: rgba(255, 255, 255, 0.2);
             }
 
-            &:hover::after {
-                width: 100%;
+            // 激活状态的高亮样式
+            &.active {
+                background: rgba($nav-color, 0.25); // 更明显的高亮
+                // 可选：添加其他效果
+                // font-weight: 600;
+                // transform: scale(1.05);
             }
         }
     }

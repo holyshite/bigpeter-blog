@@ -1,5 +1,27 @@
 // assets/js/toc.js
 (function () {
+    // 获取 header 的高度（考虑固定定位的元素）
+    function getHeaderOffset() {
+        const header = document.querySelector('.site-header');
+        if (header) {
+            return header.offsetHeight;
+        }
+        return 0; // 默认值，如果没有找到 header
+    }
+
+    // 平滑滚动到指定元素，考虑 header 偏移
+    function smoothScrollToElement(element, offset = 0) {
+        if (!element) return;
+
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+    }
+
     function generateTOC() {
         const content = document.querySelector('.post-content');
         const tocContainer = document.querySelector('.toc-content');
@@ -94,7 +116,7 @@
 
         tocContainer.appendChild(toc);
 
-        // 平滑滚动 - 使用 getElementById 避免选择器转义问题
+        // 平滑滚动 - 使用 getElementById 避免选择器转义问题，并考虑 header 偏移
         document.querySelectorAll('.toc-content a').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -102,10 +124,12 @@
                 // 使用 getElementById 而不是 querySelector，避免转义问题
                 const target = document.getElementById(targetId);
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    // 获取 header 的高度作为偏移量
+                    const headerOffset = getHeaderOffset();
+
+                    // 使用自定义的平滑滚动函数，考虑偏移量
+                    smoothScrollToElement(target, headerOffset);
+
                     // 更新 URL，但使用编码后的格式
                     history.pushState(null, null, `#${encodeURIComponent(targetId)}`);
                 } else {
