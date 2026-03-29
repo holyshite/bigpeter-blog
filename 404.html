@@ -1,26 +1,308 @@
 ---
 permalink: /404.html
-layout: page
+layout: null
 ---
 
-<style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
-  }
+<!DOCTYPE html>
+<html lang="zh-CN">
 
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - 页面迷路了</title>
+  <style type="text/css" media="screen">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<div class="container">
-  <h1>404</h1>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
-</div>
+    /* 漂浮的星星效果 */
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 3s infinite ease-in-out;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 404 数字动画 */
+    .error-code {
+      font-size: 120px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+      margin: 20px 0;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    /* 表情符号动画 */
+    .emoji {
+      font-size: 80px;
+      display: inline-block;
+      animation: rotate 4s infinite;
+    }
+
+    @keyframes rotate {
+
+      0%,
+      100% {
+        transform: rotate(0deg);
+      }
+
+      25% {
+        transform: rotate(15deg);
+      }
+
+      75% {
+        transform: rotate(-15deg);
+      }
+    }
+
+    h1 {
+      font-size: 3em;
+      color: white;
+      margin: 20px 0;
+      font-weight: 600;
+    }
+
+    .message {
+      font-size: 1.2em;
+      color: rgba(255, 255, 255, 0.95);
+      margin: 20px 0;
+      line-height: 1.6;
+    }
+
+    /* 趣味提示框 */
+    .fun-fact {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 15px 25px;
+      margin: 30px auto;
+      max-width: 400px;
+      font-size: 0.9em;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .fun-fact:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    /* 按钮样式 */
+    .home-button {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: bold;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .home-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      background: #f0f0f0;
+    }
+
+    /* 搜索框 */
+    .search-box {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .search-input {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 50px;
+      width: 250px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .search-button {
+      padding: 10px 20px;
+      background: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      color: #667eea;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .search-button:hover {
+      background: #f0f0f0;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 漂浮的星星 -->
+  <div id="stars"></div>
+
+  <div class="container">
+    <div class="error-code">
+      4<span class="emoji">🔍</span>4
+    </div>
+
+    <h1>哎呀！页面迷路了 🎈</h1>
+
+    <div class="message">
+      <p>看起来你点击了一个不存在的链接</p>
+      <p>或者我们的内容正在躲猫猫~</p>
+    </div>
+
+    <!-- 趣味提示框，点击会变化 -->
+    <div class="fun-fact" id="funFact">
+      💡 点击这里获取一个有趣的事实
+    </div>
+
+    <!-- 搜索框 -->
+    <div class="search-box">
+      <input type="text" class="search-input" placeholder="搜索你想要的..." id="searchInput">
+      <button class="search-button" onclick="searchSite()">搜索</button>
+    </div>
+
+    <a href="{{ '/' | relative_url }}" class="home-button">
+      返回首页
+    </a>
+  </div>
+
+  <script>
+    // 生成漂浮星星
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 5 + 2;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 5 + 's';
+        star.style.animationDuration = Math.random() * 3 + 2 + 's';
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // 趣味事实数组
+    const facts = [
+      "🐱 你知道吗？404错误的名字来源于一个房间号！",
+      "🎮 这个页面比你的作业还难找~",
+      "🍕 与其在这里迷路，不如去吃块披萨？",
+      "💻 程序员把这个错误叫做'404'，这很酷对吧？",
+      "🌍 你可能是第一个来到这个页面的人！",
+      "📚 也许你想找的内容在首页等着你~",
+      "🚀 这个页面正在火星上飞行，暂时无法访问！",
+      "🧐 为什么不试试下面的搜索框呢！"
+    ];
+
+    let factIndex = 0;
+    const funFactDiv = document.getElementById('funFact');
+
+    funFactDiv.addEventListener('click', function () {
+      factIndex = (factIndex + 1) % facts.length;
+      this.innerHTML = '💡 ' + facts[factIndex];
+
+      // 添加短暂的闪烁效果
+      this.style.transform = 'scale(1.05)';
+      setTimeout(() => {
+        this.style.transform = '';
+      }, 200);
+    });
+
+    // 搜索功能
+    function searchSite() {
+      const searchTerm = document.getElementById('searchInput').value.trim();
+      if (searchTerm) {
+        // 这里可以集成你实际的搜索功能
+        window.location.href = "{{ '/' | relative_url }}?s=" + encodeURIComponent(searchTerm);
+      } else {
+        alert('请输入搜索内容！');
+      }
+    }
+
+    // 回车搜索
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        searchSite();
+      }
+    });
+
+    // 控制台彩蛋
+    console.log("%c🎉 哇！你发现了一个隐藏彩蛋！", "color: #667eea; font-size: 16px");
+    console.log("%c这个页面是专门为你准备的~ 祝你开心！", "color: #764ba2; font-size: 14px");
+
+    // 页面加载完成后生成星星
+    createStars();
+  </script>
+</body>
+
+</html>
