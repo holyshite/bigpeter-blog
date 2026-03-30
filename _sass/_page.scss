@@ -14,19 +14,14 @@
 .glass-card {
     width: 70%;
     max-width: 1200px;
-    padding: 30px;
-    border-radius: 20px;
     content-visibility: auto;
     contain-intrinsic-size: 1px 900px;
-
-    // 磨砂玻璃效果
-    background: $glass-bg;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-
-    // 边框和阴影
-    border: 1px solid $glass-border;
-    box-shadow: $glass-shadow;
+    @include liquid-glass-surface(
+        $radius: 28px,
+        $padding: 30px,
+        $bg: transparent,
+        $border: rgba(255, 255, 255, 0.075)
+    );
 
     color: white;
 

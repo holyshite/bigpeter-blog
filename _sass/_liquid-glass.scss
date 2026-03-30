@@ -1,0 +1,98 @@
+@import "variables";
+
+$liquid-glass-bg: rgba(255, 255, 255, 0.012) !default;
+$liquid-glass-border: rgba(255, 255, 255, 0.11) !default;
+$liquid-glass-shadow: 0 16px 34px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03) !default;
+$liquid-glass-highlight: rgba(255, 255, 255, 0.16) !default;
+$liquid-glass-edge: rgba(255, 255, 255, 0.05) !default;
+
+@mixin liquid-glass-surface($radius: 24px,
+    $padding: null,
+    $bg: $liquid-glass-bg,
+    $border: $liquid-glass-border) {
+    position: relative;
+    overflow: hidden;
+    border-radius: $radius;
+    background: $bg;
+    border: 1px solid $border;
+    box-shadow: $liquid-glass-shadow;
+    backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
+    -webkit-backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
+    isolation: isolate;
+
+    @if $padding !=null {
+        padding: $padding;
+    }
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    &::before {
+        inset: 0;
+        padding: 1px;
+        border-radius: inherit;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.17), transparent 8%),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.085), transparent 8%, transparent 92%, rgba(255, 255, 255, 0.028)),
+            radial-gradient(90% 18% at 50% 0%, $liquid-glass-highlight 0, transparent 78%);
+        opacity: 0.82;
+        filter: url("#liquid-glass-distortion");
+        transform: translateZ(0);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        z-index: 0;
+    }
+
+    &::after {
+        border-radius: inherit;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.18),
+            inset 1px 0 0 rgba(255, 255, 255, 0.08),
+            inset -1px 0 0 rgba(255, 255, 255, 0.035),
+            inset 0 -1px 0 $liquid-glass-edge,
+            inset 0 10px 14px -14px rgba(255, 255, 255, 0.24);
+        z-index: 1;
+    }
+}
+
+@mixin liquid-glass-hover($translateY: -2px, $scale: 1) {
+    transition:
+        transform 0.28s ease,
+        box-shadow 0.28s ease,
+        border-color 0.28s ease,
+        background 0.28s ease;
+
+    &:hover {
+        transform: translateY($translateY) scale($scale);
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.14),
+            inset 0 1px 0 rgba(255, 255, 255, 0.13),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.14);
+    }
+}
+
+.liquid-glass {
+    @include liquid-glass-surface();
+}
+
+.liquid-glass-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
