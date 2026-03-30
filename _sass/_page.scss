@@ -16,12 +16,10 @@
     max-width: 1200px;
     content-visibility: auto;
     contain-intrinsic-size: 1px 900px;
-    @include liquid-glass-surface(
-        $radius: 28px,
+    @include liquid-glass-surface($radius: 28px,
         $padding: 30px,
         $bg: transparent,
-        $border: rgba(255, 255, 255, 0.075)
-    );
+        $border: rgba(255, 255, 255, 0.075));
 
     color: white;
 
