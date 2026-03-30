@@ -1,8 +1,26 @@
 {% include liquid-glass-filter.html %}
 <header class="site-header">
     <nav class="nav">
-        <a href="{{ '/' | relative_url }}">首页</a>
-        <a href="{{ '/about/' | relative_url }}">关于</a>
-        <a href="{{ '/posts/' | relative_url }}">文章</a>
+        <div class="nav-links">
+            <a href="{{ '/' | relative_url }}">首页</a>
+            <a href="{{ '/about/' | relative_url }}">关于</a>
+            <a href="{{ '/posts/' | relative_url }}">文章</a>
+        </div>
+        <button
+            class="theme-toggle"
+            type="button"
+            aria-label="切换到白天主题"
+            aria-pressed="false"
+            data-theme-target="light"
+            data-icon-dark="{{ '/assets/icon/sun.svg' | relative_url }}"
+            data-icon-light="{{ '/assets/icon/moon.svg' | relative_url }}"
+        >
+            <img
+                class="theme-toggle__icon"
+                src="{{ '/assets/icon/sun.svg' | relative_url }}"
+                alt=""
+                aria-hidden="true"
+            >
+        </button>
     </nav>
 </header>

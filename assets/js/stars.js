@@ -29,6 +29,7 @@
         let initialPinchDistance = null;
         let initialRotationAngle = null;
         let isVisible = !document.hidden;
+        let isThemeLight = document.body.classList.contains('theme-light');
         const mouse = { x: 0, y: 0 };
         const stars = [];
 
@@ -193,7 +194,10 @@
         function renderFrame() {
             animationFrameId = 0;
 
-            if (!isVisible) return;
+            if (!isVisible || isThemeLight) {
+                ctx.clearRect(0, 0, viewportWidth, viewportHeight);
+                return;
+            }
 
             ctx.clearRect(0, 0, viewportWidth, viewportHeight);
 
@@ -238,7 +242,7 @@
         function handleVisibilityChange() {
             isVisible = !document.hidden;
 
-            if (isVisible) {
+            if (isVisible && !isThemeLight) {
                 requestRender();
                 return;
             }
@@ -249,11 +253,29 @@
             }
         }
 
+        function handleThemeChange(event) {
+            isThemeLight = event.detail && event.detail.theme === 'light';
+
+            if (isThemeLight) {
+                ctx.clearRect(0, 0, viewportWidth, viewportHeight);
+
+                if (animationFrameId) {
+                    window.cancelAnimationFrame(animationFrameId);
+                    animationFrameId = 0;
+                }
+
+                return;
+            }
+
+            requestRender();
+        }
+
         setCanvasSize();
         syncStars();
 
         window.addEventListener('resize', handleResize, { passive: true });
         document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('site-theme-change', handleThemeChange);
 
         window.addEventListener('mousemove', (event) => {
             updatePointerPosition(event.clientX, event.clientY);
@@ -325,7 +347,9 @@
         }, { passive: true });
 
         window.requestAnimationFrame(() => {
-            requestRender();
+            if (!isThemeLight) {
+                requestRender();
+            }
         });
     }
 
