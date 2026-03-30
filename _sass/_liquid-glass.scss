@@ -2,7 +2,8 @@
 
 $liquid-glass-bg: rgba(255, 255, 255, 0.012) !default;
 $liquid-glass-border: rgba(255, 255, 255, 0.11) !default;
-$liquid-glass-shadow: 0 16px 34px rgba(0, 0, 0, 0.12),
+$liquid-glass-shadow: 0 0 18px rgba(255, 255, 255, 0.06),
+    0 0 42px rgba(255, 255, 255, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     inset 0 -1px 0 rgba(255, 255, 255, 0.03) !default;
 $liquid-glass-highlight: rgba(255, 255, 255, 0.16) !default;
@@ -39,9 +40,9 @@ $liquid-glass-edge: rgba(255, 255, 255, 0.05) !default;
         padding: 1px;
         border-radius: inherit;
         background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.17), transparent 8%),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.085), transparent 8%, transparent 92%, rgba(255, 255, 255, 0.028)),
-            radial-gradient(90% 18% at 50% 0%, $liquid-glass-highlight 0, transparent 78%);
+            linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.11) 6%, rgba(255, 255, 255, 0.03) 16%, transparent 32%),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.045) 8%, transparent 18%, transparent 82%, rgba(255, 255, 255, 0.03) 92%, rgba(255, 255, 255, 0.06) 100%),
+            radial-gradient(90% 22% at 50% 0%, rgba(255, 255, 255, 0.2) 0%, $liquid-glass-highlight 28%, rgba(255, 255, 255, 0.05) 56%, transparent 82%);
         opacity: 0.82;
         filter: url("#liquid-glass-distortion");
         transform: translateZ(0);
@@ -60,9 +61,13 @@ $liquid-glass-edge: rgba(255, 255, 255, 0.05) !default;
         border-radius: inherit;
         box-shadow:
             inset 0 1px 0 rgba(255, 255, 255, 0.18),
+            inset 0 2px 4px -3px rgba(255, 255, 255, 0.16),
             inset 1px 0 0 rgba(255, 255, 255, 0.08),
+            inset 2px 0 4px -4px rgba(255, 255, 255, 0.06),
             inset -1px 0 0 rgba(255, 255, 255, 0.035),
+            inset -2px 0 4px -4px rgba(255, 255, 255, 0.03),
             inset 0 -1px 0 $liquid-glass-edge,
+            inset 0 -2px 4px -4px rgba(255, 255, 255, 0.025),
             inset 0 10px 14px -14px rgba(255, 255, 255, 0.24);
         z-index: 1;
     }
@@ -78,7 +83,8 @@ $liquid-glass-edge: rgba(255, 255, 255, 0.05) !default;
     &:hover {
         transform: translateY($translateY) scale($scale);
         box-shadow:
-            0 20px 40px rgba(0, 0, 0, 0.14),
+            0 0 24px rgba(255, 255, 255, 0.08),
+            0 0 56px rgba(255, 255, 255, 0.14),
             inset 0 1px 0 rgba(255, 255, 255, 0.13),
             inset 0 -1px 0 rgba(255, 255, 255, 0.04);
         border-color: rgba(255, 255, 255, 0.14);
