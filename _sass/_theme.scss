@@ -19,13 +19,11 @@ html[data-theme="light"] body,
 body.theme-light {
     color: #1f2937;
     background:
-        repeating-linear-gradient(
-            135deg,
+        repeating-linear-gradient(135deg,
             rgb(237, 237, 237) 0,
             rgb(237, 237, 237) 16px,
             rgb(228, 228, 228) 16px,
-            rgb(228, 228, 228) 32px
-        );
+            rgb(228, 228, 228) 32px);
 }
 
 html[data-theme="light"] .site-header,
@@ -97,7 +95,7 @@ body.theme-light .post-card .post-nav a,
 body.theme-light .post-card .post-tags .tag,
 body.theme-light .post-meta .post-tags .tag {
     color: #1f2937;
-    background: rgb(237, 237, 237);
+    background: rgba(237, 237, 237, 0.75);
     border-color: rgba(15, 23, 42, 0.075);
     box-shadow:
         0 10px 24px rgba(148, 163, 184, 0.08),
