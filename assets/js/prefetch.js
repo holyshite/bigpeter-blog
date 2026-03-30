@@ -60,19 +60,23 @@
         links.forEach((link) => observer.observe(link));
     }
 
+    function findAnchorFromEventTarget(target) {
+        return target instanceof Element ? target.closest('a') : null;
+    }
+
     function initPrefetch() {
         document.addEventListener('pointerenter', (event) => {
-            const anchor = event.target.closest('a');
+            const anchor = findAnchorFromEventTarget(event.target);
             prefetch(anchor);
         }, true);
 
         document.addEventListener('focusin', (event) => {
-            const anchor = event.target.closest('a');
+            const anchor = findAnchorFromEventTarget(event.target);
             prefetch(anchor);
         });
 
         document.addEventListener('touchstart', (event) => {
-            const anchor = event.target.closest('a');
+            const anchor = findAnchorFromEventTarget(event.target);
             prefetch(anchor);
         }, { passive: true });
 
