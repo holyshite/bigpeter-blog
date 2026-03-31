@@ -14,8 +14,13 @@
         }
 
         &:hover {
-            color: #8ec5ff;
+            color: #b7d8ff;
             text-decoration: none;
+        }
+
+        &.is-active,
+        &[aria-current="true"] {
+            color: #74b8ff;
         }
     }
 }

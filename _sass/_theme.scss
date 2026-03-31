@@ -219,7 +219,18 @@ html[data-theme="light"] .post-card .post-toc a:hover,
 html[data-theme="light"] .post-sidebar-card .post-toc a:hover,
 body.theme-light .post-card .post-toc a:hover,
 body.theme-light .post-sidebar-card .post-toc a:hover {
-    color: #7db7ff;
+    color: #9cc8ff;
+}
+
+html[data-theme="light"] .post-card .post-toc a.is-active,
+html[data-theme="light"] .post-sidebar-card .post-toc a.is-active,
+html[data-theme="light"] .post-card .post-toc a[aria-current="true"],
+html[data-theme="light"] .post-sidebar-card .post-toc a[aria-current="true"],
+body.theme-light .post-card .post-toc a.is-active,
+body.theme-light .post-sidebar-card .post-toc a.is-active,
+body.theme-light .post-card .post-toc a[aria-current="true"],
+body.theme-light .post-sidebar-card .post-toc a[aria-current="true"] {
+    color: #4799f5;
 }
 
 html[data-theme="light"] .post-card .post-content table,

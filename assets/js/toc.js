@@ -57,6 +57,7 @@
         let currentList = rootList;
         const stack = [rootList];
         const usedIds = new Set();
+        const tocLinks = [];
 
         headers.forEach((header, index) => {
             if (!header.id) {
@@ -72,6 +73,7 @@
             link.textContent = header.textContent;
             link.dataset.targetId = header.id;
             item.appendChild(link);
+            tocLinks.push(link);
 
             if (level > currentLevel) {
                 const nestedList = document.createElement('ul');
@@ -99,6 +101,34 @@
 
         tocContainer.appendChild(rootList);
 
+        function setActiveLink(activeId) {
+            tocLinks.forEach((link) => {
+                const isActive = link.dataset.targetId === activeId;
+                link.classList.toggle('is-active', isActive);
+                if (isActive) {
+                    link.setAttribute('aria-current', 'true');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
+        }
+
+        function updateActiveLink() {
+            const headerOffset = getHeaderOffset();
+            const activationY = headerOffset + 24;
+            let activeId = headers[0].id;
+
+            headers.forEach((header) => {
+                if (header.getBoundingClientRect().top - activationY <= 0) {
+                    activeId = header.id;
+                }
+            });
+
+            setActiveLink(activeId);
+        }
+
+        updateActiveLink();
+
         tocContainer.addEventListener('click', (event) => {
             const link = event.target.closest('a[data-target-id]');
             if (!link) return;
@@ -110,7 +140,20 @@
 
             smoothScrollToElement(target, getHeaderOffset());
             history.pushState(null, '', `#${encodeURIComponent(link.dataset.targetId)}`);
+            setActiveLink(link.dataset.targetId || '');
         }, { passive: false });
+
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+
+            ticking = true;
+            window.requestAnimationFrame(() => {
+                ticking = false;
+                updateActiveLink();
+            });
+        }, { passive: true });
     }
 
     if (document.readyState === 'loading') {
