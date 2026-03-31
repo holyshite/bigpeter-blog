@@ -183,16 +183,43 @@ body.theme-light .glass-card pre {
 html[data-theme="light"] .post-meta,
 html[data-theme="light"] .post-card .post-meta,
 html[data-theme="light"] .post-card .post-toc .toc-title,
+html[data-theme="light"] .post-sidebar-card .post-toc .toc-title,
 html[data-theme="light"] .post-item .post-meta,
 html[data-theme="light"] .post-card .post-toc a,
+html[data-theme="light"] .post-sidebar-card .post-toc a,
 html[data-theme="light"] .post-card .post-nav a,
 body.theme-light .post-meta,
 body.theme-light .post-card .post-meta,
 body.theme-light .post-card .post-toc .toc-title,
+body.theme-light .post-sidebar-card .post-toc .toc-title,
 body.theme-light .post-item .post-meta,
 body.theme-light .post-card .post-toc a,
+body.theme-light .post-sidebar-card .post-toc a,
 body.theme-light .post-card .post-nav a {
     color: rgba(51, 65, 85, 0.78);
+}
+
+html[data-theme="light"] .post-card .post-toc a,
+html[data-theme="light"] .post-sidebar-card .post-toc a,
+body.theme-light .post-card .post-toc a,
+body.theme-light .post-sidebar-card .post-toc a {
+    color: #4b5563;
+    text-decoration: none;
+}
+
+html[data-theme="light"] .post-card .post-toc a:visited,
+html[data-theme="light"] .post-sidebar-card .post-toc a:visited,
+body.theme-light .post-card .post-toc a:visited,
+body.theme-light .post-sidebar-card .post-toc a:visited {
+    color: #4b5563;
+    text-decoration: none;
+}
+
+html[data-theme="light"] .post-card .post-toc a:hover,
+html[data-theme="light"] .post-sidebar-card .post-toc a:hover,
+body.theme-light .post-card .post-toc a:hover,
+body.theme-light .post-sidebar-card .post-toc a:hover {
+    color: #7db7ff;
 }
 
 html[data-theme="light"] .post-card .post-content table,

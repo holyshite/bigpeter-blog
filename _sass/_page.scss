@@ -33,6 +33,16 @@
     width: 100%;
 }
 
+.page-shell.has-sidebar .page-aside-card {
+    position: fixed;
+    top: calc(var(--header-height, 64px) + (var(--header-current-top, 16px) * 2));
+    right: max(calc((100vw - 1260px) / 2), calc(15vw - 30px));
+    width: 280px;
+    max-height: calc(100vh - (var(--header-height, 64px) + (var(--header-current-top, 16px) * 2)) - 20px);
+    overflow: auto;
+    z-index: 900;
+}
+
 .glass-card {
     width: 100%;
     max-width: 100%;
@@ -202,6 +212,15 @@
     .page-shell.has-sidebar {
         grid-template-columns: minmax(0, 1fr);
         gap: 18px;
+    }
+
+    .page-shell.has-sidebar .page-aside-card {
+        position: static;
+        top: auto;
+        right: auto;
+        width: 100%;
+        max-height: none;
+        overflow: visible;
     }
 }
 

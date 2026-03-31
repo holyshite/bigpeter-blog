@@ -58,6 +58,8 @@
         const initialTop = Number.parseFloat(rawTop);
         if (!Number.isFinite(initialTop)) return;
 
+        const root = document.documentElement;
+
         let ticking = false;
 
         function updateHeaderTop() {
@@ -66,6 +68,8 @@
             const scrollY = window.scrollY || window.pageYOffset || 0;
             const nextTop = clamp(initialTop - scrollY, 0, initialTop);
             header.style.setProperty('--header-top', `${nextTop}px`);
+            root.style.setProperty('--header-current-top', `${nextTop}px`);
+            root.style.setProperty('--header-height', `${header.offsetHeight}px`);
         }
 
         updateHeaderTop();

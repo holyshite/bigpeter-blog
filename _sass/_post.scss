@@ -1,6 +1,25 @@
 // _post.scss
 @import "variables";
 
+.post-toc {
+    a {
+        color: rgba(226, 232, 240, 0.82);
+        text-decoration: none;
+        text-decoration-line: none;
+        transition: color 0.2s ease;
+
+        &:visited {
+            color: rgba(226, 232, 240, 0.82);
+            text-decoration: none;
+        }
+
+        &:hover {
+            color: #8ec5ff;
+            text-decoration: none;
+        }
+    }
+}
+
 .post-card {
 
     // ===== 头部 =====
@@ -60,12 +79,7 @@
             }
 
             a {
-                color: rgba(255, 255, 255, 0.8);
-                text-decoration: none;
-
-                &:hover {
-                    text-decoration: underline;
-                }
+                color: inherit;
             }
         }
     }
