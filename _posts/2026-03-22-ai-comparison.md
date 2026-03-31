@@ -3,7 +3,7 @@ layout: post
 title: AI 平台对比：GPT、豆包、DeepSeek、Kimi
 date: 2026-03-22
 author: 暴龙战士
-tags: [AI, 技术比较]
+tags: [测试, AI, 技术比较]
 ---
 
 ## 🤖 前言

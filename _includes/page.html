@@ -1,13 +1,25 @@
 <div class="page-container">
-    <div class="glass-card">
+    <div class="page-shell{% if include.aside_content %} has-sidebar{% endif %}">
+        <div class="glass-card page-main-card">
+            {% if include.title %}
+            <h1>{{ include.title }}</h1>
+            {% endif %}
 
-        {% if include.title %}
-        <h1>{{ include.title }}</h1>
-        {% endif %}
-
-        <div class="page-content">
-            {{ include.content }}
+            <div class="page-content">
+                {{ include.content }}
+            </div>
         </div>
 
+        {% if include.aside_content %}
+        <aside class="glass-card page-aside-card">
+            {% if include.aside_title %}
+            <h2>{{ include.aside_title }}</h2>
+            {% endif %}
+
+            <div class="page-content">
+                {{ include.aside_content }}
+            </div>
+        </aside>
+        {% endif %}
     </div>
 </div>
