@@ -59,6 +59,7 @@
         if (!Number.isFinite(initialTop)) return;
 
         const root = document.documentElement;
+        const mobileMedia = window.matchMedia('(max-width: 720px)');
 
         let ticking = false;
 
@@ -66,7 +67,7 @@
             ticking = false;
 
             const scrollY = window.scrollY || window.pageYOffset || 0;
-            const nextTop = clamp(initialTop - scrollY, 0, initialTop);
+            const nextTop = mobileMedia.matches ? initialTop : clamp(initialTop - scrollY, 0, initialTop);
             header.style.setProperty('--header-top', `${nextTop}px`);
             root.style.setProperty('--header-current-top', `${nextTop}px`);
             root.style.setProperty('--header-height', `${header.offsetHeight}px`);
@@ -80,6 +81,12 @@
             ticking = true;
             window.requestAnimationFrame(updateHeaderTop);
         }, { passive: true });
+
+        if (typeof mobileMedia.addEventListener === 'function') {
+            mobileMedia.addEventListener('change', updateHeaderTop);
+        } else if (typeof mobileMedia.addListener === 'function') {
+            mobileMedia.addListener(updateHeaderTop);
+        }
     }
 
     function initNav() {
