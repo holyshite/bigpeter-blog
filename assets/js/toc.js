@@ -52,7 +52,15 @@
 
         if (headers.length === 0) return;
 
-        const rootList = document.createElement('ul');
+        function createStyledList() {
+            const ul = document.createElement('ul');
+            ul.style.listStyle = 'none';
+            ul.style.margin = '0';
+            ul.style.paddingLeft = '16px';
+            return ul;
+        }
+
+        const rootList = createStyledList();
         let currentLevel = 1;
         let currentList = rootList;
         const stack = [rootList];
@@ -76,7 +84,7 @@
             tocLinks.push(link);
 
             if (level > currentLevel) {
-                const nestedList = document.createElement('ul');
+                const nestedList = createStyledList();
                 const parentItem = stack[stack.length - 1].lastElementChild;
 
                 if (parentItem) {
