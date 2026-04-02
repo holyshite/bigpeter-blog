@@ -42,6 +42,10 @@
         margin-bottom: 10px;
     }
 
+    [data-theme="light"] & .post-meta {
+        color: rgba(0, 0, 0, 0.6);
+    }
+
     // ===== 标签 =====
     .post-tags {
         margin-top: 10px;
@@ -58,6 +62,13 @@
                 $border: rgba(255, 255, 255, 0.075));
             color: rgba(255, 255, 255, 0.85);
         }
+    }
+
+    [data-theme="light"] .post-tags .tag {
+        @include liquid-glass-surface($radius: 999px,
+            $bg: rgba(0, 0, 0, 0.006),
+            $border: rgba(0, 0, 0, 0.075));
+        color: rgba(0, 0, 0, 0.85);
     }
 
     // ===== 目录 =====
@@ -244,6 +255,16 @@
                 $border: rgba(255, 255, 255, 0.075));
         }
     }
+}
+
+[data-theme="light"] .post-meta .post-tags .tag {
+    @include liquid-glass-surface($radius: 999px,
+        $bg: rgba(0, 0, 0, 0.006),
+        $border: rgba(0, 0, 0, 0.075));
+}
+
+[data-theme="light"] .post-card .post-meta {
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .post-sidebar-card {

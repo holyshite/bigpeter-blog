@@ -50,6 +50,20 @@
         });
     }
 
+    function updateAsideRight() {
+        const root = document.documentElement;
+        const windowWidth = window.innerWidth;
+        const maxWidth = 1260;
+
+        // 计算侧边栏的正确右边距，避免滚动条影响
+        const rightValue = Math.max(
+            (windowWidth - maxWidth) / 2,
+            windowWidth * 0.15 - 30
+        );
+
+        root.style.setProperty('--aside-right', `${rightValue}px`);
+    }
+
     function updateAsideHeight() {
         const firstAside = document.querySelector('.sidebar-wrapper .page-aside-card:nth-child(1)');
         const root = document.documentElement;
@@ -105,7 +119,10 @@
             window.requestAnimationFrame(updateHeaderTop);
         }, { passive: true });
 
-        window.addEventListener('resize', updateAsideHeight, { passive: true });
+        window.addEventListener('resize', () => {
+            updateAsideHeight();
+            updateAsideRight();
+        }, { passive: true });
 
         if (typeof mobileMedia.addEventListener === 'function') {
             mobileMedia.addEventListener('change', updateHeaderTop);
@@ -119,11 +136,13 @@
         bindNavClickEvents();
         bindHeaderScrollMotion();
         updateAsideHeight();
+        updateAsideRight();
         observeAsideSize();
 
         // 延迟再计算一次，确保所有内容都加载完成
         setTimeout(() => {
             updateAsideHeight();
+            updateAsideRight();
         }, 500);
 
         // 监听 DOM 变化重新计算侧边栏高度
@@ -140,6 +159,11 @@
                 characterData: true
             });
         }
+
+        // 监听主题切换，重新计算侧边栏位置
+        window.addEventListener('site-theme-change', () => {
+            updateAsideRight();
+        });
     }
 
     if (document.readyState === 'loading') {

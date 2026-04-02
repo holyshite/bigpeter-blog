@@ -65,7 +65,7 @@
 .page-shell.has-sidebar .page-aside-card {
     position: fixed;
     top: calc(var(--header-height, 64px) + (var(--header-current-top, 16px) * 2));
-    right: max(calc((100vw - 1260px) / 2), calc(15vw - 30px));
+    right: var(--aside-right, calc(max(calc((100vw - 1260px) / 2), calc(15vw - 30px))));
     width: 280px;
     max-height: calc(100vh - (var(--header-height, 64px) + (var(--header-current-top, 16px) * 2)) - 20px);
     overflow: auto;
@@ -447,5 +447,17 @@
         background: rgba(255, 255, 255, 0.12);
         border-color: rgba(255, 255, 255, 0.25);
         color: rgba(255, 255, 255, 0.95);
+    }
+}
+
+[data-theme="light"] .tag-item {
+    background: rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.8);
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.12);
+        border-color: rgba(0, 0, 0, 0.25);
+        color: rgba(0, 0, 0, 0.95);
     }
 }
