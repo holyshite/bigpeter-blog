@@ -58,12 +58,14 @@ title: 文章列表
     {% endcapture %}
 
     {% capture page_aside %}
-    <p>这里是文章列表页的侧边信息区域，使用和主内容相同的 glass/page 风格。</p>
-    <p>当前共有 <strong>{{ site.posts | size }}</strong> 篇文章。</p>
-    {% assign latest_post = site.posts.first %}
-    {% if latest_post %}
-    <p>最新文章日期：<strong>{{ latest_post.date | date: "%Y-%m-%d" }}</strong></p>
-    {% endif %}
+    <div class="aside-mini-card">
+        <p>当前共有 <strong>{{ site.posts | size }}</strong> 篇文章。</p>
+        {% assign latest_post = site.posts.first %}
+        {% if latest_post %}
+        <p>最新文章日期：<strong>{{ latest_post.date | date: "%Y-%m-%d" }}</strong></p>
+        {% endif %}
+    </div>
+
     {% endcapture %}
 
     {% include page.html title=page.title content=page_content aside_title="快速信息" aside_content=page_aside %}
