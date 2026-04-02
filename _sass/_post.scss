@@ -25,6 +25,29 @@
     }
 }
 
+.tags-list .tag {
+    display: inline-block;
+    border-radius: 999px;
+    transform: translateY(0);
+    transition:
+        transform 0.18s ease,
+        background 0.28s ease,
+        border-color 0.28s ease,
+        box-shadow 0.28s ease,
+        color 0.28s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow:
+            0 0 24px rgba(255, 255, 255, 0.08),
+            0 0 56px rgba(255, 255, 255, 0.14),
+            inset 0 1px 0 rgba(255, 255, 255, 0.13),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.024);
+    }
+}
+
 .post-card {
 
     // ===== 头部 =====
@@ -257,10 +280,33 @@
     }
 }
 
+[data-theme="light"] .tags-list .post-tags .tag,
 [data-theme="light"] .post-meta .post-tags .tag {
     @include liquid-glass-surface($radius: 999px,
         $bg: rgba(0, 0, 0, 0.006),
         $border: rgba(0, 0, 0, 0.075));
+}
+
+.tags-list .post-tags .tag {
+    padding: 2px 6px;
+    border-radius: 999px;
+    margin-right: 4px;
+    font-size: 12px;
+    @include liquid-glass-surface($radius: 999px,
+        $bg: rgba(255, 255, 255, 0.006),
+        $border: rgba(255, 255, 255, 0.075));
+}
+
+[data-theme="light"] .post-card .post-tags .tag:hover,
+[data-theme="light"] .tags-list .post-tags .tag:hover,
+[data-theme="light"] .post-meta .post-tags .tag:hover {
+    border-color: rgba(15, 23, 42, 0.14);
+    background: rgba(15, 23, 42, 0.05);
+    box-shadow:
+        0 10px 24px rgba(148, 163, 184, 0.08),
+        0 26px 54px rgba(148, 163, 184, 0.16),
+        inset 0 1px 0 rgba(237, 237, 237, 0.95),
+        inset 0 -1px 0 rgba(15, 23, 42, 0.04);
 }
 
 [data-theme="light"] .post-card .post-meta {

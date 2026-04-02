@@ -72,18 +72,20 @@ title: 文章列表
     <div class="tags-list">
         {% assign all_tags = "" | split: "" %}
         {% for post in site.posts %}
-            {% if post.tags %}
-                {% assign all_tags = all_tags | concat: post.tags %}
-            {% endif %}
+        {% if post.tags %}
+        {% assign all_tags = all_tags | concat: post.tags %}
+        {% endif %}
         {% endfor %}
 
         {% assign sorted_tags = all_tags | sort %}
         {% assign unique_tags = "" | split: "" %}
         {% for tag in sorted_tags %}
-            {% unless unique_tags contains tag %}
-                {% assign unique_tags = unique_tags | push: tag %}
-                <span class="tag-item">{{ tag }}</span>
-            {% endunless %}
+        {% unless unique_tags contains tag %}
+        {% assign unique_tags = unique_tags | push: tag %}
+        <div class="tag-list-item">
+            <span class="tag-list-title">{{ tag }}</span>
+        </div>
+        {% endunless %}
         {% endfor %}
     </div>
 
