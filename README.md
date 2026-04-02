@@ -98,7 +98,7 @@ bundle exec jekyll serve --livereload
 
 ---
 
-## 🎨 液态玻璃效果说明
+## 🎨 毛玻璃效果说明
 
 本项目实现了玻璃视觉效果，核心技术：
 

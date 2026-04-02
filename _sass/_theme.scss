@@ -6,13 +6,19 @@ body,
 .post-card .post-toc,
 .post-card .post-nav a,
 .post-card .post-tags .tag,
-.post-meta .post-tags .tag {
+.post-meta .post-tags .tag,
+.home-icon-item img {
     transition:
         background 0.35s ease,
         color 0.35s ease,
         border-color 0.35s ease,
         box-shadow 0.35s ease,
+        filter 0.35s ease,
         opacity 0.35s ease;
+}
+
+.home-icon-item img {
+    filter: brightness(0) invert(1);
 }
 
 html[data-theme="light"] body,
@@ -121,6 +127,11 @@ body.theme-light .post-meta .post-tags .tag {
             inset 0 -1px 0 rgba(237, 237, 237, 0.32),
             inset 0 10px 14px -14px rgba(237, 237, 237, 0.72);
     }
+}
+
+html[data-theme="light"] .home-icon-item img,
+body.theme-light .home-icon-item img {
+    filter: none;
 }
 
 html[data-theme="light"] .glass-card,

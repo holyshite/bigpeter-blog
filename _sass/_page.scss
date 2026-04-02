@@ -238,3 +238,145 @@
         color: $link-visited;
     }
 }
+
+.home-quote-shell {
+    min-height: auto;
+    padding: 100px 0 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.home-quote-card {
+    width: calc(70% + 60px);
+    max-width: 1260px;
+    min-height: calc(100vh - 124px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding-top: 10%;
+    padding-bottom: 36px;
+}
+
+.home-quote-card .home-quote-line,
+.home-quote-card .home-quote-author {
+    margin: 0;
+    min-height: 1.4em;
+}
+
+.home-quote-card .home-quote-line {
+    font-size: clamp(1.98rem, 4.2vw, 4.08rem);
+    line-height: 1.35;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.96);
+}
+
+.home-quote-card .home-quote-author {
+    margin-top: 22px;
+    font-size: clamp(1.14rem, 1.86vw, 1.8rem);
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.72);
+    width: 100%;
+    padding-right: 6%;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.home-icon-list {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+    width: 100%;
+}
+
+.home-icon-item {
+    width: 64px;
+    height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    transform: scale3d(1, 1, 1);
+    transform-origin: center;
+    backface-visibility: hidden;
+    @include liquid-glass-surface($radius: 999px,
+        $padding: 0,
+        $bg: rgba(255, 255, 255, 0.006),
+        $border: rgba(255, 255, 255, 0.075));
+    will-change: transform, box-shadow, border-color, background-color;
+    animation: none;
+    transition:
+        box-shadow 0.16s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.16s ease-out,
+        background-color 0.16s ease-out;
+
+    &:hover {
+        animation: post-card-pop 0.14s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        transform: scale3d(1.018, 1.018, 1);
+        box-shadow:
+            0 10px 28px rgba(0, 0, 0, 0.1),
+            0 0 40px rgba(255, 255, 255, 0.09),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.13);
+        background: rgba(255, 255, 255, 0.018);
+        transition:
+            box-shadow 0.14s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.14s ease-out,
+            background-color 0.14s ease-out;
+    }
+
+    &:not(:hover) {
+        animation: post-card-settle 0.18s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+    }
+
+    img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+        display: block;
+        pointer-events: none;
+    }
+}
+
+@media (max-width: 720px) {
+    .home-quote-shell {
+        padding-top: 100px;
+        padding-bottom: 18px;
+    }
+
+    .home-quote-card {
+        width: calc(70% + 60px);
+        max-width: 1260px;
+        min-height: calc(100vh - 118px);
+        padding-top: 18%;
+        padding-bottom: 24px;
+    }
+
+    .home-quote-author {
+        margin-top: 16px;
+    }
+
+    .home-icon-list {
+        gap: 14px;
+        margin-top: auto;
+    }
+
+    .home-icon-item {
+        width: 56px;
+        height: 56px;
+
+        img {
+            width: 26px;
+            height: 26px;
+        }
+    }
+}
