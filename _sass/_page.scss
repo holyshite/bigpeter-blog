@@ -1,6 +1,28 @@
 // _page.scss
 @import "variables";
 
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .page-container {
     padding: {
         top: 100px;
@@ -23,6 +45,13 @@
     gap: 24px;
 }
 
+.page-shell.has-sidebar .sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: auto;
+}
+
 .page-main-card {
     min-width: 0;
     width: 100%;
@@ -41,6 +70,17 @@
     max-height: calc(100vh - (var(--header-height, 64px) + (var(--header-current-top, 16px) * 2)) - 20px);
     overflow: auto;
     z-index: 900;
+    animation: slideInFromRight 0.5s ease-out;
+}
+
+.sidebar-wrapper .page-aside-card:nth-child(1) {
+    top: calc(var(--header-height, 64px) + (var(--header-current-top, 16px) * 2));
+    animation: slideInFromTop 0.5s ease-out;
+}
+
+.sidebar-wrapper .page-aside-card:nth-child(2) {
+    top: calc(var(--header-height, 64px) + (var(--header-current-top, 16px) * 2) + var(--aside-height, 10px) + 12px);
+    animation: slideInFromTop 0.5s ease-out 0.1s both;
 }
 
 .glass-card {
@@ -214,13 +254,18 @@
         gap: 18px;
     }
 
+    .sidebar-wrapper {
+        flex-direction: row;
+        width: 100%;
+        gap: 18px;
+    }
+
     .page-shell.has-sidebar .page-aside-card {
         position: static;
-        top: auto;
-        right: auto;
         width: 100%;
         max-height: none;
         overflow: visible;
+        top: auto;
     }
 }
 
@@ -378,5 +423,29 @@
             width: 26px;
             height: 26px;
         }
+    }
+}
+
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-item {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.25);
+        color: rgba(255, 255, 255, 0.95);
     }
 }

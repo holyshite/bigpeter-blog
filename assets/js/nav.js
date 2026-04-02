@@ -50,6 +50,29 @@
         });
     }
 
+    function updateAsideHeight() {
+        const firstAside = document.querySelector('.sidebar-wrapper .page-aside-card:nth-child(1)');
+        const root = document.documentElement;
+
+        if (firstAside) {
+            const height = firstAside.offsetHeight;
+            root.style.setProperty('--aside-height', `${height}px`);
+        }
+    }
+
+    let resizeObserver;
+
+    function observeAsideSize() {
+        const firstAside = document.querySelector('.sidebar-wrapper .page-aside-card:nth-child(1)');
+        if (!firstAside || resizeObserver) return;
+
+        resizeObserver = new ResizeObserver(() => {
+            updateAsideHeight();
+        });
+
+        resizeObserver.observe(firstAside);
+    }
+
     function bindHeaderScrollMotion() {
         const header = document.querySelector('.site-header');
         if (!header) return;
@@ -82,6 +105,8 @@
             window.requestAnimationFrame(updateHeaderTop);
         }, { passive: true });
 
+        window.addEventListener('resize', updateAsideHeight, { passive: true });
+
         if (typeof mobileMedia.addEventListener === 'function') {
             mobileMedia.addEventListener('change', updateHeaderTop);
         } else if (typeof mobileMedia.addListener === 'function') {
@@ -93,6 +118,28 @@
         setActiveNavLink();
         bindNavClickEvents();
         bindHeaderScrollMotion();
+        updateAsideHeight();
+        observeAsideSize();
+
+        // 延迟再计算一次，确保所有内容都加载完成
+        setTimeout(() => {
+            updateAsideHeight();
+        }, 500);
+
+        // 监听 DOM 变化重新计算侧边栏高度
+        const observer = new MutationObserver(() => {
+            updateAsideHeight();
+        });
+
+        const container = document.querySelector('.sidebar-wrapper');
+        if (container) {
+            observer.observe(container, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                characterData: true
+            });
+        }
     }
 
     if (document.readyState === 'loading') {
