@@ -135,7 +135,6 @@
         }
         
         const tocElements = allElements;
-        console.log('TOC elements collected:', tocElements.length, tocElements);
         
         const rootList = createStyledList();
         let currentLevel = tocElements.length > 0 ? tocElements[0].level : 1;
