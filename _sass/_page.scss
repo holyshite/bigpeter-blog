@@ -168,25 +168,78 @@
         margin: 30px 0;
     }
 
-    // 代码块
+    // 代码块 - CSDN风格
     code {
         padding: 2px 6px;
-        border-radius: 6px;
+        border-radius: 4px;
         background: rgba(255, 255, 255, 0.08);
         font-size: 14px;
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     pre {
-        margin: 20px 0;
+        margin: 0;
         padding: 16px;
-        border-radius: 12px;
-        background: rgba(0, 0, 0, 0.4);
-        overflow-x: auto;
+        border-radius: 0;
+        background: transparent;
+        border: none;
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        white-space: pre-wrap; /* 代码自动换行 */
+        word-break: break-all; /* 长单词换行 */
+        overflow-wrap: break-word; /* 溢出换行 */
 
-        code {
-            background: transparent;
-            padding: 0;
+        // 代码块内部的code元素必须完全透明，无边框
+        & > code,
+        & code {
+            background: transparent !important;
+            padding: 0 !important;
+            border: none !important;
+            font-size: 14px;
+            line-height: inherit;
+            color: #d4d4d4;
+            border-radius: 0;
+            margin: 0;
+            display: block;
         }
+    }
+    
+    // 内联代码
+    p code,
+    li code {
+        display: inline !important;
+        margin: 0 2px;
+        font-size: 13px;
+        padding: 2px 6px;
+    }
+    
+    // 代码块内的行号（如果使用行号插件）
+    .lineno {
+        color: rgba(255, 255, 255, 0.3);
+        margin-right: 16px;
+        user-select: none;
+        font-size: 13px;
+    }
+    
+    // 代码块外框 - CSDN风格
+    div.highlighter-rouge {
+        display: block;
+        margin: 20px 0;
+        padding: 0;
+        border-radius: 8px;
+        background: #1e1e1e;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+    }
+    
+    .highlight {
+        background: transparent;
+        border: none;
+        margin: 0;
+        padding: 0;
     }
 
     // ===== 提示块（Note / Warning / Error） =====
@@ -506,4 +559,59 @@
 
 [data-theme="light"] .tag-list-title {
     color: rgba(15, 23, 42, 0.86);
+}
+
+// 浅色主题代码块样式 - CSDN风格
+[data-theme="light"] .glass-card {
+    code {
+        background: rgba(15, 23, 42, 0.08);
+        color: #1e293b;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+    }
+
+    pre {
+        margin: 0;
+        padding: 16px;
+        border-radius: 0;
+        background: transparent;
+        border: none;
+        color: #333333;
+        white-space: pre-wrap; /* 代码自动换行 */
+        word-break: break-all; /* 长单词换行 */
+        overflow-wrap: break-word; /* 溢出换行 */
+
+        // 代码块内部的code元素必须完全透明，无边框
+        & > code,
+        & code {
+            background: transparent !important;
+            padding: 0 !important;
+            border: none !important;
+            color: #333333;
+            border-radius: 0;
+            margin: 0;
+            display: block;
+        }
+    }
+    
+    .lineno {
+        color: rgba(15, 23, 42, 0.4);
+    }
+    
+    // 代码块外框 - 浅色主题
+    div.highlighter-rouge {
+        display: block;
+        margin: 20px 0;
+        padding: 0;
+        border-radius: 8px;
+        background: #f5f5f5;
+        border: 1px solid rgba(15, 23, 42, 0.15);
+        overflow: hidden;
+    }
+    
+    .highlight {
+        background: transparent;
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
 }

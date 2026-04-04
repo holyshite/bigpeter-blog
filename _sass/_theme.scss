@@ -200,8 +200,17 @@ body.theme-light .glass-card code {
 
 html[data-theme="light"] .glass-card pre,
 body.theme-light .glass-card pre {
-    background: rgba(15, 23, 42, 0.4);
-    color: #0f172a;
+    background: transparent;
+    color: #333333;
+}
+
+// 确保代码块内部的code元素透明
+html[data-theme="light"] .glass-card pre code,
+body.theme-light .glass-card pre code {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: inherit;
 }
 
 html[data-theme="light"] .post-meta,

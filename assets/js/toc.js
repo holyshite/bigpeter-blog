@@ -47,10 +47,13 @@
 
         if (!content || !tocContainer) return;
 
+        // 收集所有标题和列表中的加粗文本作为目录项
         const headers = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        const listItems = content.querySelectorAll('li > strong:first-child');
+        
         tocContainer.textContent = '';
 
-        if (headers.length === 0) return;
+        if (headers.length === 0 && listItems.length === 0) return;
 
         function createStyledList() {
             const ul = document.createElement('ul');
@@ -60,41 +63,117 @@
             return ul;
         }
 
-        const rootList = createStyledList();
-        let currentLevel = 1;
-        let currentList = rootList;
-        const stack = [rootList];
+        // 收集所有目录项元素，按DOM顺序处理
         const usedIds = new Set();
-        const tocLinks = [];
-
+        
+        // 首先，为所有标题添加ID
         headers.forEach((header, index) => {
             if (!header.id) {
                 header.id = toSlug(header.textContent, index, usedIds);
             } else {
                 usedIds.add(header.id);
             }
+        });
+        
+        // 为所有列表项中的加粗文本添加ID
+        listItems.forEach((strong, index) => {
+            if (!strong.id) {
+                strong.id = toSlug(strong.textContent, headers.length + index, usedIds);
+            } else {
+                usedIds.add(strong.id);
+            }
+        });
+        
+        // 收集所有标题和列表项元素，按DOM顺序排序
+        const allElements = [];
+        
+        // 递归遍历所有子节点，收集标题和列表项
+        function collectElements(node) {
+            if (!node) return;
+            
+            // 检查是否是标题
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                const tag = node.tagName.toLowerCase();
+                if (tag.match(/^h[1-6]$/)) {
+                    allElements.push({
+                        element: node,
+                        level: Number(tag.slice(1)),
+                        id: node.id,
+                        text: node.textContent.trim(),
+                        type: 'header'
+                    });
+                } else if (tag === 'strong' && node.parentElement && node.parentElement.tagName === 'LI' && 
+                           node.parentElement.firstElementChild === node) {
+                    // 列表项中的第一个加粗文本
+                    allElements.push({
+                        element: node,
+                        level: 0, // 暂未计算
+                        id: node.id,
+                        text: node.textContent.trim(),
+                        type: 'list-item'
+                    });
+                }
+            }
+            
+            // 递归遍历子节点
+            for (const child of node.childNodes) {
+                collectElements(child);
+            }
+        }
+        
+        collectElements(content);
+        
+        // 为列表项计算层级：基于最近的前一个标题
+        let lastHeaderLevel = 2; // 默认层级
+        for (const item of allElements) {
+            if (item.type === 'header') {
+                lastHeaderLevel = item.level;
+            } else if (item.type === 'list-item') {
+                // 列表项比最近的标题低一级
+                item.level = lastHeaderLevel + 1;
+            }
+        }
+        
+        const tocElements = allElements;
+        console.log('TOC elements collected:', tocElements.length, tocElements);
+        
+        const rootList = createStyledList();
+        let currentLevel = tocElements.length > 0 ? tocElements[0].level : 1;
+        let currentList = rootList;
+        const stack = [rootList];
+        const tocLinks = [];
 
-            const level = Number(header.tagName.slice(1));
+        tocElements.forEach((tocItem) => {
             const item = document.createElement('li');
             const link = document.createElement('a');
-            link.href = `#${header.id}`;
-            link.textContent = header.textContent;
-            link.dataset.targetId = header.id;
+            link.href = `#${tocItem.id}`;
+            link.textContent = tocItem.text;
+            link.dataset.targetId = tocItem.id;
             item.appendChild(link);
             tocLinks.push(link);
+            
+            // 为列表项元素添加ID，以便跳转
+            if (tocItem.type === 'list-item' && !tocItem.element.id) {
+                tocItem.element.id = tocItem.id;
+            }
 
+            const level = tocItem.level;
+            
             if (level > currentLevel) {
-                const nestedList = createStyledList();
-                const parentItem = stack[stack.length - 1].lastElementChild;
+                const jump = level - currentLevel;
+                for (let i = 0; i < jump; i++) {
+                    const nestedList = createStyledList();
+                    const parentItem = stack[stack.length - 1].lastElementChild;
 
-                if (parentItem) {
-                    parentItem.appendChild(nestedList);
-                } else {
-                    currentList.appendChild(nestedList);
+                    if (parentItem) {
+                        parentItem.appendChild(nestedList);
+                    } else {
+                        currentList.appendChild(nestedList);
+                    }
+
+                    stack.push(nestedList);
+                    currentList = nestedList;
                 }
-
-                stack.push(nestedList);
-                currentList = nestedList;
             } else if (level < currentLevel) {
                 for (let i = 0; i < currentLevel - level; i += 1) {
                     stack.pop();
@@ -124,11 +203,12 @@
         function updateActiveLink() {
             const headerOffset = getHeaderOffset();
             const activationY = headerOffset + 24;
-            let activeId = headers[0].id;
+            let activeId = tocElements.length > 0 ? tocElements[0].id : '';
 
-            headers.forEach((header) => {
-                if (header.getBoundingClientRect().top - activationY <= 0) {
-                    activeId = header.id;
+            tocElements.forEach((item) => {
+                const element = item.element;
+                if (element.getBoundingClientRect().top - activationY <= 0) {
+                    activeId = item.id;
                 }
             });
 
