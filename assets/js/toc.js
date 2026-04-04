@@ -49,7 +49,7 @@
 
         // 收集所有标题和列表中的加粗文本作为目录项
         const headers = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
-        const listItems = content.querySelectorAll('li > strong:first-child');
+        const listItems = content.querySelectorAll('li > strong:first-child, li > p > strong:first-child');
         
         tocContainer.textContent = '';
 
@@ -102,16 +102,32 @@
                         text: node.textContent.trim(),
                         type: 'header'
                     });
-                } else if (tag === 'strong' && node.parentElement && node.parentElement.tagName === 'LI' && 
-                           node.parentElement.firstElementChild === node) {
-                    // 列表项中的第一个加粗文本
-                    allElements.push({
-                        element: node,
-                        level: 0, // 暂未计算
-                        id: node.id,
-                        text: node.textContent.trim(),
-                        type: 'list-item'
-                    });
+                } else if (tag === 'strong') {
+                    // 检查是否是列表项中的加粗文本
+                    let parent = node.parentElement;
+                    let isListItemStrong = false;
+                    
+                    // 情况1: strong的直接父元素是LI，并且是第一个元素
+                    if (parent && parent.tagName === 'LI' && parent.firstElementChild === node) {
+                        isListItemStrong = true;
+                    }
+                    // 情况2: strong在P标签内，P的直接父元素是LI，并且strong是P的第一个元素
+                    else if (parent && parent.tagName === 'P' && 
+                             parent.firstElementChild === node && 
+                             parent.parentElement && 
+                             parent.parentElement.tagName === 'LI') {
+                        isListItemStrong = true;
+                    }
+                    
+                    if (isListItemStrong) {
+                        allElements.push({
+                            element: node,
+                            level: 0, // 暂未计算
+                            id: node.id,
+                            text: node.textContent.trim(),
+                            type: 'list-item'
+                        });
+                    }
                 }
             }
             

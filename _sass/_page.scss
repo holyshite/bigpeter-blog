@@ -731,7 +731,17 @@
  
     // 复制按钮样式 - 浅色主题
     .copy-code-btn {
-        color: rgba(0, 0, 0, 0.5);
+        color: #4a5568;
+        opacity: 1;
+        
+        &:hover {
+            color: #2d3748;
+            opacity: 1;
+        }
+        
+        svg {
+            stroke-width: 2.5 !important;
+        }
     }
 }
 

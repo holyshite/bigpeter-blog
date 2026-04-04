@@ -58,9 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
         copyButton.style.border = 'none';
         copyButton.style.padding = '6px 8px';
         copyButton.style.cursor = 'pointer';
-        copyButton.style.opacity = '0.5';
-        copyButton.style.transition = 'opacity 0.2s ease';
-        copyButton.style.color = 'rgba(255, 255, 255, 0.5)';
         
         codeBlock.appendChild(copyButton);
         
