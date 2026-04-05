@@ -24,7 +24,7 @@ cat >> ~/.bashrc << 'EOF'
 
 # ==================== DeepSeek 配置 (Anthropic 兼容 - 默认) ====================
 export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
-export ANTHROPIC_AUTH_TOKEN="sk-7ac379faf113443182dcc02f18b54eca"
+export ANTHROPIC_AUTH_TOKEN="sk-yourkey"
 
 # DeepSeek 模型
 export ANTHROPIC_MODEL="deepseek-reasoner"                    # 默认主力模型
