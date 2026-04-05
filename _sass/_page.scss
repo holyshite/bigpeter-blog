@@ -71,6 +71,12 @@
     width: 280px;
     max-height: calc(100vh - (var(--header-height, 64px) + (var(--header-current-top, 16px) * 2)) - 20px);
     overflow: auto;
+    /* 隐藏滚动条但保留滚动功能 */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Edge */
+    }
     z-index: 900;
     animation: slideInFromRight 0.5s ease-out;
 }
