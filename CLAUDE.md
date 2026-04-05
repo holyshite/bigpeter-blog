@@ -41,11 +41,6 @@
 - 使用 `defer` 或 `async` 加载脚本
 - 重要功能添加注释
 
-### Liquid 模板
-- 保持模板简洁，复杂逻辑移到 includes
-- 使用 `{% capture %}` 处理多行内容
-- 过滤器使用空格：`{{ variable | filter }}`
-
 ### Markdown 文章
 - 文章放在 `_posts/` 目录，命名格式：`YYYY-MM-DD-slug.md`
 - Front Matter 必须包含：`layout`、`title`、`date`
