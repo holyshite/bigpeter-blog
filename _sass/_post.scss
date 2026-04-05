@@ -222,12 +222,34 @@
             color: rgba(255, 255, 255, 0.85);
         }
 
+        .disabled {
+            flex: 1;
+            @include liquid-glass-surface($radius: 16px,
+                $padding: 12px 16px,
+                $bg: rgba(255, 255, 255, 0.006),
+                $border: rgba(255, 255, 255, 0.075));
+            text-decoration: none;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: default;
+            opacity: 0.6;
+        }
+
         .prev {
             text-align: right;
         }
 
         .next {
             text-align: left;
+        }
+
+        [data-theme="light"] & {
+            a {
+                color: rgba(0, 0, 0, 0.85);
+            }
+            .disabled {
+                color: rgba(0, 0, 0, 0.4);
+            }
         }
     }
 }

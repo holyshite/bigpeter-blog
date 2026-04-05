@@ -67,14 +67,21 @@ title: 文章详情
                     <a class="next" href="{{ page.next.url }}">
                         ← {{ page.next.title }}
                     </a>
+                    {% else %}
+                    <span class="next disabled">
+                        没有更新的文章
+                    </span>
                     {% endif %}
 
                     {% if page.previous %}
                     <a class="prev" href="{{ page.previous.url }}">
                         {{ page.previous.title }} →
                     </a>
+                    {% else %}
+                    <span class="prev disabled">
+                        没有更早的文章
+                    </span>
                     {% endif %}
-
                 </nav>
             </div>
 
