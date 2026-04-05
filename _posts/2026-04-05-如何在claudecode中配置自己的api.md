@@ -6,7 +6,7 @@ author: BigPeter
 tags: [ClaudeCode, API, 配置]
 ---
 
-最近在使用ClaudeCode时，发现默认的免费模型虽然好用，但有时候遇到复杂任务时响应速度较慢，或者需要更强大的推理能力。于是研究了一下如何配置自己的API密钥，使用DeepSeek等第三方模型的兼容接口。本文将详细介绍配置过程，分享我的配置方案。
+在Claude Code中，如果没有充值官方API或者订阅，那么Claude Code就无法使用了？要是能够使用自己购买的第三方API就好了。于是研究了一下如何配置自己的API密钥，使用DeepSeek等第三方模型的兼容接口。本文将详细介绍配置过程，分享我的配置方案。
 
 ## 为什么需要自定义API配置？
 
@@ -132,37 +132,6 @@ export ANTHROPIC_BASE_URL="https://api.provider.com/anthropic"
 export ANTHROPIC_AUTH_TOKEN="your-api-key-here"
 ```
 
-## 高级配置技巧
-
-### 1. 根据任务自动切换模型
-可以创建脚本根据任务复杂度自动选择模型：
-```bash
-# 在.bashrc中添加函数
-claude-code-complex() {
-    export ANTHROPIC_MODEL="deepseek-reasoner"
-    claude-code "$@"
-}
-
-claude-code-quick() {
-    export ANTHROPIC_MODEL="deepseek-chat"
-    claude-code "$@"
-}
-```
-
-### 2. 多环境配置
-如果需要同时使用多个API服务，可以创建配置文件：
-```bash
-# ~/.claude-deepseek
-export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
-export ANTHROPIC_AUTH_TOKEN="deepseek-key"
-
-# ~/.claude-openrouter
-export ANTHROPIC_BASE_URL="https://openrouter.ai/api/v1"
-export ANTHROPIC_AUTH_TOKEN="openrouter-key"
-
-# 使用时加载对应配置
-source ~/.claude-deepseek && claude-code
-```
 
 ## 总结
 
