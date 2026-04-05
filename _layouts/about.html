@@ -36,11 +36,13 @@ title: 关于
             --about-glow: rgba(255, 234, 1, 0.15);
             --about-spacing: 2rem;
         }
+
         .about-header {
             text-align: center;
             margin-bottom: var(--about-spacing);
             position: relative;
         }
+
         .about-header h2 {
             font-size: 3rem;
             font-weight: 700;
@@ -51,6 +53,7 @@ title: 关于
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .about-header p {
             font-size: 1.25rem;
             line-height: 1.6;
@@ -58,18 +61,25 @@ title: 关于
             max-width: 700px;
             margin: 0 auto;
         }
+
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
             margin-top: 3rem;
         }
+
         @media (max-width: 768px) {
             .about-content {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
         }
+
+        .about-section-full {
+            grid-column: 1 / -1;
+        }
+
         .about-section {
             background: rgba(255, 255, 255, 0.03);
             border-radius: 24px;
@@ -77,10 +87,12 @@ title: 关于
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .about-section:hover {
             transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 60px var(--about-glow);
         }
+
         .about-section h3 {
             font-size: 1.75rem;
             font-weight: 600;
@@ -90,6 +102,7 @@ title: 关于
             align-items: center;
             gap: 0.75rem;
         }
+
         .about-section h3::before {
             content: '';
             display: block;
@@ -98,11 +111,13 @@ title: 关于
             background: var(--about-accent);
             border-radius: 4px;
         }
+
         .about-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
+
         .about-list li {
             padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -113,30 +128,37 @@ title: 关于
             font-size: 1.1rem;
             transition: color 0.2s ease;
         }
+
         .about-list li:hover {
             color: var(--about-primary);
         }
+
         .about-list li:last-child {
             border-bottom: none;
         }
+
         .about-list li::before {
             content: '▸';
             color: var(--about-accent);
             font-size: 1.2rem;
         }
+
         .about-contact li a {
             color: inherit;
             text-decoration: none;
             transition: color 0.2s ease;
         }
+
         .about-contact li a:hover {
             color: var(--about-accent);
             text-decoration: underline;
         }
+
         .about-highlight {
             color: var(--about-accent);
             font-weight: 600;
         }
+
         /* 亮色主题适配 */
         [data-theme="light"] .about-page {
             --about-primary: rgba(15, 23, 42, 0.95);
@@ -144,24 +166,300 @@ title: 关于
             --about-accent: #3b82f6;
             --about-glow: rgba(59, 130, 246, 0.15);
         }
+
         [data-theme="light"] .about-header h2 {
             background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         [data-theme="light"] .about-section {
             background: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(15, 23, 42, 0.08);
         }
+
         [data-theme="light"] .about-list li {
             border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+        }
+
+        /* 友联样式 */
+        .friend-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        @media (max-width: 1024px) {
+            .friend-links {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .friend-links {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .friend-link {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            text-align: left;
+            gap: 0.375rem;
+            padding: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.006);
+            border: 1px solid rgba(255, 255, 255, 0.075);
+            box-shadow: 0 0 18px rgba(255, 255, 255, 0.06),
+                0 0 42px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
+            -webkit-backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
+            isolation: isolate;
+            transform: scale3d(1, 1, 1);
+            transform-origin: center;
+            backface-visibility: hidden;
+            will-change: transform, box-shadow, border-color, background-color;
+            animation: none;
+            transition:
+                box-shadow 0.16s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.16s ease-out,
+                background-color 0.16s ease-out;
+            text-decoration: none;
+        }
+
+        .friend-link::before,
+        .friend-link::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .friend-link::before {
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.11) 6%, rgba(255, 255, 255, 0.03) 16%, transparent 32%),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.045) 8%, transparent 18%, transparent 82%, rgba(255, 255, 255, 0.03) 92%, rgba(255, 255, 255, 0.06) 100%),
+                radial-gradient(90% 22% at 50% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.16) 28%, rgba(255, 255, 255, 0.05) 56%, transparent 82%);
+            opacity: 0.82;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            z-index: 0;
+        }
+
+        .friend-link::after {
+            border-radius: inherit;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.18),
+                inset 0 2px 4px -3px rgba(255, 255, 255, 0.16),
+                inset 1px 0 0 rgba(255, 255, 255, 0.08),
+                inset 2px 0 4px -4px rgba(255, 255, 255, 0.06),
+                inset -1px 0 0 rgba(255, 255, 255, 0.035),
+                inset -2px 0 4px -4px rgba(255, 255, 255, 0.03),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+                inset 0 -2px 4px -4px rgba(255, 255, 255, 0.025),
+                inset 0 10px 14px -14px rgba(255, 255, 255, 0.24);
+            z-index: 1;
+        }
+
+        .friend-link:hover {
+            animation: post-card-pop 0.14s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            transform: scale3d(1.018, 1.018, 1);
+            box-shadow:
+                0 10px 28px rgba(0, 0, 0, 0.1),
+                0 0 40px rgba(255, 255, 255, 0.09),
+                inset 0 1px 0 rgba(255, 255, 255, 0.14),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.13);
+            background: rgba(255, 255, 255, 0.018);
+            transition:
+                box-shadow 0.14s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.14s ease-out,
+                background-color 0.14s ease-out;
+        }
+
+        .friend-link:not(:hover) {
+            animation: post-card-settle 0.18s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+        }
+
+        .friend-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .friend-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .friend-info {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 0.125rem 0;
+        }
+
+        .friend-info a {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--about-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            order: 1;
+        }
+
+        .friend-info a:hover {
+            color: var(--about-accent);
+        }
+
+        .glass-card .about-section .friend-links .friend-link .friend-desc {
+            color: var(--about-secondary);
+            font-size: 0.8rem;
+            line-height: 1.1;
+            margin: 0.0625rem 0 0 0;
+            width: 100%;
+            order: 3;
+        }
+
+        .friend-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0;
+            order: 2;
+        }
+
+        .friend-tag {
+            font-size: 0.6rem;
+            padding: 0.1rem 0.3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: var(--about-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 亮色主题适配 */
+        [data-theme="light"] .friend-link {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            box-shadow:
+                0 0 18px rgba(15, 23, 42, 0.06),
+                0 0 42px rgba(15, 23, 42, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 0 rgba(15, 23, 42, 0.05);
+        }
+
+        [data-theme="light"] .friend-link::before {
+            background:
+                linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.06) 6%, rgba(15, 23, 42, 0.02) 16%, transparent 32%),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.06) 0%, rgba(15, 23, 42, 0.03) 8%, transparent 18%, transparent 82%, rgba(15, 23, 42, 0.02) 92%, rgba(15, 23, 42, 0.04) 100%),
+                radial-gradient(90% 22% at 50% 0%, rgba(15, 23, 42, 0.12) 0%, rgba(15, 23, 42, 0.08) 28%, rgba(15, 23, 42, 0.03) 56%, transparent 82%);
+            opacity: 0.7;
+        }
+
+        [data-theme="light"] .friend-link::after {
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                inset 0 2px 4px -3px rgba(255, 255, 255, 0.8),
+                inset 1px 0 0 rgba(255, 255, 255, 0.6),
+                inset 2px 0 4px -4px rgba(255, 255, 255, 0.4),
+                inset -1px 0 0 rgba(15, 23, 42, 0.05),
+                inset -2px 0 4px -4px rgba(15, 23, 42, 0.03),
+                inset 0 -1px 0 rgba(15, 23, 42, 0.08),
+                inset 0 -2px 4px -4px rgba(15, 23, 42, 0.04),
+                inset 0 10px 14px -14px rgba(15, 23, 42, 0.15);
+        }
+
+        [data-theme="light"] .friend-link:hover {
+            animation: post-card-pop 0.14s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            transform: scale3d(1.018, 1.018, 1);
+            box-shadow:
+                0 10px 28px rgba(15, 23, 42, 0.1),
+                0 0 40px rgba(59, 130, 246, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -1px 0 rgba(15, 23, 42, 0.08);
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(255, 255, 255, 0.85);
+            transition:
+                box-shadow 0.14s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.14s ease-out,
+                background-color 0.14s ease-out;
+        }
+
+        [data-theme="light"] .friend-link:not(:hover) {
+            animation: post-card-settle 0.18s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+        }
+
+        [data-theme="light"] .friend-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(15, 23, 42, 0.1);
+        }
+
+        [data-theme="light"] .friend-tag {
+            background: rgba(15, 23, 42, 0.05);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            color: rgba(15, 23, 42, 0.7);
+        }
+
+        /* 动画关键帧 */
+        @keyframes post-card-settle {
+            0% {
+                transform: scale3d(1.018, 1.018, 1);
+            }
+
+            55% {
+                transform: scale3d(0.992, 0.992, 1);
+            }
+
+            100% {
+                transform: scale3d(1, 1, 1);
+            }
+        }
+
+        @keyframes post-card-pop {
+            0% {
+                transform: scale3d(1, 1, 1);
+            }
+
+            65% {
+                transform: scale3d(1.026, 1.026, 1);
+            }
+
+            100% {
+                transform: scale3d(1.018, 1.018, 1);
+            }
         }
     </style>
     <div class="about-page">
         <div class="about-header">
             <h2>关于我</h2>
-            <p>欢迎来到我的个人网站！我是 <a href="/BigPeter" class="about-highlight">BigPeter</a>，一个热爱编程和技术的开发者。这个网站是我用来分享技术心得、项目经验和生活感悟的地方。</p>
+            <p>欢迎来到我的个人网站！我是 <a href="/BigPeter"
+                    class="about-highlight">BigPeter</a>，一个热爱编程和技术的开发者。这个网站是我用来分享技术心得、项目经验和生活感悟的地方。</p>
         </div>
         <div class="about-content">
             <div class="about-section">
@@ -177,32 +475,58 @@ title: 关于
                 <h3>联系方式</h3>
                 <ul class="about-list about-contact">
                     <li>📧 <a href="mailto:751802108@qq.com">751802108@qq.com</a></li>
-                    <li>🐙 <a href="https://github.com/holyshite" target="_blank" rel="noopener">GitHub: BigPeter</a></li>
+                    <li>🐙 <a href="https://github.com/holyshite" target="_blank" rel="noopener">GitHub: BigPeter</a>
+                    </li>
                 </ul>
-                <p style="margin-top: 1.5rem; color: var(--about-secondary); font-size: 0.95rem;">如果你有任何问题或建议，欢迎通过以上方式联系我。</p>
-         </div>
-         
+                <p style="margin-top: 1.5rem; color: var(--about-secondary); font-size: 0.95rem;">
+                    如果你有任何问题或建议，欢迎通过以上方式联系我。</p>
+            </div>
 
-      </div>
-      
-      <div class="home-icon-list" aria-label="联系图标" style="margin-top: 3rem; display: flex; justify-content: center; width: 100%;">
-          <a class="home-icon-item" href="https://gitee.com/BigPanZH" title="Gitee" aria-label="Gitee">
-              <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="Gitee">
-          </a>
-          <a class="home-icon-item" href="https://github.com/holyshite" title="GitHub" aria-label="GitHub">
-              <img src="{{ '/assets/icon/github.svg' | relative_url }}" alt="GitHub">
-          </a>
-          <a class="home-icon-item" href="mailto:616pwpwpwpw@gmail.com" title="Gmail" aria-label="Gmail">
-              <img src="{{ '/assets/icon/gmail.svg' | relative_url }}" alt="Gmail">
-          </a>
-          <a class="home-icon-item" href="mailto:751802108@qq.com" title="QQ Mail" aria-label="QQ Mail">
-              <img src="{{ '/assets/icon/QQmail.svg' | relative_url }}" alt="QQ Mail">
-          </a>
-          <a class="home-icon-item" href="https://steamcommunity.com/profiles/76561199520206774/" title="Steam" aria-label="Steam">
-              <img src="{{ '/assets/icon/steam.svg' | relative_url }}" alt="Steam">
-          </a>
-      </div>
-     </div>
+            <div class="about-section about-section-full">
+                <h3>友情链接</h3>
+                <div class="friend-links">
+                    {% for friend in site.data.friends %}
+                    <div class="friend-link">
+                        <div class="friend-avatar">
+                            <img src="{{ friend.avatar }}" alt="{{ friend.name }}头像">
+                        </div>
+                        <div class="friend-info">
+                            <a href="{{ friend.url }}" target="_blank" rel="noopener">{{ friend.name }}</a>
+                            <p class="friend-desc">{{ friend.description }}</p>
+                            <div class="friend-tags">
+                                {% for tag in friend.tags %}
+                                <span class="friend-tag">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <p style="margin-top: 1.5rem; color: var(--about-secondary); font-size: 0.95rem;">
+                    欢迎交换友联！如果你也想添加友联，请通过联系方式与我联系。</p>
+            </div>
+        </div>
+
+        <div class="home-icon-list" aria-label="联系图标"
+            style="margin-top: 3rem; display: flex; justify-content: center; width: 100%;">
+            <a class="home-icon-item" href="https://gitee.com/BigPanZH" title="Gitee" aria-label="Gitee">
+                <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="Gitee">
+            </a>
+            <a class="home-icon-item" href="https://github.com/holyshite" title="GitHub" aria-label="GitHub">
+                <img src="{{ '/assets/icon/github.svg' | relative_url }}" alt="GitHub">
+            </a>
+            <a class="home-icon-item" href="mailto:616pwpwpwpw@gmail.com" title="Gmail" aria-label="Gmail">
+                <img src="{{ '/assets/icon/gmail.svg' | relative_url }}" alt="Gmail">
+            </a>
+            <a class="home-icon-item" href="mailto:751802108@qq.com" title="QQ Mail" aria-label="QQ Mail">
+                <img src="{{ '/assets/icon/QQmail.svg' | relative_url }}" alt="QQ Mail">
+            </a>
+            <a class="home-icon-item" href="https://steamcommunity.com/profiles/76561199520206774/" title="Steam"
+                aria-label="Steam">
+                <img src="{{ '/assets/icon/steam.svg' | relative_url }}" alt="Steam">
+            </a>
+        </div>
+    </div>
     {% endcapture %}
 
     {% include page.html title=page.title content=page_content %}

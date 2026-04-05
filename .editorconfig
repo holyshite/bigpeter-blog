@@ -1,0 +1,77 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# 顶层配置
+root = true
+
+# 通用配置
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Markdown 文件
+[*.md]
+trim_trailing_whitespace = false  # 允许行尾空格用于换行
+
+# YAML 文件
+[*.{yml,yaml}]
+indent_size = 2
+
+# JSON 文件
+[*.json]
+indent_size = 2
+
+# JavaScript 文件
+[*.js]
+indent_size = 2
+
+# CSS/SCSS 文件
+[*.{css,scss,sass}]
+indent_size = 2
+
+# HTML 文件
+[*.html]
+indent_size = 2
+
+# Ruby 文件
+[*.rb]
+indent_size = 2
+
+# Liquid 模板文件
+[*.liquid]
+indent_size = 2
+
+# Git 忽略文件
+[.gitignore]
+indent_size = 2
+
+# 配置文件
+[.*rc]
+indent_size = 2
+
+# 包管理文件
+[Gemfile]
+indent_size = 2
+
+[Gemfile.lock]
+indent_size = 2
+
+# 文档文件
+[README.md]
+max_line_length = 80
+
+[CLAUDE.md]
+max_line_length = 80
+
+[CONTRIBUTING.md]
+max_line_length = 80
+
+# 测试文件
+[*.test.js]
+indent_size = 2
+
+[*.spec.js]
+indent_size = 2

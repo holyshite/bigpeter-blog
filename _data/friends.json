@@ -1,0 +1,32 @@
+[
+  {
+    "name": "沫之白",
+    "url": "https://fartmonarch.xyz/",
+    "avatar": "https://fartmonarch.xyz/images/avatar.png",
+    "description": "前端的大手子，big hand",
+    "tags": [
+      "技术",
+      "设计"
+    ]
+  },
+  {
+    "name": "evanescent",
+    "url": "https://evanescent521.github.io/",
+    "avatar": "https://shared.akamai.steamstatic.com/community_assets/images/items/1504020/4495cb7125faf0795bf63ce532290bc28bebb440.gif",
+    "description": "这是我的一个老弟，大家给点面子",
+    "tags": [
+      "设计",
+      "博客"
+    ]
+  },
+  {
+    "name": "Jokerlove",
+    "url": "https://jokerlove0626.github.io/",
+    "avatar": "https://jokerlove0626.github.io/img/my_avatar.png",
+    "description": "浙大研究生，我唯一的浙大人脉",
+    "tags": [
+      "技术",
+      "博客"
+    ]
+  }
+]
