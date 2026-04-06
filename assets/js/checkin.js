@@ -37,12 +37,56 @@ document.addEventListener('DOMContentLoaded', function () {
         token: null,
         todayCheckedIn: false,
         checkinHistory: [],
-        isLoading: true
+        isLoading: true,
+        userInfo: null // 存储用户信息（GitHub用户名等）
     };
+
+    // 从本地存储加载应用配置
+    function loadAppConfig() {
+        // 从本地存储加载仓库配置（如果存在）
+        const savedOwner = localStorage.getItem('github_repo_owner');
+        const savedRepo = localStorage.getItem('github_repo_name');
+        const savedIssue = localStorage.getItem('github_issue_number');
+
+        // 更新配置常量（如果本地存储中有值）
+        if (savedOwner) CONFIG.repoOwner = savedOwner;
+        if (savedRepo) CONFIG.repoName = savedRepo;
+        if (savedIssue) CONFIG.issueNumber = parseInt(savedIssue);
+    }
+
+    // 获取GitHub用户信息
+    async function getGitHubUserInfo(token) {
+        try {
+            const response = await fetch('https://api.github.com/user', {
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`GitHub API错误: ${response.status}`);
+            }
+
+            const userData = await response.json();
+            return {
+                login: userData.login,
+                id: userData.id,
+                name: userData.name || userData.login,
+                avatarUrl: userData.avatar_url
+            };
+        } catch (error) {
+            console.error('获取用户信息失败:', error);
+            throw error;
+        }
+    }
 
     // 初始化
     async function init() {
         showLoadingState();
+
+        // 加载应用配置（仓库、issue等）
+        loadAppConfig();
 
         // 检查GitHub token
         state.token = localStorage.getItem(CONFIG.storageKeys.token);
@@ -59,6 +103,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         try {
+            // 尝试获取用户信息（如果失败，继续但不进行用户过滤）
+            try {
+                state.userInfo = await getGitHubUserInfo(state.token);
+                console.log('用户信息获取成功:', state.userInfo.login);
+            } catch (userInfoError) {
+                console.warn('获取用户信息失败，继续加载数据（无用户过滤）:', userInfoError);
+                state.userInfo = null;
+            }
+            
             // 加载打卡历史
             await loadCheckinHistory();
 
@@ -191,7 +244,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const cached = localStorage.getItem(CONFIG.storageKeys.checkinHistory);
             if (cached) {
                 try {
-                    state.checkinHistory = JSON.parse(cached);
+                    const cachedHistory = JSON.parse(cached);
+                    // 过滤本地缓存数据：只显示当前用户的数据
+                    if (state.userInfo) {
+                        state.checkinHistory = cachedHistory.filter(item => 
+                            !item.userId || item.userId === state.userInfo.login
+                        );
+                    } else {
+                        state.checkinHistory = cachedHistory;
+                    }
                 } catch (e) {
                     state.checkinHistory = [];
                 }
@@ -223,12 +284,24 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
                 const data = JSON.parse(comment.body);
                 if (data.type === 'checkin' && data.date) {
-                    checkins.push({
-                        date: data.date,
-                        timestamp: new Date(data.date + 'T00:00:00').getTime(),
-                        note: data.note || '',
-                        commentId: comment.id
-                    });
+                    // 提取用户标识符（兼容旧数据）
+                    const userId = data.userId || data.userInfo?.login || null;
+                    
+                    // 过滤逻辑：如果已获取当前用户信息，则只显示当前用户的数据
+                    // 如果没有获取到用户信息或数据没有用户标识符，则显示所有数据（向后兼容）
+                    const shouldInclude = !state.userInfo || 
+                                         !userId || 
+                                         userId === state.userInfo.login;
+                    
+                    if (shouldInclude) {
+                        checkins.push({
+                            date: data.date,
+                            timestamp: data.timestamp || new Date(data.date + 'T00:00:00').getTime(),
+                            note: data.note || '',
+                            commentId: comment.id,
+                            userId: userId
+                        });
+                    }
                 }
             } catch (e) {
                 // 忽略非JSON格式的评论
@@ -246,7 +319,9 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        if (state.todayCheckedIn) {
+        // 基于历史记录检查今天是否已打卡（确保状态最新）
+        const todayStatus = checkTodayStatusFromHistory();
+        if (todayStatus.hasCheckedIn) {
             alert('今天已经打过卡了！');
             return;
         }
@@ -262,28 +337,29 @@ document.addEventListener('DOMContentLoaded', function () {
             const today = new Date();
             const dateStr = getLocalDateString(today); // YYYY-MM-DD（本地时间）
 
-            // 创建打卡记录（使用本地时间午夜的时间戳）
-            const midnight = new Date(dateStr + 'T00:00:00');
+            // 创建打卡记录（记录实际打卡时间）
             const checkinData = {
                 type: 'checkin',
                 date: dateStr,
-                timestamp: midnight.getTime(),
-                note: '每日打卡'
+                timestamp: today.getTime(),
+                note: '每日打卡',
+                // 添加用户标识符（如果已获取用户信息）
+                userId: state.userInfo ? state.userInfo.login : null
             };
 
             // 发送到GitHub
             const success = await postCheckin(checkinData);
 
             if (success) {
-                // 更新本地状态
-                state.todayCheckedIn = true;
+                // 将新打卡记录添加到历史记录中
                 state.checkinHistory.unshift({
                     date: dateStr,
-                    timestamp: midnight.getTime(),
-                    note: '每日打卡'
+                    timestamp: today.getTime(),
+                    note: '每日打卡',
+                    userId: state.userInfo ? state.userInfo.login : null
                 });
 
-                // 更新本地存储
+                // 更新本地存储（作为缓存）
                 localStorage.setItem(CONFIG.storageKeys.lastCheckin, dateStr);
                 localStorage.setItem(
                     CONFIG.storageKeys.checkinHistory,
@@ -299,9 +375,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     elements.todayStatus.className = 'status-success';
                 }
 
-                // 更新统计
-                updateStats();
-                updateHistoryList();
+                // 更新整个UI（包括统计和历史记录）
+                updateUI();
 
             } else {
                 throw new Error('打卡失败');
@@ -344,20 +419,42 @@ document.addEventListener('DOMContentLoaded', function () {
         return response.ok;
     }
 
+    // 检查今天是否已打卡（从历史记录中检查）
+    function checkTodayStatusFromHistory() {
+        if (!state.checkinHistory || state.checkinHistory.length === 0) {
+            return { hasCheckedIn: false, checkinTime: null };
+        }
+
+        const today = getLocalDateString(new Date());
+        
+        // 查找今天的打卡记录
+        const todayCheckin = state.checkinHistory.find(item => item.date === today);
+        
+        if (todayCheckin) {
+            return {
+                hasCheckedIn: true,
+                checkinTime: new Date(todayCheckin.timestamp)
+            };
+        }
+        
+        return { hasCheckedIn: false, checkinTime: null };
+    }
+
     // 更新UI
     function updateUI() {
-        // 检查今日是否已打卡
-        const today = getLocalDateString(new Date());
-        const lastCheckin = localStorage.getItem(CONFIG.storageKeys.lastCheckin);
-
-        state.todayCheckedIn = (lastCheckin === today);
+        // 检查今日是否已打卡（从GitHub历史记录）
+        const todayStatus = checkTodayStatusFromHistory();
+        state.todayCheckedIn = todayStatus.hasCheckedIn;
 
         // 更新今日状态
         if (elements.todayStatus) {
             if (state.todayCheckedIn) {
+                const timeDisplay = todayStatus.checkinTime ? 
+                    `<p class="checkin-time">${formatTime(todayStatus.checkinTime)}</p>` : '';
+                    
                 elements.todayStatus.innerHTML = `
                     <p>✅ 今日已打卡</p>
-                    <p class="checkin-time">${formatTime(new Date())}</p>
+                    ${timeDisplay}
                 `;
                 elements.todayStatus.className = 'status-success';
 
@@ -492,10 +589,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const items = state.checkinHistory.map(item => {
-            const date = new Date(item.date);
+            const date = new Date(item.timestamp);
             return `
                 <div class="history-item">
-                    <div class="history-date">${formatDate(date)}</div>
+                    <div class="history-date">${formatDate(date)} <span class="history-time">${formatTime(date)}</span></div>
                     <div class="history-day">${getDayOfWeek(date)}</div>
                     ${item.note ? `<div class="history-note">${item.note}</div>` : ''}
                 </div>
