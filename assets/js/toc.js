@@ -47,13 +47,12 @@
 
         if (!content || !tocContainer) return;
 
-        // 收集所有标题和列表中的加粗文本作为目录项
+        // 仅收集标题作为目录项
         const headers = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
-        const listItems = content.querySelectorAll('li > strong:first-child, li > p > strong:first-child');
         
         tocContainer.textContent = '';
 
-        if (headers.length === 0 && listItems.length === 0) return;
+        if (headers.length === 0) return;
 
         function createStyledList() {
             const ul = document.createElement('ul');
@@ -66,7 +65,7 @@
         // 收集所有目录项元素，按DOM顺序处理
         const usedIds = new Set();
         
-        // 首先，为所有标题添加ID
+        // 为所有标题添加ID
         headers.forEach((header, index) => {
             if (!header.id) {
                 header.id = toSlug(header.textContent, index, usedIds);
@@ -75,23 +74,13 @@
             }
         });
         
-        // 为所有列表项中的加粗文本添加ID
-        listItems.forEach((strong, index) => {
-            if (!strong.id) {
-                strong.id = toSlug(strong.textContent, headers.length + index, usedIds);
-            } else {
-                usedIds.add(strong.id);
-            }
-        });
-        
-        // 收集所有标题和列表项元素，按DOM顺序排序
+        // 收集标题元素，按DOM顺序排序
         const allElements = [];
         
-        // 递归遍历所有子节点，收集标题和列表项
+        // 递归遍历所有子节点，收集标题
         function collectElements(node) {
             if (!node) return;
             
-            // 检查是否是标题
             if (node.nodeType === Node.ELEMENT_NODE) {
                 const tag = node.tagName.toLowerCase();
                 if (tag.match(/^h[1-6]$/)) {
@@ -102,32 +91,6 @@
                         text: node.textContent.trim(),
                         type: 'header'
                     });
-                } else if (tag === 'strong') {
-                    // 检查是否是列表项中的加粗文本
-                    let parent = node.parentElement;
-                    let isListItemStrong = false;
-                    
-                    // 情况1: strong的直接父元素是LI，并且是第一个元素
-                    if (parent && parent.tagName === 'LI' && parent.firstElementChild === node) {
-                        isListItemStrong = true;
-                    }
-                    // 情况2: strong在P标签内，P的直接父元素是LI，并且strong是P的第一个元素
-                    else if (parent && parent.tagName === 'P' && 
-                             parent.firstElementChild === node && 
-                             parent.parentElement && 
-                             parent.parentElement.tagName === 'LI') {
-                        isListItemStrong = true;
-                    }
-                    
-                    if (isListItemStrong) {
-                        allElements.push({
-                            element: node,
-                            level: 0, // 暂未计算
-                            id: node.id,
-                            text: node.textContent.trim(),
-                            type: 'list-item'
-                        });
-                    }
                 }
             }
             
@@ -138,17 +101,6 @@
         }
         
         collectElements(content);
-        
-        // 为列表项计算层级：基于最近的前一个标题
-        let lastHeaderLevel = 2; // 默认层级
-        for (const item of allElements) {
-            if (item.type === 'header') {
-                lastHeaderLevel = item.level;
-            } else if (item.type === 'list-item') {
-                // 列表项比最近的标题低一级
-                item.level = lastHeaderLevel + 1;
-            }
-        }
         
         const tocElements = allElements;
         
@@ -167,11 +119,6 @@
             item.appendChild(link);
             tocLinks.push(link);
             
-            // 为列表项元素添加ID，以便跳转
-            if (tocItem.type === 'list-item' && !tocItem.element.id) {
-                tocItem.element.id = tocItem.id;
-            }
-
             const level = tocItem.level;
             
             if (level > currentLevel) {

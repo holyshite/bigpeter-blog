@@ -56,7 +56,7 @@ permalink: /checkin/
             <li>将令牌粘贴到下方输入框</li>
             <li>点击"保存并验证"按钮</li>
         </ol>
-        <p><strong>注意：</strong>令牌需要<code>repo</code>或<code>public_repo</code>权限（用于访问issues）。</p>
+        <p><strong>注意：</strong>令牌需要<code>repo</code>或<code>public_repo</code>权限（用于访问issues）。详情可查看文章<a href="/2026/04/06/bigpeter博客打卡功能完整指南.html">《bigpeter博客打卡功能完整指南》</a></p>
     </div>
 
     <div id="configForm" class="config-form">

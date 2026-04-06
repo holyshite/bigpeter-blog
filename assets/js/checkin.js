@@ -200,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const configSection = document.getElementById('configSection');
         if (configSection) {
             configSection.style.display = 'block';
+            document.body.classList.add('config-modal-open');
 
             // 确保表单部分可见
             const configForm = document.getElementById('configForm');
@@ -207,8 +208,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (configForm) configForm.style.display = 'block';
             if (configSuccess) configSuccess.style.display = 'none';
 
-            // 滚动到配置区域
-            configSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         // 禁用打卡按钮
@@ -588,18 +587,207 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const items = state.checkinHistory.map(item => {
-            const date = new Date(item.timestamp);
-            return `
-                <div class="history-item">
-                    <div class="history-date">${formatDate(date)} <span class="history-time">${formatTime(date)}</span></div>
-                    <div class="history-day">${getDayOfWeek(date)}</div>
-                    ${item.note ? `<div class="history-note">${item.note}</div>` : ''}
-                </div>
-            `;
+        const endDate = new Date();
+        endDate.setHours(0, 0, 0, 0);
+
+        const firstDisplayDate = new Date(endDate);
+        firstDisplayDate.setDate(firstDisplayDate.getDate() - 364);
+
+        const gridStartDate = new Date(firstDisplayDate);
+        gridStartDate.setDate(gridStartDate.getDate() - gridStartDate.getDay());
+
+        const checkinInfoByDate = new Map();
+        state.checkinHistory.forEach(item => {
+            if (!item.date) return;
+            const existing = checkinInfoByDate.get(item.date);
+            const currentTimestamp = Number(item.timestamp) || 0;
+
+            if (!existing) {
+                checkinInfoByDate.set(item.date, {
+                    count: 1,
+                    latestTimestamp: currentTimestamp
+                });
+                return;
+            }
+
+            checkinInfoByDate.set(item.date, {
+                count: existing.count + 1,
+                latestTimestamp: Math.max(existing.latestTimestamp || 0, currentTimestamp)
+            });
+        });
+
+        const maxCount = Math.max(1, ...Array.from(checkinInfoByDate.values(), item => item.count));
+        const weeks = [];
+        const cursor = new Date(gridStartDate);
+
+        while (cursor <= endDate) {
+            const week = [];
+            for (let i = 0; i < 7; i += 1) {
+                const currentDate = new Date(cursor);
+                const key = getLocalDateString(currentDate);
+                const inRange = currentDate >= firstDisplayDate && currentDate <= endDate;
+                const checkinInfo = inRange ? checkinInfoByDate.get(key) : null;
+                const count = checkinInfo ? checkinInfo.count : 0;
+                const latestTimestamp = checkinInfo ? checkinInfo.latestTimestamp : null;
+
+                week.push({
+                    date: currentDate,
+                    dateKey: key,
+                    count,
+                    latestTimestamp,
+                    inRange
+                });
+
+                cursor.setDate(cursor.getDate() + 1);
+            }
+            weeks.push(week);
+        }
+
+        const monthLabels = [];
+        let lastMonth = null;
+        weeks.forEach((week, index) => {
+            let label = '';
+            for (let i = 0; i < week.length; i += 1) {
+                const day = week[i];
+                if (!day.inRange) continue;
+                const month = day.date.getMonth();
+                const dayOfMonth = day.date.getDate();
+                if ((month !== lastMonth && dayOfMonth <= 7) || (index === 0 && lastMonth === null)) {
+                    label = `${month + 1}月`;
+                    lastMonth = month;
+                }
+                break;
+            }
+            monthLabels.push(label);
+        });
+
+        const totalActiveDays = Array.from(checkinInfoByDate.keys()).length;
+        const latestRecord = state.checkinHistory[0] ? new Date(state.checkinHistory[0].timestamp) : null;
+        const latestText = latestRecord ? `${formatDate(latestRecord)} ${formatTime(latestRecord)}` : '暂无';
+
+        const monthCells = monthLabels.map(label => `
+            <span class="contribution-month-label">${label}</span>
+        `).join('');
+
+        const weekCells = weeks.map(week => {
+            const dayCells = week.map(day => {
+                const level = getContributionLevel(day.count, maxCount);
+                const tooltip = getContributionTooltip(day.date, day.count, day.latestTimestamp, day.inRange);
+                const classes = [
+                    'contribution-cell',
+                    `contribution-level-${level}`,
+                    day.inRange ? '' : 'is-out-of-range'
+                ].filter(Boolean).join(' ');
+
+                return `
+                    <span
+                        class="${classes}"
+                        data-date="${day.dateKey}"
+                        data-tooltip="${tooltip}"
+                        aria-label="${tooltip}"
+                    ></span>
+                `;
+            }).join('');
+
+            return `<div class="contribution-week">${dayCells}</div>`;
         }).join('');
 
-        elements.historyList.innerHTML = items;
+        elements.historyList.innerHTML = `
+            <div class="contribution-history">
+                <div class="contribution-history-header">
+                    <p class="contribution-summary">过去一年累计打卡 <strong>${totalActiveDays}</strong> 天</p>
+                    <p class="contribution-latest">最近打卡：${latestText}</p>
+                </div>
+                <div class="contribution-calendar">
+                    <div class="contribution-weekday-labels">
+                        <span>周一</span>
+                        <span>周三</span>
+                        <span>周五</span>
+                    </div>
+                    <div class="contribution-calendar-main">
+                        <div class="contribution-months" style="--week-count: ${weeks.length};">
+                            ${monthCells}
+                        </div>
+                        <div class="contribution-weeks">
+                            ${weekCells}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        setupContributionTooltip(elements.historyList);
+    }
+
+    function getContributionLevel(count, maxCount) {
+        if (count <= 0) return 0;
+        if (maxCount <= 1) return 4;
+
+        const ratio = count / maxCount;
+        if (ratio >= 0.75) return 4;
+        if (ratio >= 0.5) return 3;
+        if (ratio >= 0.25) return 2;
+        return 1;
+    }
+
+    function getContributionTooltip(date, count, latestTimestamp, inRange) {
+        const dayLabel = `${formatDate(date)}（${getDayOfWeek(date)}）`;
+        if (!inRange) return `${dayLabel} 不在当前统计范围`;
+        if (count === 0) return `${dayLabel} 未打卡`;
+
+        if (latestTimestamp) {
+            return `${dayLabel} 打卡时间 ${formatTime(new Date(latestTimestamp))}`;
+        }
+
+        return `${dayLabel} 已打卡`;
+    }
+
+    function getOrCreateContributionTooltip() {
+        let tooltip = document.getElementById('contributionTooltip');
+        if (tooltip) return tooltip;
+
+        tooltip = document.createElement('div');
+        tooltip.id = 'contributionTooltip';
+        tooltip.className = 'contribution-tooltip';
+        tooltip.setAttribute('role', 'tooltip');
+        tooltip.style.opacity = '0';
+        document.body.appendChild(tooltip);
+        return tooltip;
+    }
+
+    function setupContributionTooltip(container) {
+        if (!container) return;
+
+        const tooltip = getOrCreateContributionTooltip();
+
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
+            tooltip.style.transform = 'translate(-50%, calc(-100% + 4px))';
+        }
+
+        function moveTooltip(event) {
+            tooltip.style.left = `${event.clientX}px`;
+            tooltip.style.top = `${event.clientY - 12}px`;
+        }
+
+        function showTooltip(text, event) {
+            tooltip.textContent = text;
+            moveTooltip(event);
+            tooltip.style.opacity = '1';
+            tooltip.style.transform = 'translate(-50%, -100%)';
+        }
+
+        const cells = container.querySelectorAll('.contribution-cell[data-tooltip]');
+        cells.forEach((cell) => {
+            cell.addEventListener('mouseenter', (event) => {
+                showTooltip(cell.dataset.tooltip || '', event);
+            });
+
+            cell.addEventListener('mousemove', moveTooltip);
+            cell.addEventListener('mouseleave', hideTooltip);
+        });
+
+        container.addEventListener('mouseleave', hideTooltip);
     }
 
     // 工具函数：获取本地YYYY-MM-DD格式的日期
@@ -656,12 +844,18 @@ document.addEventListener('DOMContentLoaded', function () {
         // 如果配置元素不存在，则退出（可能不在打卡页面）
         if (!configSection) return;
 
+        // 将配置弹窗挂载到 body，避免被玻璃容器的层叠上下文/滤镜影响定位与点击
+        if (configSection.parentElement !== document.body) {
+            document.body.appendChild(configSection);
+        }
+
         // 加载现有配置
         loadConfigFromStorage();
 
         // 按钮显示控制函数
         function showConfigUI() {
             configSection.style.display = 'block';
+            document.body.classList.add('config-modal-open');
             configForm.style.display = 'block';
             configSuccess.style.display = 'none';
             configStatus.style.display = 'none';
@@ -669,6 +863,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function hideConfigUI() {
             configSection.style.display = 'none';
+            document.body.classList.remove('config-modal-open');
         }
 
         // 显示/隐藏配置区域

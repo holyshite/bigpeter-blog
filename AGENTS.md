@@ -34,6 +34,21 @@
 - **SCSS 变量**：定义在 `_sass/_variables.scss`
 - **媒体查询**：移动优先原则
 
+## 样式系统
+- **液态玻璃效果**：统一定义在 `_sass/_liquid-glass.scss`
+  - 使用 `@include liquid-glass-surface()` 调用基础玻璃卡片样式
+  - 使用 `@include liquid-glass-hover()` 添加悬停动画效果
+  - 核心组件：文章列表 `.post-item`、友链卡片 `.friend-link`、标签 `.tag-list-item` 等
+- **JavaScript 全局脚本**：统一加载 `theme.js`、`stars.js`、`nav.js`、`prefetch.js`
+  - 所有页面共享相同的交互功能（主题切换、星空动画、导航、预加载）
+
+## 指令约定
+- **"用液态玻璃样式"**：当用户提出此要求时，自动执行以下操作：
+  1. 在 SCSS/CSS 中使用 `@include liquid-glass-surface()` 和 `@include liquid-glass-hover()` mixin
+  2. 确保页面布局包含标准的 JS 文件引用（`theme.js`、`stars.js`、`nav.js`、`prefetch.js`）
+  3. 遵循现有组件（如 `.post-item`、`.friend-link`）的样式模式
+  4. 优先复用 `_sass/_liquid-glass.scss` 中的定义，避免重复内联样式
+
 ## Git 工作流
 - **提交消息格式**：`类型(范围): 描述`
   - 类型：`feat`、`fix`、`docs`、`style`、`refactor`、`test`、`chore`

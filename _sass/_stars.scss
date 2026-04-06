@@ -56,8 +56,8 @@ html[data-theme="light"] {
     min-height: 100vh;
     touch-action: none;
     background: transparent;
-    overflow-y: auto; // 保留
-    overflow-x: hidden; // 保留
+    overflow-y: visible;
+    overflow-x: visible;
     -webkit-overflow-scrolling: touch; // 让 iOS 有惯性滚动
     touch-action: pan-y; // 允许纵向滑动
 }
