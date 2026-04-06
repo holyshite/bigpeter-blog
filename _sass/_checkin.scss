@@ -1,0 +1,901 @@
+// 打卡功能样式
+@import "liquid-glass";
+
+.checkin-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.checkin-status {
+    margin-bottom: 2rem;
+}
+
+.status-success,
+.status-pending,
+.status-error {
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.status-success {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(76, 175, 80, 0.05));
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    color: #4caf50;
+}
+
+.status-pending {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 193, 7, 0.05));
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    color: #ff9800;
+}
+
+.status-error {
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.15), rgba(244, 67, 54, 0.05));
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    color: #f44336;
+}
+
+.checkin-time {
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+// 加载状态
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #667eea;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-placeholder {
+    width: 100%;
+}
+
+.loading-line {
+    height: 20px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.loading-line:nth-child(2) {
+    width: 80%;
+}
+
+.loading-line:nth-child(3) {
+    width: 60%;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.retry-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: #f44336;
+    cursor: pointer;
+    @include liquid-glass-surface($radius: 8px,
+        $padding: 0.5rem 1rem,
+        $bg: rgba(244, 67, 54, 0.1),
+        $border: rgba(244, 67, 54, 0.3));
+    @include liquid-glass-hover($translateY: -1px, $scale: 1.02);
+}
+
+.checkin-btn {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 1.5rem auto;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    @include liquid-glass-surface($radius: 50px,
+        $padding: 1rem 2rem,
+        $bg: rgba(102, 126, 234, 0.15),
+        $border: rgba(102, 126, 234, 0.4));
+    @include liquid-glass-hover($translateY: -2px, $scale: 1.02);
+    
+    &:hover {
+        background: rgba(102, 126, 234, 0.25);
+        border-color: rgba(102, 126, 234, 0.6);
+    }
+}
+
+.checkin-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+        animation: none;
+        transform: none;
+        box-shadow: $liquid-glass-shadow;
+        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.checkin-stats {
+    margin: 2rem 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.stat-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.checkin-history {
+    margin: 2rem 0;
+}
+
+.history-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin: 1rem 0;
+    padding-right: 0.5rem;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.history-item:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+    transform: translateX(5px);
+}
+
+.history-date {
+    flex: 1;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.history-day {
+    width: 80px;
+    text-align: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    background: rgba(102, 126, 234, 0.2);
+    color: #667eea;
+    font-size: 0.85rem;
+}
+
+.history-note {
+    flex: 2;
+    padding-left: 1rem;
+    color: #aaa;
+    font-style: italic;
+}
+
+.github-config-hint {
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 193, 7, 0.05));
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.github-config-hint h3 {
+    color: #ff9800;
+    margin-top: 0;
+}
+
+.github-config-hint code {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.github-config-hint ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.github-config-hint li {
+    margin-bottom: 0.5rem;
+}
+
+// GitHub配置区域样式
+.github-config-section {
+    margin: 2.5rem 0;
+    padding: 2rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.github-config-section h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #667eea;
+    font-size: 1.5rem;
+}
+
+.config-hint {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.05));
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.config-hint p {
+    margin: 0.5rem 0;
+}
+
+.config-hint ol {
+    margin: 1rem 0 1rem 1.5rem;
+    padding: 0;
+}
+
+.config-hint li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.config-form {
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #ddd;
+}
+
+// 仓库信息组（三个字段在同一行）
+.repo-info-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.repo-field {
+    flex: 1;
+    min-width: 200px;
+}
+
+.repo-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #ddd;
+    font-size: 0.9rem;
+}
+
+.repo-field .repo-input,
+.repo-field .issue-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.repo-field .repo-input:focus,
+.repo-field .issue-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+.token-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.token-input, .repo-input, .issue-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.token-input:focus, .repo-input:focus, .issue-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+.toggle-visibility-btn {
+    padding: 0.75rem 1rem;
+    color: #aaa;
+    cursor: pointer;
+    @include liquid-glass-surface($radius: 8px,
+        $padding: 0.75rem 1rem,
+        $bg: rgba(255, 255, 255, 0.05),
+        $border: rgba(255, 255, 255, 0.2));
+    @include liquid-glass-hover($translateY: -1px, $scale: 1.02);
+
+    &:hover {
+        color: white;
+    }
+}
+
+.form-hint {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.config-btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.save-btn {
+    color: white;
+    @include liquid-glass-surface($radius: 8px,
+        $padding: 0.75rem 1.5rem,
+        $bg: rgba(76, 175, 80, 0.15),
+        $border: rgba(76, 175, 80, 0.4));
+    @include liquid-glass-hover($translateY: -2px, $scale: 1.02);
+    
+    &:hover {
+        background: rgba(76, 175, 80, 0.25);
+        border-color: rgba(76, 175, 80, 0.6);
+    }
+}
+
+.clear-btn {
+    color: white;
+    @include liquid-glass-surface($radius: 8px,
+        $padding: 0.75rem 1.5rem,
+        $bg: rgba(244, 67, 54, 0.15),
+        $border: rgba(244, 67, 54, 0.4));
+    @include liquid-glass-hover($translateY: -2px, $scale: 1.02);
+    
+    &:hover {
+        background: rgba(244, 67, 54, 0.25);
+        border-color: rgba(244, 67, 54, 0.6);
+    }
+}
+
+.test-btn {
+    color: white;
+    @include liquid-glass-surface($radius: 8px,
+        $padding: 0.75rem 1.5rem,
+        $bg: rgba(33, 150, 243, 0.15),
+        $border: rgba(33, 150, 243, 0.4));
+    @include liquid-glass-hover($translateY: -2px, $scale: 1.02);
+    
+    &:hover {
+        background: rgba(33, 150, 243, 0.25);
+        border-color: rgba(33, 150, 243, 0.6);
+    }
+}
+
+.config-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+        animation: none;
+        transform: none;
+        box-shadow: $liquid-glass-shadow;
+        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.config-status {
+    margin-top: 1.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.config-status-success {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(76, 175, 80, 0.05));
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    color: #4caf50;
+}
+
+.config-status-error {
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.15), rgba(244, 67, 54, 0.05));
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    color: #f44336;
+}
+
+.config-success {
+    text-align: center;
+    padding: 2rem;
+}
+
+.success-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.refresh-btn {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    color: #667eea;
+    cursor: pointer;
+    @include liquid-glass-surface($radius: 8px,
+        $padding: 0.75rem 1.5rem,
+        $bg: rgba(102, 126, 234, 0.1),
+        $border: rgba(102, 126, 234, 0.3));
+    @include liquid-glass-hover($translateY: -1px, $scale: 1.02);
+
+    &:hover {
+        color: #667eea;
+    }
+}
+
+.config-manager {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    z-index: 1000;
+}
+
+// 当配置区域显示时隐藏配置管理按钮
+.github-config-section[style*="display: block"] + .config-manager,
+.github-config-section[style*="display: flex"] + .config-manager {
+    display: none;
+}
+
+.config-manager-btn {
+    padding: 0.75rem 1.25rem;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    @include liquid-glass-surface($radius: 50px,
+        $padding: 0.75rem 1.25rem,
+        $bg: rgba(102, 126, 234, 0.15),
+        $border: rgba(102, 126, 234, 0.4));
+    @include liquid-glass-hover($translateY: -2px, $scale: 1.02);
+    
+    &:hover {
+        background: rgba(102, 126, 234, 0.25);
+        border-color: rgba(102, 126, 234, 0.6);
+    }
+}
+
+// 取消按钮样式
+.cancel-btn {
+    color: white;
+    margin-left: auto;
+    @include liquid-glass-surface($radius: 8px,
+        $padding: 0.75rem 1.5rem,
+        $bg: rgba(244, 67, 54, 0.15),
+        $border: rgba(244, 67, 54, 0.4));
+    @include liquid-glass-hover($translateY: -2px, $scale: 1.02);
+    
+    &:hover {
+        background: rgba(244, 67, 54, 0.25);
+        border-color: rgba(244, 67, 54, 0.6);
+    }
+}
+
+// ========== 白天主题样式 ==========
+[data-theme="light"] {
+	// 通用文字颜色
+	color: rgba(0, 0, 0, 0.85);
+
+	// 状态区域
+	.status-success,
+	.status-pending,
+	.status-error {
+		color: rgba(0, 0, 0, 0.85);
+	}
+
+	.status-success {
+		background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.03));
+		border-color: rgba(76, 175, 80, 0.2);
+		color: #2e7d32;
+	}
+
+	.status-pending {
+		background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.03));
+		border-color: rgba(255, 193, 7, 0.2);
+		color: #ff8f00;
+	}
+
+	.status-error {
+		background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(244, 67, 54, 0.03));
+		border-color: rgba(244, 67, 54, 0.2);
+		color: #d32f2f;
+	}
+
+	.checkin-time {
+		color: rgba(0, 0, 0, 0.6);
+	}
+
+	// 加载状态
+	.loading-spinner {
+		border-color: rgba(0, 0, 0, 0.2);
+		border-top-color: #667eea;
+	}
+
+	.loading-line {
+		background: linear-gradient(90deg, rgba(0, 0, 0, 0.08) 25%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.08) 75%);
+	}
+
+	// 统计卡片
+	.stat-card {
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.02));
+		border-color: rgba(0, 0, 0, 0.1);
+	}
+
+	.stat-label {
+		color: rgba(0, 0, 0, 0.7);
+	}
+
+	// 历史记录
+	.history-item {
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.015));
+		border-color: rgba(0, 0, 0, 0.08);
+	}
+
+	.history-item:hover {
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.025));
+	}
+
+	.history-date {
+		color: rgba(0, 0, 0, 0.9);
+	}
+
+	.history-day {
+		background: rgba(102, 126, 234, 0.1);
+		color: #667eea;
+	}
+
+	.history-note {
+		color: rgba(0, 0, 0, 0.6);
+	}
+
+	// GitHub配置提示
+	.github-config-hint {
+		background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.03));
+		border-color: rgba(255, 193, 7, 0.2);
+	}
+
+	.github-config-hint h3 {
+		color: #ff8f00;
+	}
+
+	.github-config-hint code {
+		background: rgba(0, 0, 0, 0.08);
+	}
+
+	// 配置区域
+	.github-config-section {
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.015));
+		border-color: rgba(0, 0, 0, 0.12);
+	}
+
+	.github-config-section h3 {
+		color: #5a67d8;
+	}
+
+	.config-hint {
+		background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(102, 126, 234, 0.03));
+		border-color: rgba(102, 126, 234, 0.15);
+	}
+
+	.config-hint p {
+		color: rgba(0, 0, 0, 0.8);
+	}
+
+	// 表单
+	.form-group label {
+		color: rgba(0, 0, 0, 0.75);
+	}
+
+	.token-input, .repo-input, .issue-input {
+		background: rgba(0, 0, 0, 0.05);
+		border-color: rgba(0, 0, 0, 0.15);
+		color: rgba(0, 0, 0, 0.85);
+	}
+
+	.token-input:focus, .repo-input:focus, .issue-input:focus {
+		border-color: #5a67d8;
+		box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.2);
+	}
+
+	.form-hint {
+		color: rgba(0, 0, 0, 0.6);
+	}
+
+	// 配置状态
+	.config-status-success {
+		background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.03));
+		border-color: rgba(76, 175, 80, 0.2);
+		color: #2e7d32;
+	}
+
+	.config-status-error {
+		background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(244, 67, 54, 0.03));
+		border-color: rgba(244, 67, 54, 0.2);
+		color: #d32f2f;
+	}
+
+	// 按钮文字颜色调整
+	.retry-btn {
+		color: #d32f2f;
+		@include liquid-glass-surface($radius: 8px,
+			$padding: 0.5rem 1rem,
+			$bg: rgba(244, 67, 54, 0.08),
+			$border: rgba(244, 67, 54, 0.2));
+	}
+
+	.checkin-btn {
+		color: rgba(0, 0, 0, 0.9);
+		@include liquid-glass-surface($radius: 50px,
+			$padding: 1rem 2rem,
+			$bg: rgba(102, 126, 234, 0.1),
+			$border: rgba(102, 126, 234, 0.25));
+		
+		&:hover {
+			background: rgba(102, 126, 234, 0.18);
+			border-color: rgba(102, 126, 234, 0.35);
+		}
+	}
+
+	.checkin-btn:disabled {
+		color: rgba(0, 0, 0, 0.4);
+		background: rgba(0, 0, 0, 0.03);
+		border-color: rgba(0, 0, 0, 0.08);
+
+		&:hover {
+			background: rgba(0, 0, 0, 0.03);
+			border-color: rgba(0, 0, 0, 0.08);
+		}
+	}
+
+	.toggle-visibility-btn {
+		color: rgba(0, 0, 0, 0.6);
+		@include liquid-glass-surface($radius: 8px,
+			$padding: 0.75rem 1rem,
+			$bg: rgba(0, 0, 0, 0.03),
+			$border: rgba(0, 0, 0, 0.15));
+
+		&:hover {
+			color: rgba(0, 0, 0, 0.8);
+		}
+	}
+
+	.save-btn {
+		color: rgba(0, 0, 0, 0.9);
+		@include liquid-glass-surface($radius: 8px,
+			$padding: 0.75rem 1.5rem,
+			$bg: rgba(76, 175, 80, 0.1),
+			$border: rgba(76, 175, 80, 0.25));
+		
+		&:hover {
+			background: rgba(76, 175, 80, 0.18);
+			border-color: rgba(76, 175, 80, 0.35);
+		}
+	}
+
+	.clear-btn {
+		color: rgba(0, 0, 0, 0.9);
+		@include liquid-glass-surface($radius: 8px,
+			$padding: 0.75rem 1.5rem,
+			$bg: rgba(244, 67, 54, 0.1),
+			$border: rgba(244, 67, 54, 0.25));
+		
+		&:hover {
+			background: rgba(244, 67, 54, 0.18);
+			border-color: rgba(244, 67, 54, 0.35);
+		}
+	}
+
+	.test-btn {
+		color: rgba(0, 0, 0, 0.9);
+		@include liquid-glass-surface($radius: 8px,
+			$padding: 0.75rem 1.5rem,
+			$bg: rgba(33, 150, 243, 0.1),
+			$border: rgba(33, 150, 243, 0.25));
+		
+		&:hover {
+			background: rgba(33, 150, 243, 0.18);
+			border-color: rgba(33, 150, 243, 0.35);
+		}
+	}
+
+	.config-btn:disabled {
+		color: rgba(0, 0, 0, 0.4);
+		background: rgba(0, 0, 0, 0.03);
+		border-color: rgba(0, 0, 0, 0.08);
+
+		&:hover {
+			background: rgba(0, 0, 0, 0.03);
+			border-color: rgba(0, 0, 0, 0.08);
+		}
+	}
+
+	.refresh-btn {
+		color: #5a67d8;
+		@include liquid-glass-surface($radius: 8px,
+			$padding: 0.75rem 1.5rem,
+			$bg: rgba(102, 126, 234, 0.08),
+			$border: rgba(102, 126, 234, 0.2));
+
+		&:hover {
+			color: #5a67d8;
+			background: rgba(102, 126, 234, 0.14);
+			border-color: rgba(102, 126, 234, 0.28);
+		}
+	}
+
+	.config-manager-btn {
+		color: rgba(0, 0, 0, 0.9);
+		white-space: nowrap;
+		@include liquid-glass-surface($radius: 50px,
+			$padding: 0.75rem 1.25rem,
+			$bg: rgba(102, 126, 234, 0.1),
+			$border: rgba(102, 126, 234, 0.25));
+		
+		&:hover {
+			background: rgba(102, 126, 234, 0.18);
+			border-color: rgba(102, 126, 234, 0.35);
+		}
+	}
+	
+	// 白天主题下的取消按钮样式
+	.cancel-btn {
+		color: rgba(0, 0, 0, 0.9);
+		margin-left: auto;
+		@include liquid-glass-surface($radius: 8px,
+			$padding: 0.75rem 1.5rem,
+			$bg: rgba(244, 67, 54, 0.1),
+			$border: rgba(244, 67, 54, 0.25));
+		
+		&:hover {
+			background: rgba(244, 67, 54, 0.18);
+			border-color: rgba(244, 67, 54, 0.35);
+		}
+	}
+}
+
+
+
+// 响应式设计
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .history-date {
+        margin-bottom: 0.5rem;
+    }
+
+    .history-day {
+        margin-bottom: 0.5rem;
+    }
+
+    .history-note {
+        padding-left: 0;
+        margin-top: 0.5rem;
+    }
+    
+    .config-manager {
+        flex-direction: column;
+        right: 1rem;
+        bottom: 1rem;
+    }
+    
+    .cancel-btn {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+    }
+}
