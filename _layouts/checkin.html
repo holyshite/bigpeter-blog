@@ -1,0 +1,50 @@
+---
+layout: none
+title: 每日打卡
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }} | {{ site.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('site-theme');
+                if (theme === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (error) { }
+        })();
+    </script>
+    <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
+</head>
+
+<body class="star-canvas-page">
+    {% include header.html %}
+
+    <main class="page-container">
+        <div class="page-shell">
+            <div class="glass-card page-main-card">
+                <h1>{{ page.title }}</h1>
+
+                <div class="page-content">
+                    {{ content }}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <canvas id="starCanvas"></canvas>
+    <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/stars.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/checkin.js' | absolute_url }}" defer></script>
+</body>
+
+</html>
