@@ -34,6 +34,15 @@
 - 颜色值使用十六进制或 rgba()
 - 媒体查询使用移动优先原则
 - 变量定义在 `_sass/_variables.scss`
+- **液态玻璃样式系统**：统一定义在 `_sass/_liquid-glass.scss`
+  - 使用 `@include liquid-glass-surface()` 调用基础玻璃卡片样式
+  - 使用 `@include liquid-glass-hover()` 添加悬停动画效果
+  - 核心组件：文章列表 `.post-item`、友链卡片 `.friend-link`、标签 `.tag-list-item` 等
+  - **指令响应**：当用户说“用液态玻璃样式”时，自动执行以下操作：
+    - 在 SCSS/CSS 中使用 `@include liquid-glass-surface()` 和 `@include liquid-glass-hover()` mixin
+    - 确保页面布局包含标准的 JS 文件引用（`theme.js`、`stars.js`、`nav.js`、`prefetch.js`）
+    - 遵循现有组件（如 `.post-item`、`.friend-link`）的样式模式
+    - 优先复用 `_sass/_liquid-glass.scss` 中的定义，避免重复内联样式
 
 ### JavaScript
 - 使用现代 ES6+ 语法
@@ -103,6 +112,8 @@
    - 兼容现代浏览器（Chrome 90+、Safari 14+）
    - 移动端需测试事件处理
    - 避免阻塞主线程
+   - **全局脚本**：所有页面统一加载 `theme.js`、`stars.js`、`nav.js`、`prefetch.js`
+     - 提供主题切换、星空动画、导航交互、链接预加载等核心功能
 
 ## 本地开发
 
@@ -148,4 +159,4 @@ bundle exec jekyll build
 
 ---
 
-*本文档会根据项目发展持续更新。最后更新：2026-04-05*
+*本文档会根据项目发展持续更新。最后更新：2026-04-06*
