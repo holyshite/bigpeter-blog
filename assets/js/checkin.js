@@ -93,6 +93,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!state.token) {
             showConfigHint();
+            // 即使没有token，也显示空的贡献日历
+            state.checkinHistory = [];
+            updateUI();
             hideLoadingState();
             return;
         }
@@ -216,11 +219,8 @@ document.addEventListener('DOMContentLoaded', function () {
             elements.checkinBtn.querySelector('.btn-text').textContent = '需要配置GitHub Token';
         }
 
-        // 更新状态显示
-        if (elements.todayStatus) {
-            elements.todayStatus.innerHTML = '<p>请先配置GitHub访问令牌</p>';
-            elements.todayStatus.className = 'status-error';
-        }
+        // 更新状态显示（保留今日状态，由updateUI处理）
+        // 不再覆盖今日状态，以显示打卡图
     }
 
     // 加载打卡历史
@@ -582,9 +582,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateHistoryList() {
         if (!elements.historyList) return;
 
-        if (!state.checkinHistory || state.checkinHistory.length === 0) {
-            elements.historyList.innerHTML = '<p>暂无打卡记录</p>';
-            return;
+        // 即使没有打卡记录，也显示空的贡献日历网格
+        if (!state.checkinHistory) {
+            state.checkinHistory = [];
         }
 
         const endDate = new Date();
