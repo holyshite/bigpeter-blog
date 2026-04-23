@@ -23,7 +23,7 @@
     "name": "示例项目3",
     "description": "第三个示例项目，用于测试三列布局。",
     "url": "https://example.com",
-    "icon": "/assets/images/ai-pic-VA-11.png",
+    "icon": "/assets/images/ai-pic-VA-11.webp",
     "tags": [
       "后端",
       "API"
@@ -33,7 +33,7 @@
     "name": "示例项目4",
     "description": "第四个示例项目，展示更多项目卡片。",
     "url": "https://example.com",
-    "icon": "/assets/images/ai-pic-stardew.png",
+    "icon": "/assets/images/ai-pic-stardew.webp",
     "tags": [
       "全栈",
       "JavaScript"
@@ -43,7 +43,7 @@
     "name": "示例项目5",
     "description": "第五个示例项目，用于测试响应式布局。",
     "url": "https://example.com",
-    "icon": "/assets/images/ai-pic-mita.png",
+    "icon": "/assets/images/ai-pic-mita.webp",
     "tags": [
       "移动端",
       "React Native"
@@ -53,7 +53,7 @@
     "name": "示例项目6",
     "description": "第六个示例项目，展示完整的项目网格。",
     "url": "https://example.com",
-    "icon": "/assets/images/ai-pic-VA-11.png",
+    "icon": "/assets/images/ai-pic-VA-11.webp",
     "tags": [
       "DevOps",
       "云原生"
