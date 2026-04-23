@@ -1,0 +1,62 @@
+[
+  {
+    "name": "复古游戏博物馆",
+    "description": "这是用vue+vite做的前端，后端用的是flask，数据库存储在MySQL中",
+    "url": "https://retro-game-museum.pages.dev/",
+    "icon": "/assets/images/retro-game-museum.png",
+    "tags": [
+      "技术",
+      "开源"
+    ]
+  },
+  {
+    "name": "鸿蒙仿叮咚买菜",
+    "description": "在DevEco Studio中使用鸿蒙OS的能力，仿照叮咚买菜开发的一个购物APP",
+    "url": "https://gitee.com/BigPanZH/dingdong-shopping",
+    "icon": "/assets/images/dingdong.png",
+    "tags": [
+      "设计",
+      "APP"
+    ]
+  },
+  {
+    "name": "示例项目3",
+    "description": "第三个示例项目，用于测试三列布局。",
+    "url": "https://example.com",
+    "icon": "/assets/images/ai-pic-VA-11.png",
+    "tags": [
+      "后端",
+      "API"
+    ]
+  },
+  {
+    "name": "示例项目4",
+    "description": "第四个示例项目，展示更多项目卡片。",
+    "url": "https://example.com",
+    "icon": "/assets/images/ai-pic-stardew.png",
+    "tags": [
+      "全栈",
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "示例项目5",
+    "description": "第五个示例项目，用于测试响应式布局。",
+    "url": "https://example.com",
+    "icon": "/assets/images/ai-pic-mita.png",
+    "tags": [
+      "移动端",
+      "React Native"
+    ]
+  },
+  {
+    "name": "示例项目6",
+    "description": "第六个示例项目，展示完整的项目网格。",
+    "url": "https://example.com",
+    "icon": "/assets/images/ai-pic-VA-11.png",
+    "tags": [
+      "DevOps",
+      "云原生"
+    ]
+  }
+]

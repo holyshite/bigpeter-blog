@@ -1,0 +1,93 @@
+---
+layout: none
+title: 项目
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }} | {{ site.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('site-theme');
+                if (theme === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            } catch (error) { }
+        })();
+    </script>
+    <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
+</head>
+
+<body class="star-canvas-page">
+    {% include header.html %}
+
+    {% capture page_content %}
+
+    <!-- <h2>项目展示</h2> -->
+
+    <div class="projects-grid">
+        {% for project in site.data.projects %}
+        <a href="{{ project.url }}" class="project-card" target="_blank" rel="noopener">
+            <div class="project-header">
+                <div class="project-icon">
+                    <img src="{{ project.icon | relative_url }}" alt="{{ project.name }}图标">
+                </div>
+                <h3 class="project-title">{{ project.name }}</h3>
+            </div>
+            <p class="project-description">{{ project.description }}</p>
+            <div class="project-tags">
+                {% for tag in project.tags %}
+                <span class="project-tag">{{ tag }}</span>
+                {% endfor %}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    {% endcapture %}
+
+    {% capture page_aside %}
+    <div class="aside-mini-card">
+        <p>当前共有 <strong>{{ site.data.projects | size }}</strong> 个项目。</p>
+        <p>所有项目均为开源或可公开访问。</p>
+    </div>
+    {% endcapture %}
+
+    {% capture page_tags %}
+    <div class="tags-list">
+        {% assign all_tags = "" | split: "" %}
+        {% for project in site.data.projects %}
+        {% if project.tags %}
+        {% assign all_tags = all_tags | concat: project.tags %}
+        {% endif %}
+        {% endfor %}
+
+        {% assign sorted_tags = all_tags | sort %}
+        {% assign unique_tags = "" | split: "" %}
+        {% for tag in sorted_tags %}
+        {% unless unique_tags contains tag %}
+        {% assign unique_tags = unique_tags | push: tag %}
+        <div class="tag-list-item">
+            <span class="tag-list-title">{{ tag }}</span>
+        </div>
+        {% endunless %}
+        {% endfor %}
+    </div>
+    {% endcapture %}
+
+    {% include page.html title=page.title content=page_content aside_title="项目信息" aside_content=page_aside aside_tags_title="项目标签" aside_tags_content=page_tags %}
+
+    <canvas id="starCanvas"></canvas>
+    <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/stars.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
+</body>
+
+</html>
