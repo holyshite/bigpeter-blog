@@ -8,9 +8,32 @@
         return path.replace(/^\/|\/$/g, '');
     }
 
+    function updateNavIndicator(targetLink) {
+        const indicator = document.querySelector('.site-header .nav .nav-indicator');
+        if (!indicator) return;
+
+        if (!targetLink) {
+            indicator.style.opacity = '0';
+            return;
+        }
+
+        const navLinks = targetLink.closest('.nav-links');
+        if (!navLinks) return;
+
+        const linkRect = targetLink.getBoundingClientRect();
+        const navRect = navLinks.getBoundingClientRect();
+
+        indicator.style.opacity = '1';
+        indicator.style.left = `${linkRect.left - navRect.left}px`;
+        indicator.style.width = `${linkRect.width}px`;
+    }
+
     function setActiveNavLink() {
         const currentPath = normalizePath(window.location.pathname);
         const navLinks = document.querySelectorAll('.site-header .nav a');
+        const section = document.body?.dataset?.section;
+
+        let activeLink = null;
 
         navLinks.forEach((link) => {
             link.classList.remove('active');
@@ -22,17 +45,35 @@
 
             if ((linkPath === '' || linkPath === 'index.html') && (currentPath === '' || currentPath === 'index.html')) {
                 link.classList.add('active');
+                activeLink = link;
                 return;
             }
 
             if (linkPath && (currentPath === linkPath || currentPath.startsWith(`${linkPath}/`) || currentPath.startsWith(linkPath))) {
                 link.classList.add('active');
+                activeLink = link;
             }
         });
+
+        // 如果 URL 匹配不上（如具体文章页），用 data-section 确定选中项
+        if (!activeLink && section) {
+            navLinks.forEach((link) => {
+                const href = link.getAttribute('href');
+                if (!href) return;
+                const linkPath = normalizePath(href.replace(/^\.\.?\//, ''));
+                if (linkPath === section) {
+                    link.classList.add('active');
+                    activeLink = link;
+                }
+            });
+        }
+
+        updateNavIndicator(activeLink);
     }
 
     function bindNavClickEvents() {
         const nav = document.querySelector('.site-header .nav');
+        const navLinks = document.querySelector('.site-header .nav-links');
         if (!nav) return;
 
         nav.addEventListener('click', (event) => {
@@ -42,11 +83,39 @@
             const href = link.getAttribute('href');
             if (!href || href.startsWith('http') || href === '#') return;
 
+            const isActive = link.classList.contains('active');
+
             nav.querySelectorAll('a').forEach((navLink) => {
                 navLink.classList.remove('active');
             });
 
             link.classList.add('active');
+            updateNavIndicator(link);
+
+            if (!isActive) {
+                const linkPath = normalizePath(href.replace(/^\.\.?\//, ''));
+                const currentPath = normalizePath(window.location.pathname);
+
+                if (linkPath !== currentPath) {
+                    event.preventDefault();
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 300);
+                }
+            }
+        });
+
+        if (!navLinks) return;
+
+        navLinks.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('mouseenter', () => {
+                updateNavIndicator(link);
+            });
+        });
+
+        navLinks.addEventListener('mouseleave', () => {
+            const activeLink = document.querySelector('.site-header .nav a.active');
+            if (activeLink) updateNavIndicator(activeLink);
         });
     }
 
@@ -122,12 +191,29 @@
         window.addEventListener('resize', () => {
             updateAsideHeight();
             updateAsideRight();
+            const activeLink = document.querySelector('.site-header .nav a.active');
+            if (activeLink) updateNavIndicator(activeLink);
         }, { passive: true });
 
         if (typeof mobileMedia.addEventListener === 'function') {
             mobileMedia.addEventListener('change', updateHeaderTop);
         } else if (typeof mobileMedia.addListener === 'function') {
             mobileMedia.addListener(updateHeaderTop);
+        }
+    }
+
+    function initNavIndicator() {
+        const indicator = document.querySelector('.site-header .nav .nav-indicator');
+        if (!indicator) return;
+
+        const activeLink = document.querySelector('.site-header .nav a.active');
+        if (activeLink) {
+            indicator.style.transition = 'none';
+            updateNavIndicator(activeLink);
+            indicator.offsetHeight;
+            indicator.style.transition = '';
+        } else {
+            indicator.style.opacity = '0';
         }
     }
 
@@ -138,11 +224,14 @@
         updateAsideHeight();
         updateAsideRight();
         observeAsideSize();
+        initNavIndicator();
 
         // 延迟再计算一次，确保所有内容都加载完成
         setTimeout(() => {
             updateAsideHeight();
             updateAsideRight();
+            const activeLink = document.querySelector('.site-header .nav a.active');
+            if (activeLink) updateNavIndicator(activeLink);
         }, 500);
 
         // 监听 DOM 变化重新计算侧边栏高度
