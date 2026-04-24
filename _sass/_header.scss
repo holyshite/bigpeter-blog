@@ -130,14 +130,14 @@
                 $bg: rgba($nav-color, 0.08),
                 $border: rgba(255, 255, 255, 0.13));
             position: absolute;
-            top: 0;
             left: 0;
-            height: 100%;
             pointer-events: none;
             z-index: 0;
             border-radius: 40px;
             transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                        width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+                        width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        top 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .theme-toggle {

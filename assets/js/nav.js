@@ -26,6 +26,8 @@
         indicator.style.opacity = '1';
         indicator.style.left = `${linkRect.left - navRect.left}px`;
         indicator.style.width = `${linkRect.width}px`;
+        indicator.style.top = `${linkRect.top - navRect.top}px`;
+        indicator.style.height = `${linkRect.height}px`;
     }
 
     function setActiveNavLink() {
