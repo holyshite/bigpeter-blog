@@ -69,25 +69,27 @@ body.theme-light .site-header {
         color: #334155;
 
         &:hover {
-            background: rgba(51, 65, 85, 0.05);
-            border-color: rgba(15, 23, 42, 0.2);
-            box-shadow:
-                0 10px 20px rgba(148, 163, 184, 0.08),
-                0 18px 36px rgba(148, 163, 184, 0.14),
-                inset 0 1px 0 rgba(237, 237, 237, 0.24),
-                inset 0 -1px 0 rgba(15, 23, 42, 0.08),
-                0 12px 28px rgba(148, 163, 184, 0.12);
+            // 由 nav-indicator 提供视觉效果
         }
 
         &.active {
-            background: rgba(51, 65, 85, 0.08);
-            border-color: rgba(15, 23, 42, 0.26);
-            box-shadow:
-                0 12px 24px rgba(148, 163, 184, 0.08),
-                0 22px 42px rgba(148, 163, 184, 0.16),
-                inset 0 1px 0 rgba(237, 237, 237, 0.3),
-                inset 0 -1px 0 rgba(15, 23, 42, 0.1),
-                0 14px 30px rgba(148, 163, 184, 0.14);
+            // 由 nav-indicator 提供视觉效果
+        }
+    }
+
+    .nav-indicator {
+        background: rgba(51, 65, 85, 0.08);
+        border-color: rgba(15, 23, 42, 0.26);
+        box-shadow:
+            0 12px 24px rgba(148, 163, 184, 0.08),
+            0 22px 42px rgba(148, 163, 184, 0.16),
+            inset 0 1px 0 rgba(237, 237, 237, 0.3),
+            inset 0 -1px 0 rgba(15, 23, 42, 0.1),
+            0 14px 30px rgba(148, 163, 184, 0.14);
+
+        &::before,
+        &::after {
+            opacity: 0 !important;
         }
     }
 }
