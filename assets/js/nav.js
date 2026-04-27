@@ -219,10 +219,42 @@
         }
     }
 
+    function bindTopBtnScroll() {
+        const topBtn = document.querySelector('.top-btn');
+        if (!topBtn) return;
+
+        const SCROLL_THRESHOLD = 300;
+        let ticking = false;
+
+        function updateTopBtn() {
+            ticking = false;
+            topBtn.classList.toggle('top-btn--visible', window.scrollY > SCROLL_THRESHOLD);
+        }
+
+        updateTopBtn();
+
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(updateTopBtn);
+        }, { passive: true });
+    }
+
+    function bindTopBtnClick() {
+        const topBtn = document.querySelector('.top-btn');
+        if (!topBtn) return;
+
+        topBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
     function initNav() {
         setActiveNavLink();
         bindNavClickEvents();
         bindHeaderScrollMotion();
+        bindTopBtnScroll();
+        bindTopBtnClick();
         updateAsideHeight();
         updateAsideRight();
         observeAsideSize();

@@ -140,6 +140,44 @@
                         height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
+        .top-btn {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            color: $nav-color;
+            padding: 0;
+            border-radius: 999px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition:
+                opacity 0.22s ease,
+                transform 0.16s ease;
+
+            &:hover {
+                opacity: 0.82;
+                transform: translateY(-3px);
+            }
+
+            &.top-btn--visible {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
+        .top-btn__icon {
+            width: 26px;
+            height: 26px;
+            display: block;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
         .theme-toggle {
             flex-shrink: 0;
             display: inline-flex;
@@ -190,6 +228,16 @@
                 padding: 5px 14px;
             }
 
+            .top-btn {
+                width: 38px;
+                height: 38px;
+            }
+
+            .top-btn__icon {
+                width: 21px;
+                height: 21px;
+            }
+
             .theme-toggle {
                 width: 38px;
                 height: 38px;
@@ -216,6 +264,16 @@
             a {
                 font-size: 13px;
                 padding: 4px 12px;
+            }
+
+            .top-btn {
+                width: 34px;
+                height: 34px;
+            }
+
+            .top-btn__icon {
+                width: 18px;
+                height: 18px;
             }
 
             .theme-toggle {
