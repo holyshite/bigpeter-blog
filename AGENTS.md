@@ -1,77 +1,47 @@
-# AGENTS.md - OpenCode 项目指南
+# AGENTS.md — OpenCode 项目指南
 
-## 项目概述
-- Jekyll 静态博客，使用 Ruby、HTML、SCSS、JavaScript、Liquid 模板
-- 主要语言为中文，代码注释可使用英文
-- 部署到 GitHub Pages / Cloudflare Pages
+## 项目结构
+- **Jekyll 博客**：Ruby/HTML/SCSS/JS/Liquid，中文为主
+- **布局**：`_layouts/`（6 个独立 HTML，各含完整 `<head>`）
+- **包含**：`_includes/`（`header.html`、`page.html`、`liquid-glass-filter.html`）
+- **样式**：`_sass/`（10 个 partial，由 `style.scss` 导入）
+- **脚本**：`assets/js/`（7 个 JS 文件）
+- **图标**：`assets/icon/`（8 个 SVG）
+
+## 全局脚本（所有页面加载）
+`theme.js` `stars.js` `nav.js` `prefetch.js`
+
+功能：主题切换、星空动画、导航栏交互、链接预加载
 
 ## 开发命令
-- **安装依赖**：`bundle install`
-- **开发服务器**：`bundle exec jekyll serve`
-- **实时重载**：`bundle exec jekyll serve --livereload`
-- **构建站点**：`bundle exec jekyll build`
+| 命令 | 用途 |
+|---|---|
+| `bundle install` | 安装依赖 |
+| `bundle exec jekyll serve` | 启动开发服务器 |
+| `bundle exec jekyll serve --livereload` | 热重载 |
+| `bundle exec jekyll build` | 构建站点 |
 
-**重要**：修改 `_config.yml` 后需重启开发服务器。
+修改 `_config.yml` 后需重启。
 
-## 测试验证
-项目无自动化测试套件。修改后必须：
-1. 运行 `bundle exec jekyll build` 确保构建成功
-2. 启动开发服务器检查页面渲染
-3. 测试响应式布局、导航功能、控制台错误
+## 测试
+无自动化测试。手动检查：`jekyll build` 无报错 → `jekyll serve` 渲染正常 → 响应式/导航/控制台无报错。
 
-## Jekyll 注意事项
-- 文章放在 `_posts/`，命名格式：`YYYY-MM-DD-slug.md`
-- Front Matter 必须包含：`layout`、`title`、`date`
-- 静态资源路径使用：`{{ '/assets/...' | absolute_url }}`
-- 排除目录：`_site/`、`.jekyll-cache/`、`.bundle/`、`vendor/`
-
-## 代码风格
-- **缩进**：遵循 `.editorconfig`（Markdown 4空格，YAML/JSON/JS/CSS/HTML/Ruby/Liquid 2空格）
-- **文件/目录命名**：小写字母，单词间用连字符（如 `my-component.html`）
-- **CSS 类名**：小写字母，单词间用连字符（如 `.glass-container`）
-- **JavaScript 变量**：camelCase
-- **Liquid 变量**：snake_case
-- **SCSS 变量**：定义在 `_sass/_variables.scss`
-- **媒体查询**：移动优先原则
+## 代码规范
+- **缩进**：遵循 `.editorconfig`（Markdown 4 空格，其余 2 空格）
+- **命名**：文件/CSS `kebab-case`，JS `camelCase`，Liquid `snake_case`
+- **SCSS 变量**：`_sass/_variables.scss`
+- **媒体查询**：移动优先
 
 ## 样式系统
-- **液态玻璃效果**：统一定义在 `_sass/_liquid-glass.scss`
-  - 使用 `@include liquid-glass-surface()` 调用基础玻璃卡片样式
-  - 使用 `@include liquid-glass-hover()` 添加悬停动画效果
-  - 核心组件：文章列表 `.post-item`、友链卡片 `.friend-link`、标签 `.tag-list-item` 等
-- **JavaScript 全局脚本**：统一加载 `theme.js`、`stars.js`、`nav.js`、`prefetch.js`
-  - 所有页面共享相同的交互功能（主题切换、星空动画、导航、预加载）
+- **液态玻璃**：`_sass/_liquid-glass.scss`，使用 `liquid-glass-surface()` / `liquid-glass-hover()` mixin
+  - 核心组件：`.post-item`、`.friend-link`、`.tag-list-item`、`.nav-indicator`
 
 ## 指令约定
-- **"用液态玻璃样式"**：当用户提出此要求时，自动执行以下操作：
-  1. 在 SCSS/CSS 中使用 `@include liquid-glass-surface()` 和 `@include liquid-glass-hover()` mixin
-  2. 确保页面布局包含标准的 JS 文件引用（`theme.js`、`stars.js`、`nav.js`、`prefetch.js`）
-  3. 遵循现有组件（如 `.post-item`、`.friend-link`）的样式模式
-  4. 优先复用 `_sass/_liquid-glass.scss` 中的定义，避免重复内联样式
+- **"用液态玻璃样式"**：使用 mixin → 确保加载标准 JS → 遵循现有组件模式 → 复用 `_liquid-glass.scss`
 
-## Git 工作流
-- **提交消息格式**：`类型(范围): 描述`
-  - 类型：`feat`、`fix`、`docs`、`style`、`refactor`、`test`、`chore`
-  - 范围：可选，如 `layout`、`css`、`js`、`post`
-  - 示例：`feat(layout): 添加响应式导航栏`
+## Git 提交格式
+`类型(范围): 描述` — 类型：`feat`/`fix`/`docs`/`style`/`refactor`/`chore`
 
-## AI 协作指南
-1. **理解上下文**：先阅读相关文件再修改
-2. **保持一致性**：遵循现有代码风格和模式
-3. **渐进式改进**：一次只解决一个问题
-4. **测试意识**：修改后检查页面渲染和功能
-5. **文档更新**：重要变更需更新 README 或相关注释
-
-## 修改范围
-- ✅ 修复 bug、优化性能、改进样式（不改变视觉效果）
-- ✅ 添加新功能（需先确认需求）
-- ✅ 更新文档、注释
-- ✅ 重构代码（保持功能不变）
-- ❌ 未经确认删除重要功能
-- ❌ 大规模重写核心架构
-- ❌ 修改部署配置（需明确授权）
-
-## 浏览器兼容性
-- 目标现代浏览器（Chrome 90+、Safari 14+）
-- 玻璃效果使用 `backdrop-filter: blur()`，部分浏览器需测试降级方案
-- 移动端需测试触摸交互和事件处理
+## 修改边界
+- ✅ 修 bug、优化样式、加功能（确认需求）
+- ❌ 删功能、重写架构、改部署配置（需明确授权）
