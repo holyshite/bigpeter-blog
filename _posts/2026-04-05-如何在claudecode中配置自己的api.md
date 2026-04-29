@@ -24,15 +24,16 @@ cat >> ~/.bashrc << 'EOF'
 
 # ==================== DeepSeek 配置 (Anthropic 兼容 - 默认) ====================
 export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
-export ANTHROPIC_AUTH_TOKEN="sk-yourkey"
+export ANTHROPIC_AUTH_TOKEN="<你的 DeepSeek API Key>"
 
 # DeepSeek 模型
-export ANTHROPIC_MODEL="deepseek-reasoner"                    # 默认主力模型
-export ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-chat"
-export ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-chat"
-export ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-reasoner"   # 复杂任务用 reasoner
+export ANTHROPIC_MODEL="deepseek-v4-pro[1m]"                    # 默认主力模型
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-v4-flash"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="deepseek-v4-pro[1m]"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="deepseek-v4-pro[1m]"   # 复杂任务用 pro[1m]
 
-export ANTHROPIC_API_KEY=""
+export CLAUDE_CODE_SUBAGENT_MODEL="deepseek-v4-flash"
+export CLAUDE_CODE_EFFORT_LEVEL="max"
 
 # 通用优化参数
 export API_TIMEOUT_MS=600000
@@ -51,22 +52,23 @@ source ~/.bashrc
 
 - `ANTHROPIC_BASE_URL`：API端点地址，这里设置为DeepSeek的Anthropic兼容接口
 - `ANTHROPIC_AUTH_TOKEN`：你的API密钥（示例为我的测试密钥，请替换为自己的）
-- `ANTHROPIC_API_KEY`：留空，因为DeepSeek使用`AUTH_TOKEN`而非`API_KEY`
 
 **模型配置策略**
 
-- `ANTHROPIC_MODEL`：默认使用的模型，设置为`deepseek-reasoner`处理日常任务
+- `ANTHROPIC_MODEL`：默认使用的模型，设置为`deepseek-v4-pro[1m]`处理日常任务
 - **分级模型配置**：
-  - `ANTHROPIC_DEFAULT_HAIKU_MODEL`：轻量任务用`deepseek-chat`
-  - `ANTHROPIC_DEFAULT_SONNET_MODEL`：中等任务用`deepseek-chat`
-  - `ANTHROPIC_DEFAULT_OPUS_MODEL`：复杂任务用`deepseek-reasoner`
+  - `ANTHROPIC_DEFAULT_HAIKU_MODEL`：轻量任务用`deepseek-v4-flash`
+  - `ANTHROPIC_DEFAULT_SONNET_MODEL`：中等任务用`deepseek-v4-pro[1m]`
+  - `ANTHROPIC_DEFAULT_OPUS_MODEL`：复杂任务用`deepseek-v4-pro[1m]`
 
-> **模型选择策略**：`deepseek-reasoner`推理能力更强，适合代码生成、复杂问题解决；`deepseek-chat`响应更快，适合日常对话、简单查询。
+> **模型选择策略**：`deepseek-v4-pro[1m]`推理能力更强，适合代码生成、复杂问题解决；`deepseek-v4-flash`响应更快，适合日常对话、简单查询。
 
 **性能优化参数**
 
 - `API_TIMEOUT_MS`：API请求超时时间（10分钟），防止长时间任务被中断
 - `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`：禁用非必要网络流量，提高响应速度
+- `CLAUDE_CODE_SUBAGENT_MODEL`：子代理（Explore、Plan等）使用的模型，设为`deepseek-v4-flash`节省成本
+- `CLAUDE_CODE_EFFORT_LEVEL`：推理努力级别，设为`max`让模型在复杂任务上花费更多推理时间
 
 ## 配置步骤
 
@@ -88,7 +90,7 @@ source ~/.bashrc
 4. **验证配置**
    ```bash
    echo $ANTHROPIC_MODEL
-   # 应该输出: deepseek-reasoner
+   # 应该输出: deepseek-v4-pro[1m]
    ```
 
 ## 使用效果对比
@@ -98,7 +100,7 @@ source ~/.bashrc
 | 项目     | 默认配置       | 自定义DeepSeek配置       |
 | -------- | -------------- | ------------------------ |
 | 响应速度 | 中等           | **快**（国内服务器）     |
-| 推理能力 | 强             | **更强**（reasoner模型） |
+| 推理能力 | 强             | **更强**（pro[1m]模型） |
 | 成本     | 免费（有限额） | 按量付费（价格实惠）     |
 | 稳定性   | 偶尔限流       | **稳定**（自有API密钥）  |
 
