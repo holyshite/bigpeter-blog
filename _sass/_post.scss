@@ -66,7 +66,7 @@
     }
 
     [data-theme="light"] & .post-meta {
-        color: rgba(0, 0, 0, 0.6);
+        color: var(--light-text-secondary);
     }
 
     // ===== 标签 =====
@@ -89,9 +89,9 @@
 
     [data-theme="light"] .post-tags .tag {
         @include liquid-glass-surface($radius: 999px,
-            $bg: rgba(0, 0, 0, 0.006),
-            $border: rgba(0, 0, 0, 0.075));
-        color: rgba(0, 0, 0, 0.85);
+            $bg: rgba(44, 36, 32, 0.006),
+            $border: rgba(44, 36, 32, 0.075));
+        color: var(--light-text-primary);
     }
 
     // ===== 目录 =====
@@ -245,10 +245,10 @@
 
         [data-theme="light"] & {
             a {
-                color: rgba(0, 0, 0, 0.85);
+                color: var(--light-post-nav-text);
             }
             .disabled {
-                color: rgba(0, 0, 0, 0.4);
+                color: var(--light-post-nav-disabled);
             }
         }
     }
@@ -338,8 +338,8 @@
 [data-theme="light"] .tags-list .post-tags .tag,
 [data-theme="light"] .post-meta .post-tags .tag {
     @include liquid-glass-surface($radius: 999px,
-        $bg: rgba(0, 0, 0, 0.006),
-        $border: rgba(0, 0, 0, 0.075));
+        $bg: rgba(44, 36, 32, 0.006),
+        $border: rgba(44, 36, 32, 0.075));
 }
 
 .tags-list .post-tags .tag {
@@ -355,17 +355,17 @@
 [data-theme="light"] .post-card .post-tags .tag:hover,
 [data-theme="light"] .tags-list .post-tags .tag:hover,
 [data-theme="light"] .post-meta .post-tags .tag:hover {
-    border-color: rgba(15, 23, 42, 0.14);
-    background: rgba(15, 23, 42, 0.05);
+    border-color: var(--light-tag-hover-border);
+    background: var(--light-tag-hover-bg);
     box-shadow:
-        0 10px 24px rgba(148, 163, 184, 0.08),
-        0 26px 54px rgba(148, 163, 184, 0.16),
-        inset 0 1px 0 rgba(237, 237, 237, 0.95),
-        inset 0 -1px 0 rgba(15, 23, 42, 0.04);
+        var(--light-shadow-sm),
+        var(--light-shadow-md),
+        inset 0 1px 0 var(--light-glass-inner-top),
+        inset 0 -1px 0 rgba(44, 36, 32, 0.04);
 }
 
 [data-theme="light"] .post-card .post-meta {
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--light-text-secondary);
 }
 
 .post-sidebar-card {

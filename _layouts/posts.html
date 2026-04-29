@@ -14,8 +14,10 @@ title: 文章列表
         (function () {
             try {
                 var theme = localStorage.getItem('site-theme');
-                if (theme === 'light') {
+                if (theme !== 'dark') {
                     document.documentElement.setAttribute('data-theme', 'light');
+                    var bg = localStorage.getItem('site-bg');
+                    if (bg) document.documentElement.setAttribute('data-bg', bg);
                 }
             } catch (error) { }
         })();

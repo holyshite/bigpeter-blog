@@ -1,0 +1,114 @@
+// 浅色主题 CSS 变量 —— 温暖编辑风
+html[data-theme="light"] {
+    // 背景
+    --light-bg: #F7F2E8;
+    --light-bg-alt: #FAF5ED;
+
+    // 主文字
+    --light-text-primary: #2C2420;
+    --light-text-secondary: #6B5D4E;
+    --light-text-tertiary: #8F7E6C;
+
+    // 链接
+    --light-accent: #C4956A;
+    --light-accent-hover: #A87D55;
+    --light-accent-visited: #8B6F4E;
+
+    // 玻璃卡片
+    --light-glass-bg: rgba(247, 242, 232, 0.72);
+    --light-glass-border: rgba(44, 36, 32, 0.07);
+    --light-glass-shine: rgba(247, 242, 232, 0.9);
+    --light-glass-edge: rgba(44, 36, 32, 0.04);
+
+    // 头部
+    --light-header-bg: rgba(247, 242, 232, 0.25);
+    --light-header-border: rgba(44, 36, 32, 0.06);
+
+    // 导航
+    --light-nav-color: #4A3B2A;
+    --light-nav-indicator-bg: rgba(74, 59, 42, 0.07);
+    --light-nav-indicator-border: rgba(44, 36, 32, 0.18);
+
+    // 阴影（暖色）
+    --light-shadow-sm: 0 10px 24px rgba(44, 36, 32, 0.05);
+    --light-shadow-md: 0 26px 54px rgba(44, 36, 32, 0.09);
+    --light-shadow-lg: 0 10px 28px rgba(44, 36, 32, 0.08);
+    --light-shadow-header: 0 10px 24px rgba(44, 36, 32, 0.04),
+        0 28px 56px rgba(44, 36, 32, 0.1);
+
+    // 代码块
+    --light-code-bg: rgba(44, 36, 32, 0.06);
+    --light-code-text: #2C2420;
+    --light-code-block-bg: #EDE5D9;
+    --light-code-block-text: #333333;
+    --light-code-border: rgba(44, 36, 32, 0.12);
+    --light-code-block-border: rgba(44, 36, 32, 0.10);
+
+    // 提示块
+    --light-note-color: #3B6E9B;
+    --light-warning-color: #9A7B3C;
+    --light-error-color: #A8483A;
+
+    // 表格
+    --light-table-border: rgba(44, 36, 32, 0.10);
+    --light-table-header: rgba(44, 36, 32, 0.05);
+    --light-table-row: rgba(44, 36, 32, 0.025);
+    --light-table-bg: rgba(44, 36, 32, 0.02);
+
+    // 目录
+    --light-toc-link: #6B5D4E;
+    --light-toc-active: #C4956A;
+    --light-toc-hover: #8B6F4E;
+
+    // 引用块
+    --light-blockquote-border: rgba(44, 36, 32, 0.3);
+    --light-blockquote-bg: rgba(44, 36, 32, 0.04);
+    --light-blockquote-text: rgba(44, 36, 32, 0.78);
+
+    // 水平线
+    --light-hr: rgba(44, 36, 32, 0.08);
+
+    // 玻璃 ::before 渐变色（从背景色派生）
+    --light-glass-gradient-base: rgba(247, 242, 232, 0.96);
+    --light-glass-gradient-side: rgba(247, 242, 232, 0.72);
+    --light-glass-gradient-edge: rgba(247, 242, 232, 0.35);
+    --light-glass-gradient-radial: rgba(247, 242, 232, 0.82);
+
+    // 玻璃 ::after 内阴影色
+    --light-glass-inner-top: rgba(247, 242, 232, 0.95);
+    --light-glass-inner-right: rgba(247, 242, 232, 0.62);
+    --light-glass-inner-left: rgba(247, 242, 232, 0.38);
+    --light-glass-inner-bottom: rgba(247, 242, 232, 0.32);
+    --light-glass-inner-glow: rgba(247, 242, 232, 0.72);
+
+    // 头部 ::before 渐变
+    --light-header-gradient-top: rgba(247, 242, 232, 0.17);
+    --light-header-gradient-side: rgba(247, 242, 232, 0.085);
+    --light-header-gradient-edge: rgba(247, 242, 232, 0.028);
+    --light-header-gradient-radial: rgba(247, 242, 232, 0.16);
+
+    // 头部 ::after 内阴影
+    --light-header-inner-top: rgba(247, 242, 232, 0.18);
+    --light-header-inner-right: rgba(247, 242, 232, 0.08);
+    --light-header-inner-left: rgba(247, 242, 232, 0.035);
+    --light-header-inner-bottom: rgba(247, 242, 232, 0.05);
+    --light-header-inner-glow: rgba(247, 242, 232, 0.24);
+
+    // 主页图标
+    --light-icon-shadow: 0 6px 14px rgba(44, 36, 32, 0.08),
+        0 12px 26px rgba(44, 36, 32, 0.05);
+
+    // 标签
+    --light-tag-text: #1f2937;
+    --light-tag-hover-border: rgba(44, 36, 32, 0.14);
+    --light-tag-hover-bg: rgba(44, 36, 32, 0.05);
+
+    // 文章导航
+    --light-post-nav-text: rgba(44, 36, 32, 0.85);
+    --light-post-nav-disabled: rgba(44, 36, 32, 0.4);
+
+    // 导航指示器阴影
+    --light-nav-shadow: 0 12px 24px rgba(44, 36, 32, 0.04),
+        0 22px 42px rgba(44, 36, 32, 0.08),
+        0 14px 30px rgba(44, 36, 32, 0.06);
+}

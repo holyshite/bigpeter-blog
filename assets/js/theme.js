@@ -1,15 +1,20 @@
 // assets/js/theme.js
 (function () {
     const STORAGE_KEY = 'site-theme';
+    const BG_STORAGE_KEY = 'site-bg';
     const DARK_THEME = 'dark';
     const LIGHT_THEME = 'light';
+    const BG_OPTIONS = ['paper', 'gradient', 'clean'];
+    const DEFAULT_BG = 'paper';
 
     function getStoredTheme() {
         try {
             const value = window.localStorage.getItem(STORAGE_KEY);
-            return value === LIGHT_THEME ? LIGHT_THEME : DARK_THEME;
+            if (value === DARK_THEME) return DARK_THEME;
+            if (value === LIGHT_THEME) return LIGHT_THEME;
+            return LIGHT_THEME;
         } catch (error) {
-            return DARK_THEME;
+            return LIGHT_THEME;
         }
     }
 
@@ -18,6 +23,23 @@
             window.localStorage.setItem(STORAGE_KEY, theme);
         } catch (error) {
             // Ignore storage failures and keep the current in-memory theme.
+        }
+    }
+
+    function getStoredBg() {
+        try {
+            const value = window.localStorage.getItem(BG_STORAGE_KEY);
+            return BG_OPTIONS.includes(value) ? value : DEFAULT_BG;
+        } catch (error) {
+            return DEFAULT_BG;
+        }
+    }
+
+    function setStoredBg(bg) {
+        try {
+            window.localStorage.setItem(BG_STORAGE_KEY, bg);
+        } catch (error) {
+            // Ignore storage failures.
         }
     }
 
@@ -40,9 +62,29 @@
             icon.src = nextIcon;
         }
 
+        // Show/hide background selector
+        updateBgVisibility(nextTheme);
+
         window.dispatchEvent(new CustomEvent('site-theme-change', {
             detail: { theme: nextTheme }
         }));
+    }
+
+    function applyBg(bg) {
+        document.documentElement.setAttribute('data-bg', bg);
+        document.querySelectorAll('.bg-btn').forEach(function (btn) {
+            btn.classList.toggle('is-active', btn.dataset.bg === bg);
+        });
+        window.dispatchEvent(new CustomEvent('site-bg-change', {
+            detail: { bg: bg }
+        }));
+    }
+
+    function updateBgVisibility(theme) {
+        var selector = document.querySelector('.bg-selector');
+        if (selector) {
+            selector.hidden = theme !== LIGHT_THEME;
+        }
     }
 
     function bindThemeToggle() {
@@ -56,9 +98,24 @@
         });
     }
 
+    function bindBgSelector() {
+        const selector = document.querySelector('.bg-selector');
+        if (!selector) return;
+
+        selector.addEventListener('click', function (e) {
+            const btn = e.target.closest('.bg-btn');
+            if (!btn) return;
+            const bg = btn.dataset.bg;
+            applyBg(bg);
+            setStoredBg(bg);
+        });
+    }
+
     function initTheme() {
         applyTheme(getStoredTheme());
+        applyBg(getStoredBg());
         bindThemeToggle();
+        bindBgSelector();
     }
 
     if (document.readyState === 'loading') {

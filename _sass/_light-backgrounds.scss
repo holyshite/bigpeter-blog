@@ -1,0 +1,65 @@
+// 浅色主题背景系统 —— 三种可选背景
+// 通过 html[data-theme="light"][data-bg="..."] 切换
+
+// 隐藏星空 canvas
+html[data-theme="light"] #starCanvas {
+    opacity: 0;
+    pointer-events: none;
+}
+
+// ========== 默认背景：paper（纸张纹理） ==========
+// 无 data-bg 属性或 data-bg="paper"
+html[data-theme="light"]:not([data-bg]),
+html[data-theme="light"][data-bg="paper"] {
+    background-color: #F7F2E8;
+    // 微小的 CSS 噪声纹理（base64 SVG filter）
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+}
+
+// ========== 背景2：gradient（暖色渐变光晕） ==========
+html[data-theme="light"][data-bg="gradient"] {
+    background-color: #F7F2E8;
+    background-image:
+        radial-gradient(ellipse 600px 400px at 15% 30%, rgba(196, 149, 106, 0.10) 0%, transparent 100%),
+        radial-gradient(ellipse 500px 500px at 85% 70%, rgba(196, 149, 106, 0.05) 0%, transparent 100%),
+        radial-gradient(ellipse 400px 300px at 50% 10%, rgba(250, 245, 237, 0.6) 0%, transparent 100%);
+
+    // 渐变背景下玻璃卡片微调
+    --light-glass-bg: rgba(247, 242, 232, 0.64);
+    --light-glass-shine: rgba(247, 242, 232, 0.84);
+    --light-glass-gradient-base: rgba(247, 242, 232, 0.92);
+    --light-glass-gradient-side: rgba(247, 242, 232, 0.66);
+    --light-glass-gradient-edge: rgba(247, 242, 232, 0.30);
+    --light-glass-gradient-radial: rgba(247, 242, 232, 0.76);
+    --light-glass-inner-top: rgba(247, 242, 232, 0.90);
+    --light-glass-inner-glow: rgba(247, 242, 232, 0.64);
+}
+
+// ========== 背景3：clean（极简纯白） ==========
+html[data-theme="light"][data-bg="clean"] {
+    background-color: #FAFAF8;
+    background-image: none;
+
+    --light-glass-bg: rgba(250, 250, 248, 0.72);
+    --light-glass-shine: rgba(250, 250, 248, 0.92);
+    --light-glass-gradient-base: rgba(250, 250, 248, 0.96);
+    --light-glass-gradient-side: rgba(250, 250, 248, 0.74);
+    --light-glass-gradient-edge: rgba(250, 250, 248, 0.38);
+    --light-glass-gradient-radial: rgba(250, 250, 248, 0.84);
+    --light-glass-inner-top: rgba(250, 250, 248, 0.96);
+    --light-glass-inner-right: rgba(250, 250, 248, 0.64);
+    --light-glass-inner-left: rgba(250, 250, 248, 0.40);
+    --light-glass-inner-bottom: rgba(250, 250, 248, 0.34);
+    --light-glass-inner-glow: rgba(250, 250, 248, 0.74);
+
+    --light-header-gradient-top: rgba(250, 250, 248, 0.18);
+    --light-header-gradient-side: rgba(250, 250, 248, 0.09);
+    --light-header-gradient-edge: rgba(250, 250, 248, 0.03);
+    --light-header-gradient-radial: rgba(250, 250, 248, 0.17);
+    --light-header-inner-top: rgba(250, 250, 248, 0.20);
+    --light-header-inner-right: rgba(250, 250, 248, 0.09);
+    --light-header-inner-left: rgba(250, 250, 248, 0.04);
+    --light-header-inner-bottom: rgba(250, 250, 248, 0.06);
+    --light-header-inner-glow: rgba(250, 250, 248, 0.26);
+}
