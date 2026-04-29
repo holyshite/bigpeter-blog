@@ -20,13 +20,14 @@
     ]
   },
   {
-    "name": "示例项目3",
-    "description": "第三个示例项目，用于测试三列布局。",
-    "url": "https://example.com",
-    "icon": "/assets/images/ai-pic-VA-11.webp",
+    "name": "Claude HUD for API",
+    "description": "为使用 API 连接的 Claude Code 实时显示 token 用量、模型名称和上下文窗口信息的终端状态栏插件。",
+    "url": "https://github.com/holyshite/claude-hud-for-api",
+    "icon": "/assets/images/claude-hud.png",
     "tags": [
-      "后端",
-      "API"
+      "技术",
+      "开源",
+      "TypeScript"
     ]
   },
   {
