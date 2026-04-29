@@ -21,6 +21,17 @@
             <a href="{{ '/checkin/' | relative_url }}">打卡</a>
             <div class="nav-indicator"></div>
         </div>
+        <div class="bg-selector" hidden>
+            <button class="bg-btn" data-bg="paper" aria-label="纸张纹理背景" style="--dot-color: #D4C8B8;">
+                <span class="bg-btn__dot"></span>
+            </button>
+            <button class="bg-btn" data-bg="gradient" aria-label="渐变光晕背景" style="--dot-color: #C4956A;">
+                <span class="bg-btn__dot"></span>
+            </button>
+            <button class="bg-btn" data-bg="clean" aria-label="极简纯白背景" style="--dot-color: #E8E4DD;">
+                <span class="bg-btn__dot"></span>
+            </button>
+        </div>
         <button
             class="theme-toggle"
             type="button"

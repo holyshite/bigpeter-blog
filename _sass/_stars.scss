@@ -41,16 +41,7 @@ html {
     }
 }
 
-html[data-theme="light"] {
-    background:
-        repeating-linear-gradient(
-            135deg,
-            rgb(237, 237, 237) 0,
-            rgb(237, 237, 237) 16px,
-            rgb(228, 228, 228) 16px,
-            rgb(228, 228, 228) 32px
-        );
-}
+// 浅色主题背景由 _light-backgrounds.scss 管理
 
 .star-canvas-page {
     min-height: 100vh;

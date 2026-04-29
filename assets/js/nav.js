@@ -283,9 +283,29 @@
             });
         }
 
-        // 监听主题切换，重新计算侧边栏位置
+        // 监听主题切换，等 CSS transition 完成后再重新计算所有位置
         window.addEventListener('site-theme-change', () => {
-            updateAsideRight();
+            // CSS transition 为 0.35s，等 transition 完成后再获取新的 header 高度
+            setTimeout(() => {
+                var header = document.querySelector('.site-header');
+                if (header) {
+                    var root = document.documentElement;
+                    var scrollY = window.scrollY || window.pageYOffset || 0;
+                    var rawTop = window.getComputedStyle(header).top;
+                    var initialTop = Number.parseFloat(rawTop);
+                    if (Number.isFinite(initialTop)) {
+                        var mobileMedia = window.matchMedia('(max-width: 720px)');
+                        var nextTop = mobileMedia.matches ? initialTop : Math.max(0, Math.min(initialTop - scrollY, initialTop));
+                        header.style.setProperty('--header-top', nextTop + 'px');
+                        root.style.setProperty('--header-current-top', nextTop + 'px');
+                        root.style.setProperty('--header-height', header.offsetHeight + 'px');
+                    }
+                }
+                updateAsideHeight();
+                updateAsideRight();
+                var activeLink = document.querySelector('.site-header .nav a.active');
+                if (activeLink) updateNavIndicator(activeLink);
+            }, 400);
         });
     }
 

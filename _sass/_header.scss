@@ -288,3 +288,41 @@
         }
     }
 }
+
+// 背景选择器
+.bg-selector {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 4px;
+    opacity: 0.65;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.bg-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    background: var(--dot-color);
+    transition: transform 0.15s, border-color 0.15s;
+
+    &:hover {
+        transform: scale(1.3);
+    }
+
+    &.is-active {
+        border-color: rgba(44, 36, 32, 0.4);
+        transform: scale(1.2);
+    }
+}
+
+[data-theme="dark"] .bg-selector {
+    display: none;
+}

@@ -117,30 +117,30 @@
     .project-card {
         @include liquid-glass-surface($radius: 18px,
             $padding: 20px,
-            $bg: rgba(255, 255, 255, 0.45),
-            $border: rgba(15, 23, 42, 0.08));
+            $bg: var(--light-glass-bg),
+            $border: var(--light-glass-border));
         box-shadow:
-            0 0 18px rgba(15, 23, 42, 0.04),
-            0 0 42px rgba(15, 23, 42, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8),
-            inset 0 -1px 0 rgba(15, 23, 42, 0.03);
+            0 0 18px rgba(44, 36, 32, 0.03),
+            0 0 42px rgba(44, 36, 32, 0.04),
+            inset 0 1px 0 var(--light-glass-inner-top),
+            inset 0 -1px 0 var(--light-glass-edge);
     }
 
     .project-title {
-        color: rgba(15, 23, 42, 0.95);
+        color: var(--light-text-primary);
     }
 
     .project-card .project-description {
-        color: rgba(15, 23, 42, 0.7);
+        color: var(--light-text-secondary);
     }
 
     .project-tag {
-        background: rgba(15, 23, 42, 0.05);
-        border: 1px solid rgba(15, 23, 42, 0.1);
-        color: rgba(15, 23, 42, 0.8);
+        background: var(--light-code-bg);
+        border: 1px solid var(--light-glass-border);
+        color: var(--light-text-secondary);
     }
 
     .project-icon {
-        border: 1px solid rgba(15, 23, 42, 0.1);
+        border: 1px solid var(--light-glass-border);
     }
 }
