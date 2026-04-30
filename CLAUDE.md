@@ -69,7 +69,7 @@
 - 格式：`类型(范围): 描述`
 - 类型：`feat`、`fix`、`docs`、`style`、`refactor`、`test`、`chore`
 - 范围：可选，如 `layout`、`css`、`js`、`post`
-- 提交信息结尾添加 `Co-Authored-By: Claude`
+- 提交信息结尾添加 `Co-Authored-By: Claude <noreply@anthropic.com>`
 - 示例：
   - `feat(layout): 添加响应式导航栏`
   - `fix(js): 修复星空动画性能问题`
