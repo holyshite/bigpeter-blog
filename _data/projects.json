@@ -31,6 +31,16 @@
     ]
   },
   {
+    "name": "Bireader 双语阅读器",
+    "description": "这是一个双语阅读软件，可以借助 AI 来实现翻译以及分析翻译结果，支持epub和pdf",
+    "url": "https://github.com/holyshite/bireader",
+    "icon": "/assets/images/bireader.png",
+    "tags": [
+      "Vue",
+      "AI"
+    ]
+  },
+  {
     "name": "示例项目4",
     "description": "第四个示例项目，展示更多项目卡片。",
     "url": "https://example.com",
@@ -48,16 +58,6 @@
     "tags": [
       "移动端",
       "React Native"
-    ]
-  },
-  {
-    "name": "示例项目6",
-    "description": "第六个示例项目，展示完整的项目网格。",
-    "url": "https://example.com",
-    "icon": "/assets/images/ai-pic-VA-11.webp",
-    "tags": [
-      "DevOps",
-      "云原生"
     ]
   }
 ]
