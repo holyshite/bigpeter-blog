@@ -43,6 +43,16 @@ permalink: /checkin/
             <p>正在加载打卡历史...</p>
         </div>
     </div>
+
+    <!-- 配置管理按钮 -->
+    <div class="config-manager">
+        <button type="button" id="showConfigBtn" class="config-manager-btn">
+            ⚙️ 配置GitHub访问
+        </button>
+        <button type="button" id="showTokenStatusBtn" class="config-manager-btn">
+            🔑 查看令牌状态
+        </button>
+    </div>
 </div>
 
 <!-- GitHub配置区域 -->
@@ -115,12 +125,3 @@ permalink: /checkin/
     </div>
 </div>
 
-<!-- 配置管理按钮 -->
-<div class="config-manager">
-    <button type="button" id="showConfigBtn" class="config-manager-btn">
-        ⚙️ 配置GitHub访问
-    </button>
-    <button type="button" id="showTokenStatusBtn" class="config-manager-btn">
-        🔑 查看令牌状态
-    </button>
-</div>

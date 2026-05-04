@@ -681,13 +681,11 @@ body.config-modal-open {
 }
 
 .config-manager {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
     display: flex;
     flex-direction: row;
     gap: 0.75rem;
-    z-index: 1000;
+    justify-content: center;
+    margin-top: 2rem;
 }
 
 // 当配置区域显示时隐藏配置管理按钮
@@ -1147,8 +1145,7 @@ body.config-modal-open .config-manager {
 
     .config-manager {
         flex-direction: column;
-        right: 1rem;
-        bottom: 1rem;
+        align-items: center;
     }
 
     .github-config-section {
