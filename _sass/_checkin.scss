@@ -783,7 +783,7 @@ body.config-modal-open .config-manager {
     }
 
     .stat-label {
-        color: rgba(0, 0, 0, 0.7);
+        color: var(--light-text-primary);
     }
 
     // 打卡贡献图
