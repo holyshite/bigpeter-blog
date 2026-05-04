@@ -176,6 +176,7 @@
             display: block;
             object-fit: contain;
             pointer-events: none;
+            filter: brightness(0) invert(1);
         }
 
         .theme-toggle {
@@ -325,4 +326,69 @@
 
 [data-theme="dark"] .bg-selector {
     display: none;
+}
+
+// ========== 阅读模式 —— 文章页滚动切换标题 ==========
+
+.nav-reading-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 80%);
+    white-space: nowrap;
+    font-size: 18px;
+    font-weight: 600;
+    color: $nav-color;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.25s ease;
+    z-index: 2;
+    max-width: calc(100% - 120px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// 阅读模式下要隐藏的元素
+.nav-links,
+.bg-selector,
+.theme-toggle {
+    transition:
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.25s ease;
+}
+
+// 阅读模式激活
+.site-header.nav-reading {
+    .nav-links,
+    .bg-selector,
+    .theme-toggle {
+        transform: translateY(-120%);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .nav-reading-title {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+
+    .top-btn {
+        z-index: 3;
+    }
+}
+
+@media (max-width: 720px) {
+    .nav-reading-title {
+        font-size: 16px;
+        max-width: calc(100% - 100px);
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-reading-title {
+        font-size: 14px;
+        max-width: calc(100% - 80px);
+    }
 }

@@ -53,6 +53,14 @@ body.theme-light .site-header {
         color: var(--light-nav-color);
     }
 
+    .nav-reading-title {
+        color: var(--light-nav-color);
+    }
+
+    .top-btn__icon {
+        filter: none;
+    }
+
     .nav-indicator {
         background: var(--light-nav-indicator-bg);
         border-color: var(--light-nav-indicator-border);
@@ -62,6 +70,15 @@ body.theme-light .site-header {
         &::after {
             opacity: 0 !important;
         }
+    }
+}
+
+// 移动端导航栏贴顶
+@media (max-width: 720px) {
+    html[data-theme="light"] .site-header,
+    body.theme-light .site-header {
+        --header-top: 0;
+        border-radius: 0;
     }
 }
 

@@ -85,6 +85,12 @@ html[data-theme="light"][data-bg="gradient"] {
     --light-post-nav-text: rgba(232, 221, 212, 0.85);
     --light-post-nav-disabled: rgba(255, 255, 255, 0.3);
 
+    // 回到顶部箭头 — 与导航文字同色
+    .site-header .top-btn__icon {
+        filter: brightness(0) invert(1);
+        opacity: 0.82;
+    }
+
     // 提示块
     --light-note-color: #A0C8E8;
     --light-warning-color: #E0C888;

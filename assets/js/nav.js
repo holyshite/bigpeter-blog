@@ -249,12 +249,40 @@
         });
     }
 
+    function bindReadingMode() {
+        var header = document.querySelector('.site-header');
+        var readingTitle = document.querySelector('.nav-reading-title');
+        if (!header || !readingTitle) return;
+
+        // 只在文章详情页启用
+        var articleTitle = document.querySelector('.post-card .post-header h1');
+        if (!articleTitle) return;
+
+        readingTitle.textContent = articleTitle.textContent;
+
+        var SCROLL_THRESHOLD = 300;
+        var ticking = false;
+
+        function updateReadingMode() {
+            ticking = false;
+            var isReading = window.scrollY > SCROLL_THRESHOLD;
+            header.classList.toggle('nav-reading', isReading);
+        }
+
+        window.addEventListener('scroll', function () {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(updateReadingMode);
+        }, { passive: true });
+    }
+
     function initNav() {
         setActiveNavLink();
         bindNavClickEvents();
         bindHeaderScrollMotion();
         bindTopBtnScroll();
         bindTopBtnClick();
+        bindReadingMode();
         updateAsideHeight();
         updateAsideRight();
         observeAsideSize();
