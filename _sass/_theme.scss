@@ -33,33 +33,20 @@ body.theme-light {
     color: var(--light-text-primary);
 }
 
-// ---- 头部 ----
+// ---- 头部 → 不透明同色 ----
 html[data-theme="light"] .site-header,
 body.theme-light .site-header {
-    background: var(--light-header-bg);
-    border-color: var(--light-header-border);
-    box-shadow:
-        var(--light-shadow-header),
-        inset 0 1px 0 var(--light-header-inner-top),
-        inset 0 -1px 0 var(--light-header-inner-bottom);
-    backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
-    -webkit-backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
+    background: var(--light-page-bg);
+    border-color: transparent;
+    border-bottom: 1px solid var(--light-hr);
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 
-    &::before {
-        background:
-            linear-gradient(180deg, var(--light-header-gradient-top), transparent 8%),
-            linear-gradient(90deg, var(--light-header-gradient-side), transparent 8%, transparent 92%, var(--light-header-gradient-edge)),
-            radial-gradient(90% 18% at 50% 0%, var(--light-header-gradient-radial) 0, transparent 78%);
-        opacity: 0.82;
-    }
-
+    &::before,
     &::after {
-        box-shadow:
-            inset 0 1px 0 var(--light-header-inner-top),
-            inset 1px 0 0 var(--light-header-inner-right),
-            inset -1px 0 0 var(--light-header-inner-left),
-            inset 0 -1px 0 var(--light-header-inner-bottom),
-            inset 0 10px 14px -14px var(--light-header-inner-glow);
+        display: none;
     }
 
     .nav a {
@@ -69,10 +56,7 @@ body.theme-light .site-header {
     .nav-indicator {
         background: var(--light-nav-indicator-bg);
         border-color: var(--light-nav-indicator-border);
-        box-shadow:
-            var(--light-nav-shadow),
-            inset 0 1px 0 rgba(247, 242, 232, 0.3),
-            inset 0 -1px 0 rgba(44, 36, 32, 0.1);
+        box-shadow: none;
 
         &::before,
         &::after {
@@ -81,46 +65,135 @@ body.theme-light .site-header {
     }
 }
 
-// ---- 玻璃卡片 ----
+// ---- 玻璃卡片 → 无边框透明（浅色模式去框） ----
 html[data-theme="light"] .glass-card,
 html[data-theme="light"] .post-item a,
 html[data-theme="light"] .post-card .post-toc,
 html[data-theme="light"] .post-card .post-nav a,
+html[data-theme="light"] .post-card .post-nav .disabled,
 html[data-theme="light"] .post-card .post-tags .tag,
 html[data-theme="light"] .post-meta .post-tags .tag,
+html[data-theme="light"] .project-card,
 body.theme-light .glass-card,
 body.theme-light .post-item a,
 body.theme-light .post-card .post-toc,
 body.theme-light .post-card .post-nav a,
+body.theme-light .post-card .post-nav .disabled,
 body.theme-light .post-card .post-tags .tag,
-body.theme-light .post-meta .post-tags .tag {
+body.theme-light .post-meta .post-tags .tag,
+body.theme-light .project-card {
     color: var(--light-text-primary);
-    background: var(--light-glass-bg);
-    border-color: var(--light-glass-border);
-    box-shadow:
-        var(--light-shadow-sm),
-        var(--light-shadow-md),
-        inset 0 1px 0 var(--light-glass-inner-top),
-        inset 0 -1px 0 var(--light-glass-edge);
-    backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
-    -webkit-backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
+    background: transparent;
+    border-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 
-    &::before {
-        background:
-            linear-gradient(180deg, var(--light-glass-gradient-base), transparent 12%),
-            linear-gradient(90deg, var(--light-glass-gradient-side), transparent 8%, transparent 92%, var(--light-glass-gradient-edge)),
-            radial-gradient(90% 18% at 50% 0%, var(--light-glass-gradient-radial) 0, transparent 78%);
-        opacity: 1;
-    }
-
+    &::before,
     &::after {
-        box-shadow:
-            inset 0 1px 0 var(--light-glass-inner-top),
-            inset 1px 0 0 var(--light-glass-inner-right),
-            inset -1px 0 0 var(--light-glass-inner-left),
-            inset 0 -1px 0 var(--light-glass-inner-bottom),
-            inset 0 10px 14px -14px var(--light-glass-inner-glow);
+        display: none;
     }
+}
+
+// ---- 浅色模式虚线分隔 ----
+
+// 文章列表项之间
+html[data-theme="light"] .post-item,
+body.theme-light .post-item {
+    margin-bottom: 0;
+}
+
+html[data-theme="light"] .post-item a,
+body.theme-light .post-item a {
+    border-bottom: 1px dashed var(--light-hr);
+    border-radius: 0;
+}
+
+html[data-theme="light"] .post-item:last-child a,
+body.theme-light .post-item:last-child a {
+    border-bottom: none;
+}
+
+html[data-theme="light"] .post-item a:hover,
+body.theme-light .post-item a:hover {
+    background: rgba(44, 36, 32, 0.03);
+    box-shadow: none;
+    border-color: transparent;
+}
+
+// 项目卡片之间
+html[data-theme="light"] .projects-grid,
+body.theme-light .projects-grid {
+    gap: 0;
+    margin-top: 0;
+}
+
+html[data-theme="light"] .project-card,
+body.theme-light .project-card {
+    border-bottom: 1px dashed var(--light-hr);
+    border-radius: 0;
+}
+
+// 侧边栏 - 左侧虚线分隔
+html[data-theme="light"] .page-aside-card,
+body.theme-light .page-aside-card {
+    border-left: 1px dashed var(--light-hr);
+    border-radius: 0;
+    padding-left: 20px;
+}
+
+// 首页引言卡片
+html[data-theme="light"] .home-quote-card,
+body.theme-light .home-quote-card {
+    background: transparent;
+    border-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    &::before,
+    &::after {
+        display: none;
+    }
+}
+
+// 首页社交图标 - 简化
+html[data-theme="light"] .home-icon-item,
+body.theme-light .home-icon-item {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    &::before,
+    &::after {
+        display: none;
+    }
+
+    &:hover {
+        background: rgba(44, 36, 32, 0.04);
+        border-color: rgba(44, 36, 32, 0.08);
+        box-shadow: none;
+    }
+}
+
+// 文章导航按钮悬停简化
+html[data-theme="light"] .post-card .post-nav a:hover,
+body.theme-light .post-card .post-nav a:hover {
+    background: rgba(44, 36, 32, 0.04);
+}
+
+// 文章标签悬停简化
+html[data-theme="light"] .post-card .post-tags .tag:hover,
+html[data-theme="light"] .post-meta .post-tags .tag:hover,
+body.theme-light .post-card .post-tags .tag:hover,
+body.theme-light .post-meta .post-tags .tag:hover {
+    background: rgba(44, 36, 32, 0.04);
+    border-color: rgba(44, 36, 32, 0.08);
+    box-shadow: none;
 }
 
 // ---- 主页图标 ----
@@ -131,10 +204,8 @@ body.theme-light .home-icon-item img {
 
 html[data-theme="light"] .home-icon-item:not(:hover),
 body.theme-light .home-icon-item:not(:hover) {
-    box-shadow:
-        var(--light-icon-shadow),
-        inset 0 1px 0 rgba(247, 242, 232, 0.92),
-        inset 0 -1px 0 rgba(44, 36, 32, 0.03);
+    animation: none;
+    box-shadow: none;
 }
 
 html[data-theme="light"] .glass-card,
@@ -167,22 +238,31 @@ body.theme-light .glass-card blockquote {
 html[data-theme="light"] .glass-card .note,
 body.theme-light .glass-card .note {
     color: var(--light-note-color);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 html[data-theme="light"] .glass-card .warning,
 body.theme-light .glass-card .warning {
     color: var(--light-warning-color);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 html[data-theme="light"] .glass-card .error,
 body.theme-light .glass-card .error {
     color: var(--light-error-color);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 // ---- 水平线 ----
 html[data-theme="light"] .glass-card hr,
 body.theme-light .glass-card hr {
-    background: var(--light-hr);
+    border: none;
+    border-top: 1px dashed var(--light-hr);
+    background: none;
+    height: auto;
 }
 
 // ---- 行内代码 ----

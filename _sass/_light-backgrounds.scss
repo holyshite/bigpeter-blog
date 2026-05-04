@@ -11,33 +11,124 @@ html[data-theme="light"] #starCanvas {
 // 无 data-bg 属性或 data-bg="paper"
 html[data-theme="light"]:not([data-bg]),
 html[data-theme="light"][data-bg="paper"] {
+    --light-page-bg: #FCF9F2;
     background-color: #FCF9F2;
     // 微小的 CSS 噪声纹理（base64 SVG filter）
     background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
     background-size: 200px 200px;
 }
 
-// ========== 背景2：gradient（暖色渐变光晕） ==========
+// ========== 背景2：gradient（暖黑渐变光晕） ==========
 html[data-theme="light"][data-bg="gradient"] {
-    background-color: #F7F2E8;
+    --light-page-bg: #1C1917;
+    background-color: #1C1917;
     background-image:
-        radial-gradient(ellipse 600px 400px at 15% 30%, rgba(196, 149, 106, 0.10) 0%, transparent 100%),
-        radial-gradient(ellipse 500px 500px at 85% 70%, rgba(196, 149, 106, 0.05) 0%, transparent 100%),
-        radial-gradient(ellipse 400px 300px at 50% 10%, rgba(250, 245, 237, 0.6) 0%, transparent 100%);
+        radial-gradient(ellipse 600px 400px at 15% 30%, rgba(196, 149, 106, 0.08) 0%, transparent 100%),
+        radial-gradient(ellipse 500px 500px at 85% 70%, rgba(180, 130, 90, 0.05) 0%, transparent 100%),
+        radial-gradient(ellipse 400px 300px at 50% 10%, rgba(200, 160, 120, 0.06) 0%, transparent 100%);
 
-    // 渐变背景下玻璃卡片微调
-    --light-glass-bg: rgba(247, 242, 232, 0.64);
-    --light-glass-shine: rgba(247, 242, 232, 0.84);
-    --light-glass-gradient-base: rgba(247, 242, 232, 0.92);
-    --light-glass-gradient-side: rgba(247, 242, 232, 0.66);
-    --light-glass-gradient-edge: rgba(247, 242, 232, 0.30);
-    --light-glass-gradient-radial: rgba(247, 242, 232, 0.76);
-    --light-glass-inner-top: rgba(247, 242, 232, 0.90);
-    --light-glass-inner-glow: rgba(247, 242, 232, 0.64);
+    // 深色背景下文字改为暖白
+    --light-text-primary: #E8DDD4;
+    --light-text-secondary: #B8A99C;
+    --light-text-tertiary: #8F7E6E;
+
+    // 链接保持暖铜色
+    --light-accent: #D4A87C;
+    --light-accent-hover: #E0B890;
+
+    // 玻璃卡片变量（深色背景用浅色半透明）
+    --light-glass-bg: rgba(255, 255, 255, 0.04);
+    --light-glass-border: rgba(255, 255, 255, 0.08);
+    --light-glass-edge: rgba(255, 255, 255, 0.04);
+
+    // 头部
+    --light-header-bg: rgba(28, 25, 23, 0.5);
+    --light-header-border: rgba(255, 255, 255, 0.06);
+    --light-nav-color: #D0C5B8;
+
+    // 导航指示器
+    --light-nav-indicator-bg: rgba(255, 255, 255, 0.08);
+    --light-nav-indicator-border: rgba(255, 255, 255, 0.12);
+
+    // 水平线（浅色虚线）
+    --light-hr: rgba(255, 255, 255, 0.18);
+
+    // 代码块
+    --light-code-bg: rgba(255, 255, 255, 0.06);
+    --light-code-border: rgba(255, 255, 255, 0.08);
+    --light-code-block-bg: rgba(255, 255, 255, 0.04);
+    --light-code-block-text: #D0C5B8;
+    --light-code-block-border: rgba(255, 255, 255, 0.08);
+
+    // 引用块
+    --light-blockquote-border: rgba(255, 255, 255, 0.2);
+    --light-blockquote-bg: rgba(255, 255, 255, 0.04);
+    --light-blockquote-text: rgba(232, 221, 212, 0.78);
+
+    // 表格
+    --light-table-border: rgba(255, 255, 255, 0.1);
+    --light-table-header: rgba(255, 255, 255, 0.06);
+    --light-table-row: rgba(255, 255, 255, 0.03);
+    --light-table-bg: rgba(255, 255, 255, 0.02);
+
+    // 目录
+    --light-toc-link: #B8A99C;
+    --light-toc-active: #D4A87C;
+    --light-toc-hover: #D0C5B8;
+
+    // 标签
+    --light-tag-text: #D0C5B8;
+    --light-tag-hover-border: rgba(255, 255, 255, 0.14);
+    --light-tag-hover-bg: rgba(255, 255, 255, 0.06);
+
+    // 文章导航
+    --light-post-nav-text: rgba(232, 221, 212, 0.85);
+    --light-post-nav-disabled: rgba(255, 255, 255, 0.3);
+
+    // 提示块
+    --light-note-color: #A0C8E8;
+    --light-warning-color: #E0C888;
+    --light-error-color: #E0A098;
+
+    // 代码块 —— 黑底白字
+    .glass-card {
+        code {
+            background: rgba(255, 255, 255, 0.08);
+            color: #D0C5B8;
+        }
+
+        pre {
+            color: #D0C5B8;
+        }
+
+        pre code {
+            color: #D0C5B8;
+        }
+
+        div.highlighter-rouge {
+            background: #1A1A1A;
+            border-color: rgba(255, 255, 255, 0.1);
+
+            &[class*="language-"]::before {
+                background: rgba(255, 255, 255, 0.06);
+                color: #8F7E6E;
+            }
+        }
+
+        .highlight {
+            background: transparent;
+        }
+
+        .copy-code-btn {
+            color: #8F7E6E;
+            &:hover { color: #D0C5B8; }
+        }
+    }
 }
 
 // ========== 背景3：clean（极简纯白） ==========
 html[data-theme="light"][data-bg="clean"] {
+    --light-page-bg: #FAFAF8;
     background-color: #FAFAF8;
     background-image: none;
 

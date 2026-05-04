@@ -578,42 +578,22 @@
 
 [data-theme="light"] .tag-list-item {
     color: var(--light-tag-text);
-    background: var(--light-glass-bg);
-    border-color: var(--light-glass-border);
-    box-shadow:
-        var(--light-shadow-sm),
-        var(--light-shadow-md),
-        inset 0 1px 0 var(--light-glass-inner-top),
-        inset 0 -1px 0 var(--light-glass-edge);
-    backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
-    -webkit-backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
+    background: transparent;
+    border-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 
-    &::before {
-        background:
-            linear-gradient(180deg, var(--light-glass-gradient-base), transparent 12%),
-            linear-gradient(90deg, var(--light-glass-gradient-side), transparent 8%, transparent 92%, var(--light-glass-gradient-edge)),
-            radial-gradient(90% 18% at 50% 0%, var(--light-glass-gradient-radial) 0, transparent 78%);
-        opacity: 1;
-    }
-
+    &::before,
     &::after {
-        box-shadow:
-            inset 0 1px 0 var(--light-glass-inner-top),
-            inset 1px 0 0 var(--light-glass-inner-right),
-            inset -1px 0 0 var(--light-glass-inner-left),
-            inset 0 -1px 0 var(--light-glass-inner-bottom),
-            inset 0 10px 14px -14px var(--light-glass-inner-glow);
+        display: none;
     }
 
     &:hover {
-        box-shadow:
-            0 10px 28px rgba(44, 36, 32, 0.08),
-            0 18px 36px rgba(44, 36, 32, 0.10),
-            inset 0 1px 0 rgba(247, 242, 232, 0.24),
-            inset 0 -1px 0 rgba(44, 36, 32, 0.08),
-            0 12px 28px rgba(44, 36, 32, 0.08);
-        border-color: rgba(44, 36, 32, 0.16);
-        background: rgba(247, 242, 232, 0.84);
+        background: rgba(44, 36, 32, 0.04);
+        border-color: rgba(44, 36, 32, 0.08);
+        box-shadow: none;
     }
 }
 

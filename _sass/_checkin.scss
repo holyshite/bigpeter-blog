@@ -780,6 +780,8 @@ body.config-modal-open .config-manager {
     .stat-card {
         background: linear-gradient(135deg, rgba(44, 36, 32, 0.04), rgba(44, 36, 32, 0.02));
         border-color: rgba(0, 0, 0, 0.1);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
     }
 
     .stat-label {
@@ -853,14 +855,24 @@ body.config-modal-open .config-manager {
         background: var(--light-code-bg);
     }
 
-    // 配置区域
+    // 配置弹窗 —— 完全不透明
     .github-config-section {
-        background: linear-gradient(135deg, rgba(44, 36, 32, 0.10), rgba(44, 36, 32, 0.06));
-        border-color: rgba(0, 0, 0, 0.12);
+        background: var(--light-page-bg) !important;
+        border: 1px solid rgba(44, 36, 32, 0.15);
+        border-radius: 16px;
+        box-shadow:
+            0 8px 32px rgba(44, 36, 32, 0.15),
+            0 2px 8px rgba(44, 36, 32, 0.10);
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
     }
 
     .github-config-section h3 {
         color: #5a67d8;
+    }
+
+    body.config-modal-open::before {
+        background: rgba(44, 36, 32, 0.30);
     }
 
     .config-hint {
@@ -909,25 +921,39 @@ body.config-modal-open .config-manager {
         color: #d32f2f;
     }
 
-    // 按钮文字颜色调整
+    // 按钮 - 去玻璃效果
     .retry-btn {
         color: #d32f2f;
-        @include liquid-glass-surface($radius: 8px,
-            $padding: 0.5rem 1rem,
-            $bg: rgba(244, 67, 54, 0.08),
-            $border: rgba(244, 67, 54, 0.2));
+        background: rgba(244, 67, 54, 0.06);
+        border: 1px solid rgba(244, 67, 54, 0.18);
+        border-radius: 8px;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
     }
 
     .checkin-btn {
         color: var(--light-text-primary);
-        @include liquid-glass-surface($radius: 50px,
-            $padding: 1rem 2rem,
-            $bg: rgba(102, 126, 234, 0.1),
-            $border: rgba(102, 126, 234, 0.25));
+        background: rgba(102, 126, 234, 0.06);
+        border: 1px solid rgba(102, 126, 234, 0.18);
+        border-radius: 50px;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
 
         &:hover {
-            background: rgba(102, 126, 234, 0.18);
-            border-color: rgba(102, 126, 234, 0.35);
+            background: rgba(102, 126, 234, 0.12);
+            border-color: rgba(102, 126, 234, 0.28);
         }
     }
 
@@ -944,10 +970,17 @@ body.config-modal-open .config-manager {
 
     .toggle-visibility-btn {
         color: var(--light-text-secondary);
-        @include liquid-glass-surface($radius: 8px,
-            $padding: 0.75rem 1rem,
-            $bg: rgba(0, 0, 0, 0.03),
-            $border: rgba(0, 0, 0, 0.15));
+        background: rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 8px;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
 
         &:hover {
             color: rgba(0, 0, 0, 0.8);
@@ -956,40 +989,61 @@ body.config-modal-open .config-manager {
 
     .save-btn {
         color: var(--light-text-primary);
-        @include liquid-glass-surface($radius: 8px,
-            $padding: 0.75rem 1.5rem,
-            $bg: rgba(76, 175, 80, 0.1),
-            $border: rgba(76, 175, 80, 0.25));
+        background: rgba(76, 175, 80, 0.06);
+        border: 1px solid rgba(76, 175, 80, 0.18);
+        border-radius: 8px;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
 
         &:hover {
-            background: rgba(76, 175, 80, 0.18);
-            border-color: rgba(76, 175, 80, 0.35);
+            background: rgba(76, 175, 80, 0.12);
+            border-color: rgba(76, 175, 80, 0.28);
         }
     }
 
     .clear-btn {
         color: var(--light-text-primary);
-        @include liquid-glass-surface($radius: 8px,
-            $padding: 0.75rem 1.5rem,
-            $bg: rgba(244, 67, 54, 0.1),
-            $border: rgba(244, 67, 54, 0.25));
+        background: rgba(244, 67, 54, 0.06);
+        border: 1px solid rgba(244, 67, 54, 0.18);
+        border-radius: 8px;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
 
         &:hover {
-            background: rgba(244, 67, 54, 0.18);
-            border-color: rgba(244, 67, 54, 0.35);
+            background: rgba(244, 67, 54, 0.12);
+            border-color: rgba(244, 67, 54, 0.28);
         }
     }
 
     .test-btn {
         color: var(--light-text-primary);
-        @include liquid-glass-surface($radius: 8px,
-            $padding: 0.75rem 1.5rem,
-            $bg: rgba(33, 150, 243, 0.1),
-            $border: rgba(33, 150, 243, 0.25));
+        background: rgba(33, 150, 243, 0.06);
+        border: 1px solid rgba(33, 150, 243, 0.18);
+        border-radius: 8px;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
 
         &:hover {
-            background: rgba(33, 150, 243, 0.18);
-            border-color: rgba(33, 150, 243, 0.35);
+            background: rgba(33, 150, 243, 0.12);
+            border-color: rgba(33, 150, 243, 0.28);
         }
     }
 
@@ -1006,14 +1060,21 @@ body.config-modal-open .config-manager {
 
     .refresh-btn {
         color: #5a67d8;
-        @include liquid-glass-surface($radius: 8px,
-            $padding: 0.75rem 1.5rem,
-            $bg: rgba(102, 126, 234, 0.08),
-            $border: rgba(102, 126, 234, 0.2));
+        background: rgba(102, 126, 234, 0.06);
+        border: 1px solid rgba(102, 126, 234, 0.18);
+        border-radius: 8px;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
 
         &:hover {
             color: #5a67d8;
-            background: rgba(102, 126, 234, 0.14);
+            background: rgba(102, 126, 234, 0.12);
             border-color: rgba(102, 126, 234, 0.28);
         }
     }
@@ -1021,14 +1082,21 @@ body.config-modal-open .config-manager {
     .config-manager-btn {
         color: var(--light-text-primary);
         white-space: nowrap;
-        @include liquid-glass-surface($radius: 50px,
-            $padding: 0.75rem 1.25rem,
-            $bg: rgba(102, 126, 234, 0.1),
-            $border: rgba(102, 126, 234, 0.25));
+        background: rgba(102, 126, 234, 0.06);
+        border: 1px solid rgba(102, 126, 234, 0.18);
+        border-radius: 50px;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
 
         &:hover {
-            background: rgba(102, 126, 234, 0.18);
-            border-color: rgba(102, 126, 234, 0.35);
+            background: rgba(102, 126, 234, 0.12);
+            border-color: rgba(102, 126, 234, 0.28);
         }
     }
 
@@ -1036,14 +1104,21 @@ body.config-modal-open .config-manager {
     .cancel-btn {
         color: var(--light-text-primary);
         margin-left: auto;
-        @include liquid-glass-surface($radius: 8px,
-            $padding: 0.75rem 1.5rem,
-            $bg: rgba(244, 67, 54, 0.1),
-            $border: rgba(244, 67, 54, 0.25));
+        background: rgba(244, 67, 54, 0.06);
+        border: 1px solid rgba(244, 67, 54, 0.18);
+        border-radius: 8px;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before,
+        &::after {
+            display: none;
+        }
 
         &:hover {
-            background: rgba(244, 67, 54, 0.18);
-            border-color: rgba(244, 67, 54, 0.35);
+            background: rgba(244, 67, 54, 0.12);
+            border-color: rgba(244, 67, 54, 0.28);
         }
     }
 }

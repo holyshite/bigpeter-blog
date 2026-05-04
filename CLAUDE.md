@@ -103,6 +103,7 @@
    - 修改 `_config.yml` 后需重启服务
    - 新文章需正确设置 Front Matter
    - 静态资源路径使用 `{{ '/assets/...' | absolute_url }}`
+   - **测试完后必须关闭 `jekyll serve` 服务**，使用 `pkill -f "jekyll serve"`
 
 2. **CSS 相关**：
    - 玻璃效果使用 `backdrop-filter: blur()`
@@ -136,6 +137,9 @@ bundle exec jekyll serve --livereload
 
 # 构建静态站点
 bundle exec jekyll build
+
+# 关闭开发服务器
+pkill -f "jekyll serve"
 ```
 
 ### 测试要点
