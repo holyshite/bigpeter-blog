@@ -6,7 +6,6 @@ permalink: /checkin/
 
 <div class="checkin-container">
     <div class="checkin-status">
-        <h2>今日打卡状态</h2>
         <div id="todayStatus" class="status-pending">
             <p>正在检查今日打卡状态...</p>
         </div>
@@ -16,7 +15,6 @@ permalink: /checkin/
     </div>
 
     <div class="checkin-stats">
-        <h2>打卡统计</h2>
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value" id="totalDays">0</div>
@@ -38,7 +36,6 @@ permalink: /checkin/
     </div>
 
     <div class="checkin-history">
-        <h2>打卡历史</h2>
         <div id="historyList" class="history-list">
             <p>正在加载打卡历史...</p>
         </div>
@@ -56,7 +53,7 @@ permalink: /checkin/
 </div>
 
 <!-- GitHub配置区域 -->
-<div class="github-config-section glass-card" id="configSection" style="display: none;">
+<div class="github-config-section" id="configSection" style="display: none;">
     <h3>GitHub配置</h3>
 
     <div id="configHint" class="config-hint">

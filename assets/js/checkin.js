@@ -38,7 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
         todayCheckedIn: false,
         checkinHistory: [],
         isLoading: true,
-        userInfo: null // 存储用户信息（GitHub用户名等）
+        userInfo: null, // 存储用户信息（GitHub用户名等）
+        selectedYear: new Date().getFullYear() // 当前选中年份
     };
 
     // 从本地存储加载应用配置
@@ -127,6 +128,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 elements.checkinBtn.querySelector('.btn-text').textContent = '立即打卡';
                 elements.checkinBtn.addEventListener('click', handleCheckin);
             }
+
+            // 绑定年份选择器
+            bindYearSelector();
 
         } catch (error) {
             console.error('初始化失败:', error);
@@ -579,6 +583,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 更新历史记录列表
+    // 绑定年份选择器（事件委托）
+    function bindYearSelector() {
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.year-btn');
+            if (!btn) return;
+
+            const year = parseInt(btn.getAttribute('data-year'));
+            if (year === state.selectedYear) return;
+
+            state.selectedYear = year;
+            updateUI();
+        });
+    }
+
     function updateHistoryList() {
         if (!elements.historyList) return;
 
@@ -587,14 +605,19 @@ document.addEventListener('DOMContentLoaded', function () {
             state.checkinHistory = [];
         }
 
-        const endDate = new Date();
-        endDate.setHours(0, 0, 0, 0);
+        const now = new Date();
+        const selectedYear = state.selectedYear || now.getFullYear();
 
-        const firstDisplayDate = new Date(endDate);
-        firstDisplayDate.setDate(firstDisplayDate.getDate() - 364);
+        // 计算日期范围：选中年份的全年
+        let yearEnd = new Date(selectedYear, 11, 31);
+        yearEnd.setHours(0, 0, 0, 0);
 
-        const gridStartDate = new Date(firstDisplayDate);
+        const yearStart = new Date(selectedYear, 0, 1);
+        const gridStartDate = new Date(yearStart);
         gridStartDate.setDate(gridStartDate.getDate() - gridStartDate.getDay());
+
+        const firstDisplayDate = new Date(yearStart);
+        const endDate = new Date(yearEnd);
 
         const checkinInfoByDate = new Map();
         state.checkinHistory.forEach(item => {
@@ -625,7 +648,7 @@ document.addEventListener('DOMContentLoaded', function () {
             for (let i = 0; i < 7; i += 1) {
                 const currentDate = new Date(cursor);
                 const key = getLocalDateString(currentDate);
-                const inRange = currentDate >= firstDisplayDate && currentDate <= endDate;
+                const inRange = currentDate >= firstDisplayDate && currentDate <= endDate && currentDate <= now;
                 const checkinInfo = inRange ? checkinInfoByDate.get(key) : null;
                 const count = checkinInfo ? checkinInfo.count : 0;
                 const latestTimestamp = checkinInfo ? checkinInfo.latestTimestamp : null;
@@ -661,7 +684,12 @@ document.addEventListener('DOMContentLoaded', function () {
             monthLabels.push(label);
         });
 
-        const totalActiveDays = Array.from(checkinInfoByDate.keys()).length;
+        // 仅统计选中年份内的打卡天数
+        let totalActiveDays = 0;
+        checkinInfoByDate.forEach((info, dateKey) => {
+            const d = new Date(dateKey);
+            if (d >= yearStart && d <= yearEnd) totalActiveDays++;
+        });
         const latestRecord = state.checkinHistory[0] ? new Date(state.checkinHistory[0].timestamp) : null;
         const latestText = latestRecord ? `${formatDate(latestRecord)} ${formatTime(latestRecord)}` : '暂无';
 
@@ -695,22 +723,29 @@ document.addEventListener('DOMContentLoaded', function () {
         elements.historyList.innerHTML = `
             <div class="contribution-history">
                 <div class="contribution-history-header">
-                    <p class="contribution-summary">过去一年累计打卡 <strong>${totalActiveDays}</strong> 天</p>
+                    <p class="contribution-summary">${selectedYear} 年累计打卡 <strong>${totalActiveDays}</strong> 天</p>
                     <p class="contribution-latest">最近打卡：${latestText}</p>
                 </div>
-                <div class="contribution-calendar">
-                    <div class="contribution-weekday-labels">
-                        <span>周一</span>
-                        <span>周三</span>
-                        <span>周五</span>
+                <div class="contribution-body">
+                    <div class="contribution-calendar">
+                        <div class="contribution-weekday-labels">
+                            <span>周一</span>
+                            <span>周三</span>
+                            <span>周五</span>
+                        </div>
+                        <div class="contribution-calendar-main">
+                            <div class="contribution-months" style="--week-count: ${weeks.length};">
+                                ${monthCells}
+                            </div>
+                            <div class="contribution-weeks">
+                                ${weekCells}
+                            </div>
+                        </div>
                     </div>
-                    <div class="contribution-calendar-main">
-                        <div class="contribution-months" style="--week-count: ${weeks.length};">
-                            ${monthCells}
-                        </div>
-                        <div class="contribution-weeks">
-                            ${weekCells}
-                        </div>
+                    <div class="contribution-year-selector">
+                        <button class="year-btn${selectedYear === 2026 ? ' is-active' : ''}" data-year="2026">2026</button>
+                        <button class="year-btn${selectedYear === 2025 ? ' is-active' : ''}" data-year="2025">2025</button>
+                        <button class="year-btn${selectedYear === 2024 ? ' is-active' : ''}" data-year="2024">2024</button>
                     </div>
                 </div>
             </div>
