@@ -343,6 +343,8 @@ body.theme-light .post-sidebar-card {
             margin-bottom: 8px;
             border-bottom: 1px dashed var(--light-hr);
             background: var(--light-page-bg);
+            backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
+            -webkit-backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
         }
 
         .toc-content {
