@@ -323,6 +323,16 @@ body.theme-light .post-card .post-nav a {
     color: var(--light-text-secondary);
 }
 
+html[data-theme="light"] .post-card .post-toc .toc-title,
+html[data-theme="light"] .post-sidebar-card .post-toc .toc-title,
+body.theme-light .post-card .post-toc .toc-title,
+body.theme-light .post-sidebar-card .post-toc .toc-title {
+    border-bottom-color: var(--light-hr);
+    background: rgba(252, 249, 242, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
 html[data-theme="light"] .post-card .post-toc a,
 html[data-theme="light"] .post-sidebar-card .post-toc a,
 body.theme-light .post-card .post-toc a,

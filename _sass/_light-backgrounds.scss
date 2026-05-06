@@ -22,10 +22,7 @@ html[data-theme="light"][data-bg="paper"] {
 html[data-theme="light"][data-bg="gradient"] {
     --light-page-bg: #1C1917;
     background-color: #1C1917;
-    background-image:
-        radial-gradient(ellipse 600px 400px at 15% 30%, rgba(196, 149, 106, 0.08) 0%, transparent 100%),
-        radial-gradient(ellipse 500px 500px at 85% 70%, rgba(180, 130, 90, 0.05) 0%, transparent 100%),
-        radial-gradient(ellipse 400px 300px at 50% 10%, rgba(200, 160, 120, 0.06) 0%, transparent 100%);
+    background-image: none;
 
     // 深色背景下文字改为暖白
     --light-text-primary: #E8DDD4;
