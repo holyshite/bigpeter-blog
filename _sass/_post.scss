@@ -98,8 +98,6 @@
         .toc-title {
             font-size: 12px;
             margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
             color: rgba(255, 255, 255, 0.7);
             font-weight: 600;
             letter-spacing: 0.05em;
@@ -366,26 +364,9 @@
     color: var(--light-text-secondary);
 }
 
-.glass-card.post-sidebar-card {
-    content-visibility: visible;
-
+.post-sidebar-card {
     .post-toc {
         margin: 0;
-
-        .toc-title {
-            position: sticky;
-            top: -30px;
-            z-index: 1;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
-            background: rgba(24, 24, 27, 0.92);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .toc-content {
-            overflow: visible;
-        }
     }
 }
 

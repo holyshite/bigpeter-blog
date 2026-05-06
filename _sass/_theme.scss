@@ -324,13 +324,33 @@ body.theme-light .post-card .post-nav a {
 }
 
 html[data-theme="light"] .post-card .post-toc .toc-title,
-html[data-theme="light"] .post-sidebar-card .post-toc .toc-title,
-body.theme-light .post-card .post-toc .toc-title,
-body.theme-light .post-sidebar-card .post-toc .toc-title {
-    border-bottom-color: var(--light-hr);
-    background: rgba(252, 249, 242, 0.92);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+body.theme-light .post-card .post-toc .toc-title {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px dashed var(--light-hr);
+}
+
+html[data-theme="light"] .post-sidebar-card,
+body.theme-light .post-sidebar-card {
+    content-visibility: visible;
+
+    .post-toc {
+        .toc-title {
+            position: sticky;
+            top: -30px;
+            z-index: 1;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed var(--light-hr);
+            background: rgba(252, 249, 242, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .toc-content {
+            overflow: visible;
+        }
+    }
 }
 
 html[data-theme="light"] .post-card .post-toc a,
