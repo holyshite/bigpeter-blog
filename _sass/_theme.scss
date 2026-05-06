@@ -333,18 +333,21 @@ body.theme-light .post-card .post-toc .toc-title {
 html[data-theme="light"] .post-sidebar-card,
 body.theme-light .post-sidebar-card {
     content-visibility: visible;
+    padding-top: 12px;
 
     .post-toc {
         .toc-title {
             position: sticky;
-            top: -30px;
+            top: -12px;
             z-index: 1;
-            padding-bottom: 8px;
+            margin-left: -30px;
+            margin-right: -30px;
+            padding: 8px 30px 8px 30px;
             margin-bottom: 8px;
             border-bottom: 1px dashed var(--light-hr);
-            background: var(--light-page-bg);
-            backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
-            -webkit-backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
+            background: transparent;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
 
         .toc-content {
