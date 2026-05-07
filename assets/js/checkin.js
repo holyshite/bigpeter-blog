@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 从GitHub Issues获取打卡历史
     async function fetchCheckinHistory() {
         const response = await fetch(
-            `${CONFIG.apiBase}/repos/${CONFIG.repoOwner}/${CONFIG.repoName}/issues/${CONFIG.issueNumber}/comments`,
+            `${CONFIG.apiBase}/repos/${CONFIG.repoOwner}/${CONFIG.repoName}/issues/${CONFIG.issueNumber}/comments?per_page=100&sort=created&direction=desc`,
             {
                 headers: {
                     'Authorization': `token ${state.token}`,
