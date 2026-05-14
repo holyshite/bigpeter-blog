@@ -74,12 +74,17 @@
             var rect = el.getBoundingClientRect();
             var computed = window.getComputedStyle(el);
 
-            // 创建占位元素，保持原布局不变
-            var placeholder = document.createElement('div');
-            placeholder.style.width = rect.width + 'px';
-            placeholder.style.height = rect.height + 'px';
-            placeholder.style.flexShrink = '0';
-            placeholder.className = 'fl-placeholder';
+            // 克隆原元素做占位，保持完全相同的布局特性
+            var placeholder = el.cloneNode(true);
+            placeholder.removeAttribute('id');
+            placeholder.style.visibility = 'hidden';
+            placeholder.style.position = '';
+            placeholder.style.zIndex = '';
+            placeholder.style.top = '';
+            placeholder.style.left = '';
+            placeholder.style.width = '';
+            placeholder.style.height = '';
+            placeholder.className = el.className + ' fl-placeholder';
             el.parentNode.insertBefore(placeholder, el);
 
             // 记住原始状态

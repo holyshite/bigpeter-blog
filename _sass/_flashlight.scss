@@ -10,6 +10,7 @@
 .flashlight-mode .theme-toggle {
     width: 44px;
     height: 44px;
+    margin: 0;
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
@@ -29,7 +30,8 @@
     pointer-events: none;
 }
 
-// 占位元素不可见
+// 占位元素：隐藏但保持布局空间
 .fl-placeholder {
-    visibility: hidden;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
