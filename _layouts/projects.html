@@ -4,7 +4,7 @@ title: 项目
 ---
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,22 @@ title: 项目
     <script>
         (function () {
             try {
-                var theme = localStorage.getItem('site-theme');
-                if (theme !== 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    var bg = localStorage.getItem('site-bg');
-                    if (bg) document.documentElement.setAttribute('data-bg', bg);
+                var bg = localStorage.getItem('site-bg');
+                if (bg) document.documentElement.setAttribute('data-bg', bg);
+                if (localStorage.getItem('flashlight-mode') === 'on') {
+                    var s = document.createElement('style');
+                    s.textContent = '.flashlight-overlay{position:fixed;inset:0;z-index:1001;pointer-events:none;background:radial-gradient(circle 140px at 50% 50%,transparent 0,transparent 130px,rgba(0,0,0,0.92) 140px,#000 100%)}';
+                    document.head.appendChild(s);
+                    var d = document.createElement('div');
+                    d.className = 'flashlight-overlay';
+                    document.addEventListener('DOMContentLoaded', function () {
+                        if (!document.querySelector('.flashlight-overlay')) {
+                            document.body.appendChild(d);
+                        }
+                        document.body.classList.add('flashlight-mode');
+                    });
                 }
-            } catch (error) { }
+            } catch (e) { }
         })();
     </script>
     <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
@@ -85,9 +94,7 @@ title: 项目
 
     {% include page.html title=page.title content=page_content aside_title="项目信息" aside_content=page_aside aside_tags_title="项目标签" aside_tags_content=page_tags %}
 
-    <canvas id="starCanvas"></canvas>
     <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
-    <script src="{{ '/assets/js/stars.js' | absolute_url }}" defer></script>
     <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
     <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
 </body>

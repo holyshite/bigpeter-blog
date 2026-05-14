@@ -312,7 +312,7 @@
         }
 
         // 监听主题切换，等 CSS transition 完成后再重新计算所有位置
-        window.addEventListener('site-theme-change', () => {
+        window.addEventListener('flashlight-mode-change', () => {
             // CSS transition 为 0.35s，等 transition 完成后再获取新的 header 高度
             setTimeout(() => {
                 var header = document.querySelector('.site-header');

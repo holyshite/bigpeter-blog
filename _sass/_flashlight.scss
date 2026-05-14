@@ -1,0 +1,7 @@
+// 手电筒遮罩层
+.flashlight-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1001;
+    pointer-events: none;
+}

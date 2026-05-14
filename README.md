@@ -9,7 +9,7 @@
 * ⚡ 基于 Jekyll 构建，轻量高效
 * 🎨 自定义主题（支持 SCSS）
 * 💧 玻璃效果（backdrop-filter + 多层叠加）
-* 🌌 星空动态背景
+* 🌌 星空动态背景（曾经有）
 * 📱 响应式设计（适配移动端）
 * 📝 Markdown 写作支持
 * 🚀 可部署至 GitHub Pages / Cloudflare Pages
