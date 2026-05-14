@@ -6,34 +6,30 @@
     pointer-events: none;
 }
 
-// 黑夜模式：header 提到遮罩之上，背景透明，只露按钮
-.flashlight-mode .site-header {
-    z-index: 1002 !important;
-    background: transparent !important;
-    border-bottom-color: transparent !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-
-    &::before,
-    &::after {
-        display: none !important;
-    }
+// 提到底层的按钮保持原有样式
+.flashlight-mode .theme-toggle {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
 }
 
-.flashlight-mode .site-header .nav a {
-    color: transparent !important;
+.flashlight-mode .theme-toggle__icon {
+    width: 26px;
+    height: 26px;
+    display: block;
+    object-fit: contain;
+    pointer-events: none;
 }
 
-.flashlight-mode .site-header .nav-indicator {
-    opacity: 0 !important;
-}
-
-.flashlight-mode .site-header .top-btn {
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
-
-.flashlight-mode .site-header .nav-reading-title {
-    color: transparent !important;
+// 占位元素不可见
+.fl-placeholder {
+    visibility: hidden;
 }

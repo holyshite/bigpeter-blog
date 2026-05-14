@@ -12,6 +12,7 @@
     var cursorX = -1000;
     var cursorY = -1000;
     var ticking = false;
+    var floatingEls = [];
 
     function getStoredMode() {
         try {
@@ -51,12 +52,10 @@
         if (canvas.width !== w) canvas.width = w;
         if (canvas.height !== h) canvas.height = h;
 
-        // 全黑背景
         ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, w, h);
 
-        // 挖光标洞
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath();
         ctx.arc(cursorX, cursorY, 140, 0, Math.PI * 2);
@@ -67,6 +66,89 @@
         if (ticking) return;
         ticking = true;
         window.requestAnimationFrame(draw);
+    }
+
+    function floatElements() {
+        var els = document.querySelectorAll('.theme-toggle, .bg-selector');
+        els.forEach(function (el) {
+            var rect = el.getBoundingClientRect();
+            var computed = window.getComputedStyle(el);
+
+            // 创建占位元素，保持原布局不变
+            var placeholder = document.createElement('div');
+            placeholder.style.width = rect.width + 'px';
+            placeholder.style.height = rect.height + 'px';
+            placeholder.style.flexShrink = '0';
+            placeholder.className = 'fl-placeholder';
+            el.parentNode.insertBefore(placeholder, el);
+
+            // 记住原始状态
+            floatingEls.push({
+                el: el,
+                placeholder: placeholder,
+                parent: el.parentNode,
+                next: el.nextSibling,
+                origDisplay: el.style.display,
+                origPosition: el.style.position,
+                origZIndex: el.style.zIndex,
+                origTop: el.style.top,
+                origLeft: el.style.left,
+                origWidth: el.style.width,
+                origHeight: el.style.height
+            });
+
+            // 移到 body，固定定位
+            document.body.appendChild(el);
+            el.style.position = 'fixed';
+            el.style.zIndex = '1002';
+            el.style.top = rect.top + 'px';
+            el.style.left = rect.left + 'px';
+            el.style.width = rect.width + 'px';
+            el.style.height = rect.height + 'px';
+            el.style.margin = '0';
+        });
+    }
+
+    function unfloatElements() {
+        floatingEls.forEach(function (item) {
+            item.el.style.display = item.origDisplay || '';
+            item.el.style.position = item.origPosition || '';
+            item.el.style.zIndex = item.origZIndex || '';
+            item.el.style.top = item.origTop || '';
+            item.el.style.left = item.origLeft || '';
+            item.el.style.width = item.origWidth || '';
+            item.el.style.height = item.origHeight || '';
+            item.el.style.margin = '';
+
+            // 放回原位
+            if (item.placeholder && item.placeholder.parentNode) {
+                item.placeholder.parentNode.insertBefore(item.el, item.placeholder);
+                item.placeholder.remove();
+            }
+        });
+        floatingEls = [];
+    }
+
+    function updateFloatPositions() {
+        floatingEls.forEach(function (item) {
+            var placeholder = item.placeholder;
+            if (!placeholder || !placeholder.parentNode) return;
+            var rect = placeholder.getBoundingClientRect();
+            item.el.style.top = rect.top + 'px';
+            item.el.style.left = rect.left + 'px';
+            item.el.style.width = rect.width + 'px';
+            item.el.style.height = rect.height + 'px';
+        });
+    }
+
+    function onResize() {
+        updateFloatPositions();
+        scheduleDraw();
+    }
+
+    function onScroll() {
+        updateFloatPositions();
+        scheduleDraw();
     }
 
     function onMouseMove(e) {
@@ -83,17 +165,10 @@
         scheduleDraw();
     }
 
-    function onResize() {
-        scheduleDraw();
-    }
-
     function createOverlay() {
         if (canvas) return;
-        // 清理防闪脚本创建的旧 div 遮罩和注入的 style
         var old = document.querySelector('.flashlight-overlay');
         if (old) old.remove();
-        var oldStyle = document.querySelector('style');
-        // 移除防闪注入的 flashlight-overlay 样式（匹配包含 flashlight-overlay 的 style）
         var styles = document.querySelectorAll('style');
         for (var i = 0; i < styles.length; i++) {
             if (styles[i].textContent.indexOf('flashlight-overlay') !== -1) {
@@ -109,7 +184,8 @@
         document.body.appendChild(canvas);
         document.body.classList.add('flashlight-mode');
 
-        // 初始位置设为屏幕中心，同步绘制首帧
+        floatElements();
+
         cursorX = window.innerWidth / 2;
         cursorY = window.innerHeight / 2;
         draw();
@@ -117,7 +193,7 @@
         document.addEventListener('mousemove', onMouseMove, { passive: true });
         document.addEventListener('touchmove', onMouseMove, { passive: true });
         window.addEventListener('resize', onResize);
-        window.addEventListener('scroll', scheduleDraw, { passive: true });
+        window.addEventListener('scroll', onScroll, { passive: true });
     }
 
     function removeOverlay() {
@@ -127,10 +203,13 @@
             ctx = null;
         }
         document.body.classList.remove('flashlight-mode');
+
+        unfloatElements();
+
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('touchmove', onMouseMove);
         window.removeEventListener('resize', onResize);
-        window.removeEventListener('scroll', scheduleDraw);
+        window.removeEventListener('scroll', onScroll);
     }
 
     function applyMode(mode) {
