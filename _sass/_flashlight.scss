@@ -5,3 +5,35 @@
     z-index: 1001;
     pointer-events: none;
 }
+
+// 黑夜模式：header 提到遮罩之上，背景透明，只露按钮
+.flashlight-mode .site-header {
+    z-index: 1002 !important;
+    background: transparent !important;
+    border-bottom-color: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+
+    &::before,
+    &::after {
+        display: none !important;
+    }
+}
+
+.flashlight-mode .site-header .nav a {
+    color: transparent !important;
+}
+
+.flashlight-mode .site-header .nav-indicator {
+    opacity: 0 !important;
+}
+
+.flashlight-mode .site-header .top-btn {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.flashlight-mode .site-header .nav-reading-title {
+    color: transparent !important;
+}

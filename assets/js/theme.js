@@ -42,28 +42,6 @@
         } catch (e) { }
     }
 
-    function getBtnCenter() {
-        var toggle = document.querySelector('.theme-toggle');
-        if (!toggle) return null;
-        var r = toggle.getBoundingClientRect();
-        return {
-            x: r.left + r.width / 2,
-            y: r.top + r.height / 2,
-            radius: Math.max(r.width, r.height) / 2 + 8
-        };
-    }
-
-    function getBgCenter() {
-        var sel = document.querySelector('.bg-selector');
-        if (!sel) return null;
-        var r = sel.getBoundingClientRect();
-        return {
-            x: r.left + r.width / 2,
-            y: r.top + r.height / 2,
-            radius: Math.max(r.width, r.height) / 2 + 6
-        };
-    }
-
     function draw() {
         ticking = false;
         if (!canvas || !ctx) return;
@@ -78,29 +56,11 @@
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, w, h);
 
-        // 挖洞模式
+        // 挖光标洞
         ctx.globalCompositeOperation = 'destination-out';
-
-        // 光标洞
         ctx.beginPath();
         ctx.arc(cursorX, cursorY, 140, 0, Math.PI * 2);
         ctx.fill();
-
-        // 切换按钮洞
-        var btn = getBtnCenter();
-        if (btn) {
-            ctx.beginPath();
-            ctx.arc(btn.x, btn.y, btn.radius, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        // 背景选择器洞
-        var bg = getBgCenter();
-        if (bg) {
-            ctx.beginPath();
-            ctx.arc(bg.x, bg.y, bg.radius, 0, Math.PI * 2);
-            ctx.fill();
-        }
     }
 
     function scheduleDraw() {

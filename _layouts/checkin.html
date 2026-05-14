@@ -17,7 +17,7 @@ title: 每日打卡
                 if (bg) document.documentElement.setAttribute('data-bg', bg);
                 if (localStorage.getItem('flashlight-mode') === 'on') {
                     var s = document.createElement('style');
-                    s.textContent = '.flashlight-overlay{position:fixed;inset:0;z-index:1001;pointer-events:none;background:radial-gradient(circle 140px at 50% 50%,transparent 0,transparent 130px,rgba(0,0,0,0.92) 140px,#000 100%)}';
+                    s.textContent = '.flashlight-overlay{position:fixed;inset:0;z-index:1001;pointer-events:none;background:radial-gradient(circle 140px at 50% 50%,transparent 0,transparent 130px,rgba(0,0,0,0.92) 140px,#000 100%)}.flashlight-mode .site-header{z-index:1002!important;background:transparent!important;border-bottom-color:transparent!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.flashlight-mode .site-header::before,.flashlight-mode .site-header::after{display:none!important}.flashlight-mode .site-header .nav a{color:transparent!important}.flashlight-mode .site-header .nav-indicator{opacity:0!important}.flashlight-mode .site-header .top-btn{opacity:0!important;pointer-events:none!important}.flashlight-mode .site-header .nav-reading-title{color:transparent!important}';
                     document.head.appendChild(s);
                     var d = document.createElement('div');
                     d.className = 'flashlight-overlay';
