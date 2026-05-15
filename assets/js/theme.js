@@ -12,7 +12,12 @@
     var ctx = null;
     var cursorX = -1000;
     var cursorY = -1000;
+    var targetX = -1000;
+    var targetY = -1000;
     var ticking = false;
+    var animating = false;
+    var mouseInside = false;
+    var LERP_FACTOR = 0.12;
     var floatingEls = [];
 
     function getStoredMode() {
@@ -48,6 +53,19 @@
         ticking = false;
         if (!canvas || !ctx) return;
 
+        cursorX += (targetX - cursorX) * LERP_FACTOR;
+        cursorY += (targetY - cursorY) * LERP_FACTOR;
+
+        var dx = targetX - cursorX;
+        var dy = targetY - cursorY;
+        if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
+            window.requestAnimationFrame(draw);
+        } else {
+            cursorX = targetX;
+            cursorY = targetY;
+            animating = false;
+        }
+
         var w = window.innerWidth;
         var h = window.innerHeight;
         if (canvas.width !== w) canvas.width = w;
@@ -57,16 +75,19 @@
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, w, h);
 
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath();
-        ctx.arc(cursorX, cursorY, 140, 0, Math.PI * 2);
-        ctx.fill();
+        if (mouseInside) {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(cursorX, cursorY, 140, 0, Math.PI * 2);
+            ctx.fill();
+        }
     }
 
     function scheduleDraw() {
-        if (ticking) return;
-        ticking = true;
-        window.requestAnimationFrame(draw);
+        if (!animating) {
+            animating = true;
+            window.requestAnimationFrame(draw);
+        }
     }
 
     function floatElements() {
@@ -158,24 +179,30 @@
     }
 
     function onMouseLeave() {
-        cursorX = -1000;
-        cursorY = -1000;
-        scheduleDraw();
+        mouseInside = false;
+        targetX = cursorX;
+        targetY = cursorY;
+        animating = false;
+        if (canvas && ctx) {
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, w, h);
+        }
     }
 
     function onMouseMove(e) {
-        var cx, cy;
+        mouseInside = true;
         if (e.touches) {
-            cx = e.touches[0].clientX;
-            cy = e.touches[0].clientY;
+            targetX = e.touches[0].clientX;
+            targetY = e.touches[0].clientY;
         } else {
-            cx = e.clientX;
-            cy = e.clientY;
+            targetX = e.clientX;
+            targetY = e.clientY;
         }
-        cursorX = cx;
-        cursorY = cy;
         try {
-            sessionStorage.setItem(CURSOR_STORAGE_KEY, cx + ',' + cy);
+            sessionStorage.setItem(CURSOR_STORAGE_KEY, targetX + ',' + targetY);
         } catch (err) { }
         scheduleDraw();
     }
@@ -205,8 +232,10 @@
             var saved = sessionStorage.getItem(CURSOR_STORAGE_KEY);
             if (saved) {
                 var parts = saved.split(',');
-                cursorX = Number(parts[0]) || -1000;
-                cursorY = Number(parts[1]) || -1000;
+                targetX = Number(parts[0]) || -1000;
+                targetY = Number(parts[1]) || -1000;
+                cursorX = targetX;
+                cursorY = targetY;
             }
         } catch (err) { }
         draw();
