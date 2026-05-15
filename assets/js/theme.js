@@ -207,6 +207,17 @@
             canvas = null;
             ctx = null;
         }
+        // Also remove any other flashlight-overlay elements (e.g., from layout inline scripts)
+        var old = document.querySelector('.flashlight-overlay');
+        if (old) old.remove();
+        // Remove any inline styles for flashlight-overlay
+        var styles = document.querySelectorAll('style');
+        for (var i = 0; i < styles.length; i++) {
+            if (styles[i].textContent.indexOf('flashlight-overlay') !== -1) {
+                styles[i].remove();
+                break;
+            }
+        }
         document.body.classList.remove('flashlight-mode');
 
         unfloatElements();
@@ -224,16 +235,16 @@
             removeOverlay();
         }
 
-        var toggle = document.querySelector('.theme-toggle');
+        var toggle = document.querySelector('.theme-toggle:not(.fl-placeholder)');
         var icon = toggle ? toggle.querySelector('.theme-toggle__icon') : null;
 
         if (toggle && icon) {
             if (mode === MODE_ON) {
-                icon.src = toggle.dataset.iconMoon;
+                icon.src = toggle.dataset.iconSun;
                 toggle.setAttribute('aria-label', '关闭手电筒');
                 toggle.setAttribute('aria-pressed', 'true');
             } else {
-                icon.src = toggle.dataset.iconSun;
+                icon.src = toggle.dataset.iconMoon;
                 toggle.setAttribute('aria-label', '打开手电筒');
                 toggle.setAttribute('aria-pressed', 'false');
             }
@@ -274,8 +285,6 @@
     }
 
     function init() {
-        applyMode(getStoredMode());
-        applyBg(getStoredBg());
         bindToggle();
         bindBgSelector();
 
@@ -283,6 +292,9 @@
         if (selector) {
             selector.hidden = false;
         }
+
+        applyMode(getStoredMode());
+        applyBg(getStoredBg());
     }
 
     if (document.readyState === 'loading') {
