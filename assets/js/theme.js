@@ -2,6 +2,7 @@
 (function () {
     var STORAGE_KEY = 'flashlight-mode';
     var BG_STORAGE_KEY = 'site-bg';
+    var CURSOR_STORAGE_KEY = 'flashlight-cursor';
     var MODE_ON = 'on';
     var MODE_OFF = 'off';
     var BG_OPTIONS = ['paper', 'gradient', 'clean'];
@@ -156,6 +157,12 @@
         scheduleDraw();
     }
 
+    function onMouseLeave() {
+        cursorX = -1000;
+        cursorY = -1000;
+        scheduleDraw();
+    }
+
     function onMouseMove(e) {
         var cx, cy;
         if (e.touches) {
@@ -167,6 +174,9 @@
         }
         cursorX = cx;
         cursorY = cy;
+        try {
+            sessionStorage.setItem(CURSOR_STORAGE_KEY, cx + ',' + cy);
+        } catch (err) { }
         scheduleDraw();
     }
 
@@ -191,11 +201,18 @@
 
         floatElements();
 
-        cursorX = window.innerWidth / 2;
-        cursorY = window.innerHeight / 2;
+        try {
+            var saved = sessionStorage.getItem(CURSOR_STORAGE_KEY);
+            if (saved) {
+                var parts = saved.split(',');
+                cursorX = Number(parts[0]) || -1000;
+                cursorY = Number(parts[1]) || -1000;
+            }
+        } catch (err) { }
         draw();
 
         document.addEventListener('mousemove', onMouseMove, { passive: true });
+        document.addEventListener('mouseleave', onMouseLeave);
         document.addEventListener('touchmove', onMouseMove, { passive: true });
         window.addEventListener('resize', onResize);
         window.addEventListener('scroll', onScroll, { passive: true });
@@ -223,6 +240,7 @@
         unfloatElements();
 
         document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseleave', onMouseLeave);
         document.removeEventListener('touchmove', onMouseMove);
         window.removeEventListener('resize', onResize);
         window.removeEventListener('scroll', onScroll);
