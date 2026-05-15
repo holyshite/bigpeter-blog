@@ -15,19 +15,6 @@ title: 文章详情
             try {
                 var bg = localStorage.getItem('site-bg');
                 if (bg) document.documentElement.setAttribute('data-bg', bg);
-                if (localStorage.getItem('flashlight-mode') === 'on') {
-                    var s = document.createElement('style');
-                    s.textContent = '.flashlight-overlay{position:fixed;inset:0;z-index:1001;pointer-events:none;background:radial-gradient(circle 140px at 50% 50%,transparent 0,transparent 130px,rgba(0,0,0,0.92) 140px,#000 100%)}';
-                    document.head.appendChild(s);
-                    var d = document.createElement('div');
-                    d.className = 'flashlight-overlay';
-                    document.addEventListener('DOMContentLoaded', function () {
-                        if (!document.querySelector('.flashlight-overlay')) {
-                            document.body.appendChild(d);
-                        }
-                        document.body.classList.add('flashlight-mode');
-                    });
-                }
             } catch (e) { }
         })();
     </script>

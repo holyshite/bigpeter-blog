@@ -209,6 +209,7 @@
 
     function createOverlay() {
         if (canvas) return;
+        mouseInside = true;
         var old = document.querySelector('.flashlight-overlay');
         if (old) old.remove();
         var styles = document.querySelectorAll('style');
