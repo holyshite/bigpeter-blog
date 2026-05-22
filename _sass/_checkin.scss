@@ -592,19 +592,16 @@
 
 // ========== 用户栏 & 登录提示 ==========
 .checkin-user-bar {
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 1.5rem;
-    @include liquid-glass-surface($radius: 0,
-        $padding: 0.75rem 1.5rem,
-        $bg: rgba(255, 255, 255, 0.04),
-        $border: rgba(255, 255, 255, 0.08));
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    @include liquid-glass-surface($radius: 12px,
+        $padding: 0.75rem 1rem,
+        $bg: rgba(255, 255, 255, 0.06),
+        $border: rgba(255, 255, 255, 0.12));
 }
 
 .user-info-left {
@@ -614,15 +611,14 @@
 }
 
 .user-avatar {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
 }
 
 .user-name {
     font-weight: 600;
-    font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -682,12 +678,12 @@
 // 白天主题
 [data-theme="light"] {
     .checkin-user-bar {
-        background: rgba(255, 255, 255, 0.85);
+        background: transparent;
         border: none;
-        border-bottom: 1px solid var(--light-hr);
-        box-shadow: 0 1px 4px rgba(44, 36, 32, 0.06);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px dashed var(--light-hr);
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
         border-radius: 0;
     }
 
