@@ -4,6 +4,7 @@ title: 每日打卡
 permalink: /checkin/
 ---
 
+<!-- CHECKIN-V2: OAuth-based login, Cloudflare Workers backend -->
 <div class="checkin-container">
     <div class="checkin-user-bar" id="userBar" style="display: none;">
         <img id="userAvatar" class="user-avatar" src="" alt="头像">
