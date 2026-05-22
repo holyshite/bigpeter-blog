@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>港澳旅行计划</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 12px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .content {
+            margin-top: 70px;
+            padding: 20px 16px;
+            padding-bottom: 40px;
+        }
+
+        .day-section {
+            display: none;
+        }
+
+        .day-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .day-header {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .day-title {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .day-subtitle {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .subsection-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #444;
+            margin: 16px 0 12px 0;
+            padding-left: 12px;
+            border-left: 3px solid #667eea;
+        }
+
+        .transport-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .transport-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .transport-detail {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+            padding-left: 8px;
+        }
+
+        .item-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .item-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .item-location {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 6px;
+            font-family: monospace;
+        }
+
+        .item-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .food-card {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border-left-color: #ff6b6b;
+        }
+
+        .route-flow {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            padding: 16px;
+            background: #f0f4ff;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .route-dot {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .route-arrow {
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #856404;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .tip-box::before {
+            content: '💡';
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .transport-options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .option-card.recommended {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6ecff 100%);
+        }
+
+        .option-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .option-icon {
+            font-size: 24px;
+        }
+
+        .option-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .option-price {
+            margin-left: auto;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .option-details {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .ending-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .ending-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .ending-text {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="switchDay('day1')">5.28</button>
+            <button class="nav-btn" onclick="switchDay('day2')">5.29</button>
+            <button class="nav-btn" onclick="switchDay('day3')">5.30</button>
+            <button class="nav-btn" onclick="switchDay('day4')">5.31/6.1</button>
+        </div>
+    </nav>
+
+    <div class="content">
+        <!-- 5.28 -->
+        <div id="day1" class="day-section active">
+            <div class="day-header">
+                <div class="day-title">5.28</div>
+                <div class="day-subtitle">凌晨1:10到达宝安国际机场T3航站楼</div>
+            </div>
+
+            <div class="route-flow">
+                <span class="route-dot">机场</span>
+                <span class="route-arrow">→</span>
+                <span class="route-dot">旺角</span>
+                <span class="route-arrow">→</span>
+                <span class="route-dot">油麻地</span>
+                <span class="route-arrow">→</span>
+                <span class="route-dot">尖沙咀</span>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">机场过夜</div>
+                <div class="item-card">
+                    <div class="item-name">免费休息区（1楼）</div>
+                    <div class="item-desc">先找到下楼的电梯或扶梯，前往1楼。跟着"网约车B区"或"过夜旅客休息区"的指示牌走就行</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">计时休息室（4楼）</div>
+                    <div class="item-desc">找到上楼的电梯，前往4楼出发大厅。乐港计时休息室就在值机区G岛附近</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">更衣室</div>
+                    <div class="item-desc">据网上说还有更衣室可以选择</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">机场到香港</div>
+                <div class="item-card">
+                    <div class="item-name">交通路线</div>
+                    <div class="item-desc">地铁去福田站 → 福田站高铁票直达西九龙站 → 地铁到酒店，抵达时为中午，可先去放行李</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">旺角</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">抵达时为中午，正好可以吃午饭</p>
+
+                <div class="subsection-title">午餐选择</div>
+                <div class="item-card food-card">
+                    <div class="item-name">龙城冰室</div>
+                    <div class="item-desc">老字号冰室，菠萝油必点</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">华记潮州卤水车仔面</div>
+                    <div class="item-desc">车仔面控的天堂，卤水汁很正</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">华嫂冰室</div>
+                    <div class="item-desc">网红冰室，经常要排队</div>
+                </div>
+
+                <div class="subsection-title">朗豪坊打卡</div>
+                <div class="item-card">
+                    <div class="item-name">超长扶梯</div>
+                    <div class="item-location">旺角地铁E1出口 四楼</div>
+                    <div class="item-desc">超长扶梯直通商场，很有气势</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">旺角天桥</div>
+                    <div class="item-location">地铁B3出口</div>
+                    <div class="item-desc">拍照打卡好地方，车流很好看</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">LOG-ON</div>
+                    <div class="item-location">六楼</div>
+                    <div class="item-desc">日系杂货店，很好逛</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">怪店</div>
+                    <div class="item-location">十一楼</div>
+                    <div class="item-desc">各种奇奇怪怪的小物件，很有趣</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">80m巴士模型</div>
+                    <div class="item-location">十一楼</div>
+                    <div class="item-desc">巴士迷必去，模型超精致</div>
+                </div>
+
+                <div class="subsection-title">周边逛逛</div>
+                <div class="item-card">
+                    <div class="item-name">618上海街</div>
+                    <div class="item-desc">活化后的唐楼群，有很多特色小店</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">通菜街</div>
+                    <div class="item-desc">就是大名鼎鼎的"女人街"，各种小摊位很热闹</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">花园街</div>
+                    <div class="item-desc">"波鞋街"，运动鞋爱好者天堂</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">金鱼街</div>
+                    <div class="item-desc">整条街都是卖金鱼和宠物的，很有香港特色</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">妈不在家</div>
+                    <div class="item-desc">文艺小店，可以淘淘有趣的东西</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">油麻地</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">这里我们主要就是逛逛逛拍拍拍了</p>
+
+                <div class="item-card">
+                    <div class="item-name">红砖屋</div>
+                    <div class="item-desc">油麻地戏院旧址，红砖建筑很有味道</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">果栏</div>
+                    <div class="item-desc">水果批发市场，凌晨最热闹，白天也可以逛逛感受氛围</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">百老汇电影中心</div>
+                    <div class="item-desc">文艺青年必去，经常有独立电影放映</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">油麻地警署</div>
+                    <div class="item-desc">TVB御用拍摄地，港剧迷必打卡</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">天后古庙</div>
+                    <div class="item-desc">闹市中的古庙，很有 contrast 感</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">庙街</div>
+                    <div class="item-desc">"男人街"，夜市很热闹，可以淘各种小东西</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">香港麦当劳 i'm lovin' it 50周年展览</div>
+                    <div class="item-desc">限时展览，麦当劳粉丝别错过</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">尖沙咀</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">以下路线可作参考，可以根据实际情况安排</p>
+
+                <div class="item-card">
+                    <div class="item-name">尖东地铁站J口</div>
+                    <div class="item-desc">从J2口出，进入K11 Musea后坐电梯去6楼观景平台</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">K11 Musea</div>
+                    <div class="item-desc">6F 雕塑公园：能俯瞰维港，出去后导航星巴克就是麦兜铜像</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">星光大道</div>
+                    <div class="item-desc">沿着维港边的步道，有很多明星手印和铜像</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">维多利亚港</div>
+                    <div class="item-desc">晚上可以坐天星小轮夜游维港</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">尖沙咀钟楼</div>
+                    <div class="item-desc">钟楼附近观光天桥：能看到天星小轮、中环摩天轮、钟楼和维港</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">尖沙咀天星码头</div>
+                    <div class="item-desc">坐天星小轮的码头，复古感满满</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">星光行</div>
+                    <div class="item-desc">商场连廊，可以通往各个商场</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">海港城</div>
+                    <div class="item-desc">超大的购物中心，逛到腿软</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">重庆大厦</div>
+                    <div class="item-desc">电影《重庆森林》取景地，很有异域风情</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">K11 Art Mall</div>
+                    <div class="item-desc">艺术主题商场，经常有展览</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">尖东地铁站N1口</div>
+                    <div class="item-desc">从这里进地铁站，结束今天的行程</div>
+                </div>
+
+                <div class="subsection-title">晚餐推荐</div>
+                <div class="item-card food-card">
+                    <div class="item-name">Outdark</div>
+                    <div class="item-location">厚福街8號H8 17樓</div>
+                    <div class="item-desc">氛围感韩餐</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">六公馆</div>
+                    <div class="item-location">海港城海運大廈地下OTE101號舖</div>
+                    <div class="item-desc">据说还挺出片</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">克茗冰室</div>
+                    <div class="item-location">寶勒巷 21/23 號地下 1 號舖</div>
+                    <div class="item-desc">有点让我心动，香港好多冰室</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">Tokachi-milky</div>
+                    <div class="item-location">K11 Musea地下008 & 008A號</div>
+                    <div class="item-desc">雪糕挺火</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">PokeGo</div>
+                    <div class="item-location">漆咸道南81號南海大廈地下G號舖</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">HOW</div>
+                    <div class="item-location">K11購物藝術館2樓201-01號舖</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">四川辣妹子</div>
+                    <div class="item-location">山林道30-32號昌林閣1樓</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">Tonkichi</div>
+                    <div class="item-location">The ONE L401舖</div>
+                </div>
+
+                <div class="subsection-title">实惠选择</div>
+                <div class="item-card food-card">
+                    <div class="item-name">九鼎记粉麺世家</div>
+                    <div class="item-location">尖沙咀东 新文化中心地面35-36B号店铺</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">妈咪鸡蛋仔</div>
+                    <div class="item-location">尖沙咀东 新文化中心地面16号店铺</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">靓靓车仔面</div>
+                    <div class="item-location">尖沙咀东 新文化中心地面22-23号铺</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">新大光灯</div>
+                    <div class="item-location">尖东站P2出口 半岛中心G36号铺</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">茶档</div>
+                    <div class="item-location">尖沙咀东 半岛中心2楼</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">谭仔三哥米线</div>
+                    <div class="item-location">尖沙咀 幸福中心UG层</div>
+                </div>
+            </div>
+
+            <div class="ending-card">
+                <div class="ending-icon">💤</div>
+                <div class="ending-text">今天的行程到这里就差不多了<br>该回酒店休息休息了</div>
+            </div>
+        </div>
+
+        <!-- 5.29 -->
+        <div id="day2" class="day-section">
+            <div class="day-header">
+                <div class="day-title">5.29</div>
+                <div class="day-subtitle">一路向西，最后太平山看夜景收尾</div>
+            </div>
+
+            <div class="route-flow">
+                <span class="route-dot">铜锣湾</span>
+                <span class="route-arrow">→</span>
+                <span class="route-dot">湾仔</span>
+                <span class="route-arrow">→</span>
+                <span class="route-dot">中环</span>
+                <span class="route-arrow">→</span>
+                <span class="route-dot">西营盘</span>
+                <span class="route-arrow">→</span>
+                <span class="route-dot">坚尼地城</span>
+                <span class="route-arrow">→</span>
+                <span class="route-dot">太平山</span>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">铜锣湾</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">购物天堂，来了香港怎么能不逛逛呢</p>
+
+                <div class="item-card">
+                    <div class="item-name">崇光百货</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">希慎广场</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">时代广场</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">利舞臺广场</div>
+                </div>
+
+                <div class="subsection-title">午餐推荐</div>
+                <div class="item-card food-card">
+                    <div class="item-name">一兰拉面</div>
+                    <div class="item-location">登龙街</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">池记</div>
+                    <div class="item-location">渣甸街</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">甘牌烧鹅</div>
+                    <div class="item-location">轩尼诗道</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">湾仔</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 8px;">感受一下老香港的味道，走走逛逛拍拍</p>
+                <p style="font-size: 13px; color: #888; margin-bottom: 16px;">游玩顺序：北帝庙→蓝屋→旧湾仔邮政局</p>
+
+                <div class="item-card">
+                    <div class="item-name">北帝庙</div>
+                    <div class="item-location">湾仔隆安街</div>
+                    <div class="item-desc">庙不大但很有氛围，可以拜拜</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">蓝屋</div>
+                    <div class="item-location">石水渠街72号</div>
+                    <div class="item-desc">一级历史建筑，蓝色外墙超好拍</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">旧湾仔邮政局</div>
+                    <div class="item-location">湾仔皇后大道东221号</div>
+                    <div class="item-desc">香港现存最古老的邮政局建筑</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">中环</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">中环有很多不错的打卡机位，我们一个一个来</p>
+
+                <div class="item-card">
+                    <div class="item-name">中环摩天轮</div>
+                    <div class="item-desc">我要坐中环摩天轮</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">中环街市</div>
+                    <div class="item-location">皇后大道中93号</div>
+                    <div class="item-desc">活化后的文艺地标，很好逛</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">嘉咸街壁画</div>
+                    <div class="item-desc">彩色涂鸦墙，出片率很高</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">石板街</div>
+                    <div class="item-location">砵甸乍街</div>
+                    <div class="item-desc">经典港风打卡点，必须来一张</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">都爹利街煤气灯</div>
+                    <div class="item-desc">全港仅存的煤气路灯，很有feel</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">兰桂坊</div>
+                    <div class="item-desc">白天拍照晚上喝酒，看我们时间安排</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">中环半山扶梯</div>
+                    <div class="item-desc">全球最长的户外有盖扶梯，可以顺便逛逛周边</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">西营盘</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 8px;">近年很火的文艺打卡区，适合慢慢走慢慢拍</p>
+                <p style="font-size: 13px; color: #888; margin-bottom: 16px;">游玩顺序：正街→西边街→东边街→第三街</p>
+
+                <div class="item-card">
+                    <div class="item-name">正街</div>
+                    <div class="item-desc">长长的楼梯，很有纵深感</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">西边街</div>
+                    <div class="item-desc">彩色房子，拍照超好看</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">东边街</div>
+                    <div class="item-desc">坡道上的老香港风情</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">第三街</div>
+                    <div class="item-desc">小众但很有味道</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">坚尼地城</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">这里有两个必打卡的地方</p>
+
+                <div class="item-card">
+                    <div class="item-name">篮球场机位</div>
+                    <div class="item-location">地铁C口出</div>
+                    <div class="item-desc">超火的那个从高处俯拍篮球场的角度，一定要拍</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">% Arabica咖啡店</div>
+                    <div class="item-location">坚尼地城爹核士街</div>
+                    <div class="item-desc">网红咖啡店，买杯咖啡休息一下</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">太平山</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">今天的重头戏——夜游太平山，俯瞰整个香港夜色</p>
+
+                <div class="transport-options">
+                    <div class="option-card">
+                        <div class="option-header">
+                            <span class="option-icon">🚗</span>
+                            <span class="option-title">打车</span>
+                        </div>
+                        <div class="option-details">可以打车前往</div>
+                    </div>
+                    <div class="option-card">
+                        <div class="option-header">
+                            <span class="option-icon">🚡</span>
+                            <span class="option-title">缆车</span>
+                            <span class="option-price">88港币</span>
+                        </div>
+                        <div class="option-details">中环站J2口步行至缆车总站，往返票价</div>
+                    </div>
+                    <div class="option-card recommended">
+                        <div class="option-header">
+                            <span class="option-icon">🚌</span>
+                            <span class="option-title">巴士</span>
+                            <span class="option-price">经济实惠</span>
+                        </div>
+                        <div class="option-details">金钟站C1搭乘15路达山顶广场后导航卢吉道观景台</div>
+                    </div>
+                </div>
+
+                <div class="tip-box">到了山顶之后，记得去卢吉道观景台，那里视野超棒，整个维港夜景尽收眼底</div>
+            </div>
+
+            <div class="ending-card">
+                <div class="ending-icon">💤</div>
+                <div class="ending-text">看完美美的夜景<br>今天的行程就结束啦，回酒店休息休息</div>
+            </div>
+        </div>
+
+        <!-- 5.30 -->
+        <div id="day3" class="day-section">
+            <div class="day-header">
+                <div class="day-title">5.30</div>
+                <div class="day-subtitle">转战澳门！从香港出发，体验澳门的葡式风情</div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">香港到澳门</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">有三种主流方式可以选择</p>
+
+                <div class="transport-options">
+                    <div class="option-card">
+                        <div class="option-header">
+                            <span class="option-icon">🚢</span>
+                            <span class="option-title">坐船</span>
+                            <span class="option-price">160-200港币</span>
+                        </div>
+                        <div class="option-details">
+                            上环港澳码头出发<br>
+                            航程约1小时<br>
+                            可以选择TurboJET或金光飞航
+                        </div>
+                    </div>
+                    <div class="option-card">
+                        <div class="option-header">
+                            <span class="option-icon">🚌</span>
+                            <span class="option-title">金巴</span>
+                            <span class="option-price">65-70港币</span>
+                        </div>
+                        <div class="option-details">
+                            港珠澳大桥香港口岸出发<br>
+                            车程约45分钟<br>
+                            需要先到口岸过关
+                        </div>
+                    </div>
+                    <div class="option-card recommended">
+                        <div class="option-header">
+                            <span class="option-icon">🚌</span>
+                            <span class="option-title">港澳快线</span>
+                            <span class="option-price">160港币</span>
+                        </div>
+                        <div class="option-details">
+                            市区多个上车点（旺角、太子、佐敦等）<br>
+                            直达澳门市区多个站点<br>
+                            车程约2小时（含过关）<br>
+                            最方便，不用自己跑口岸
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">建议坐港澳快线，省心省力，直接从市区出发到市区</div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">澳门半岛</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">到了澳门先去半岛逛逛，这里是澳门的老城区，最有味道</p>
+
+                <div class="subsection-title">大三巴牌坊</div>
+                <div class="item-card">
+                    <div class="item-name">大三巴牌坊</div>
+                    <div class="item-desc">澳门的地标，圣保禄教堂遗址，中西合璧的巴洛克式建筑</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">大炮台</div>
+                    <div class="item-desc">就在大三巴旁边，可以俯瞰整个澳门半岛</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">恋爱巷</div>
+                    <div class="item-desc">粉色小巷，拍照超浪漫</div>
+                </div>
+
+                <div class="subsection-title">议事亭前地</div>
+                <div class="item-card">
+                    <div class="item-name">议事亭前地</div>
+                    <div class="item-desc">澳门的市中心，波浪形碎石地面，很有特色</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">玫瑰堂</div>
+                    <div class="item-desc">奶油色外墙，里面很漂亮</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">仁慈堂</div>
+                    <div class="item-desc">历史建筑，可以进去看看</div>
+                </div>
+
+                <div class="subsection-title">妈阁庙</div>
+                <div class="item-card">
+                    <div class="item-name">妈阁庙</div>
+                    <div class="item-desc">澳门最古老的庙宇，名字就是"Macau"的由来，供奉妈祖，香火很旺</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">澳门美食</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">逛累了当然要吃吃吃！澳门美食不能错过</p>
+
+                <div class="item-card food-card">
+                    <div class="item-name">安德鲁蛋挞</div>
+                    <div class="item-location">路环市区</div>
+                    <div class="item-desc">蛋挞鼻祖，必须来一个</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">玛嘉烈蛋挞</div>
+                    <div class="item-location">议事亭前地附近</div>
+                    <div class="item-desc">和安德鲁是夫妻店，各有特色</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">大利来记猪扒包</div>
+                    <div class="item-location">氹仔官也街</div>
+                    <div class="item-desc">超厚猪扒，一口满足</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">黄枝记面家</div>
+                    <div class="item-location">议事亭前地</div>
+                    <div class="item-desc">竹升面，很有嚼劲</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">义顺牛奶公司</div>
+                    <div class="item-location">新马路</div>
+                    <div class="item-desc">双皮奶，奶味超浓</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">氹仔</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">下午去氹仔逛逛，这里有各种豪华赌场和购物中心</p>
+
+                <div class="subsection-title">官也街</div>
+                <div class="item-card">
+                    <div class="item-name">官也街</div>
+                    <div class="item-desc">氹仔的美食街，手信店和小吃店林立，边走边吃</div>
+                </div>
+                <div class="item-card food-card">
+                    <div class="item-name">莫义记</div>
+                    <div class="item-desc">榴莲雪糕，敢吃的一定要试</div>
+                </div>
+
+                <div class="subsection-title">威尼斯人</div>
+                <div class="item-card">
+                    <div class="item-name">威尼斯人购物中心</div>
+                    <div class="item-desc">澳门最大的综合度假村，室内运河，可以坐贡多拉船</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">大运河购物中心</div>
+                    <div class="item-desc">仿威尼斯建筑，拍照很出片</div>
+                </div>
+
+                <div class="subsection-title">巴黎人</div>
+                <div class="item-card">
+                    <div class="item-name">巴黎人铁塔</div>
+                    <div class="item-desc">1/2比例的埃菲尔铁塔，晚上亮灯更好看</div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">澳门塔</div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">如果时间够，可以去澳门塔看看</p>
+
+                <div class="item-card">
+                    <div class="item-name">澳门塔</div>
+                    <div class="item-desc">338米高，可以俯瞰整个澳门<br>胆子大的可以体验笨猪跳</div>
+                </div>
+            </div>
+
+            <div class="ending-card">
+                <div class="ending-icon">🏨</div>
+                <div class="ending-text">晚上入住澳门酒店<br>好好休息，明天继续探索澳门</div>
+            </div>
+        </div>
+
+        <!-- 5.31/6.1 -->
+        <div id="day4" class="day-section">
+            <div class="day-header">
+                <div class="day-title">5.31 / 6.1</div>
+                <div class="day-subtitle">最后两天，悠闲地逛逛</div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-title">行程安排</div>
+                <div class="item-card">
+                    <div class="item-name">返回香港</div>
+                    <div class="item-desc">从澳门坐船或港澳快线回香港</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">看赛马</div>
+                    <div class="item-desc">有时间我们要去看赛马</div>
+                </div>
+                <div class="item-card">
+                    <div class="item-name">悠闲逛逛</div>
+                    <div class="item-desc">可以悠闲地逛逛，或者有代购我们可以去买</div>
+                </div>
+            </div>
+
+            <div class="ending-card">
+                <div class="ending-icon">🎉</div>
+                <div class="ending-text">港澳之旅圆满结束<br>期待下次出发！</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchDay(dayId) {
+            // Hide all sections
+            document.querySelectorAll('.day-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(dayId).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
