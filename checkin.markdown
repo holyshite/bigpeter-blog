@@ -6,13 +6,6 @@ permalink: /checkin/
 
 <!-- CHECKIN-V2: OAuth-based login, Cloudflare Workers backend -->
 <div class="checkin-container">
-    <div class="checkin-user-bar" id="userBar" style="display: none;">
-        <div class="user-info-left">
-            <img id="userAvatar" class="user-avatar" src="" alt="头像">
-            <span id="userName" class="user-name"></span>
-        </div>
-        <button type="button" id="logoutBtn" class="logout-btn">退出</button>
-    </div>
 
     <div class="checkin-status">
         <div id="todayStatus" class="status-pending">
@@ -21,11 +14,7 @@ permalink: /checkin/
         <button id="checkinBtn" class="checkin-btn" disabled>
             <span class="btn-text">打卡中...</span>
         </button>
-    </div>
-
-    <div id="loginHint" class="login-hint" style="display: none;">
-        <p>使用 GitHub 账号登录后即可打卡</p>
-        <a id="loginBtn" class="login-btn" href="https://github-checkin-api.751802108.workers.dev/api/auth/github">GitHub 登录</a>
+        <a id="loginBtn" class="checkin-btn" href="https://github-checkin-api.751802108.workers.dev/api/auth/github" style="display: none;">GitHub 登录</a>
     </div>
 
     <div class="checkin-stats">
@@ -55,4 +44,3 @@ permalink: /checkin/
         </div>
     </div>
 </div>
-

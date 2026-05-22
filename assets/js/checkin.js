@@ -145,15 +145,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 显示未登录状态
     function showLoggedOutState() {
-        if (elements.loginHint) elements.loginHint.style.display = 'block';
         if (elements.checkinBtn) elements.checkinBtn.style.display = 'none';
-        if (elements.todayStatus) {
-            elements.todayStatus.innerHTML = '<p>⏳ 请先登录</p>';
-            elements.todayStatus.className = 'status-pending';
-        }
         if (elements.loginBtn) {
             const frontendRedirect = window.location.origin + '/checkin/';
             elements.loginBtn.href = `${CONFIG.apiBase}/api/auth/github?redirect=${encodeURIComponent(frontendRedirect)}`;
+            elements.loginBtn.style.display = '';
+        }
+        if (elements.todayStatus) {
+            elements.todayStatus.innerHTML = '<p>⏳ 请先登录</p>';
+            elements.todayStatus.className = 'status-pending';
         }
         // 加载本地缓存的历史记录（如有）
         const cached = localStorage.getItem(CONFIG.storageKeys.checkinHistory);
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 显示已登录状态
     function showLoggedInState(user) {
         if (elements.userBar) elements.userBar.style.display = 'flex';
-        if (elements.loginHint) elements.loginHint.style.display = 'none';
+        if (elements.loginBtn) elements.loginBtn.style.display = 'none';
         if (elements.checkinBtn) elements.checkinBtn.style.display = '';
         if (elements.userAvatar) elements.userAvatar.src = user.avatarUrl || '';
         if (elements.userName) elements.userName.textContent = user.userId || '';

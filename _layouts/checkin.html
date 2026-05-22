@@ -18,8 +18,8 @@ title: 每日打卡
             } catch (e) { }
         })();
     </script>
-    <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
+    <link rel="preload" href="{{ '/assets/css/style.css?v=2' | absolute_url }}" as="style">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=2' | absolute_url }}">
 </head>
 
 <body class="star-canvas-page">
@@ -27,6 +27,13 @@ title: 每日打卡
 
     <main class="page-container">
         <div class="page-shell">
+            <div class="checkin-user-bar" id="userBar" style="display: none;">
+                <div class="user-info-left">
+                    <img id="userAvatar" class="user-avatar" src="" alt="头像">
+                    <span id="userName" class="user-name"></span>
+                </div>
+                <button type="button" id="logoutBtn" class="logout-btn">退出</button>
+            </div>
             <div class="glass-card page-main-card checkin-main-card">
                 <div class="page-content">
                     {{ content }}

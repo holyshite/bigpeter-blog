@@ -11,6 +11,10 @@
 .checkin-main-card {
     content-visibility: visible;
     contain-intrinsic-size: auto;
+    padding: 0 !important;
+}
+.checkin-main-card .page-content {
+    padding: 0 !important;
 }
 
 .checkin-status {
@@ -596,12 +600,7 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1.5rem;
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
-    @include liquid-glass-surface($radius: 12px,
-        $padding: 0.75rem 1rem,
-        $bg: rgba(255, 255, 255, 0.06),
-        $border: rgba(255, 255, 255, 0.12));
+    padding: 0;
 }
 
 .user-info-left {
@@ -639,32 +638,30 @@
 }
 
 .login-hint {
-    text-align: center;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 12px;
-    @include liquid-glass-surface($radius: 12px,
-        $padding: 1.5rem,
-        $bg: rgba(255, 255, 255, 0.06),
-        $border: rgba(255, 255, 255, 0.12));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 
     p {
-        margin: 0 0 1rem;
+        margin: 0;
         color: rgba(255, 255, 255, 0.7);
         font-size: 0.95rem;
     }
 }
 
 .login-btn {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    font-size: 1rem;
+    display: block;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: white;
     text-decoration: none;
-    border-radius: 50px;
+    cursor: pointer;
+    white-space: nowrap;
     @include liquid-glass-surface($radius: 50px,
-        $padding: 0.75rem 2rem,
+        $padding: 1rem 2rem,
         $bg: rgba(102, 126, 234, 0.15),
         $border: rgba(102, 126, 234, 0.4));
     @include liquid-glass-hover($translateY: -2px, $scale: 1.02);
@@ -680,7 +677,7 @@
     .checkin-user-bar {
         background: transparent;
         border: none;
-        border-bottom: 1px dashed var(--light-hr);
+        border-bottom: none;
         box-shadow: none;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
@@ -704,19 +701,29 @@
     .login-hint {
         background: transparent;
         border: none;
-        border-bottom: 1px dashed var(--light-hr);
         box-shadow: none;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-        border-radius: 0;
 
         p {
             color: var(--light-text-secondary);
+            font-size: 1.35rem;
+            font-weight: 600;
         }
     }
 
     .login-btn {
-        color: white;
+        color: var(--light-text-primary);
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px dashed var(--light-hr);
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        &::before, &::after { display: none; }
+        &:hover { background: rgba(44,36,32,0.03); }
     }
 }
 
