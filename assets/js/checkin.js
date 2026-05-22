@@ -91,14 +91,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             // 验证 session 并获取用户信息
-            state.userInfo = await apiFetch(`/api/auth/session?session=${state.sessionId}`);
+            try {
+                state.userInfo = await apiFetch(`/api/auth/session?session=${state.sessionId}`);
+            } catch (e) {
+                throw new Error('Session验证失败: ' + (e.message || '未知错误'));
+            }
             showLoggedInState(state.userInfo);
 
             // 并行加载打卡记录和统计数据
-            const [checkins, stats] = await Promise.all([
-                apiFetch(`/api/checkin?session=${state.sessionId}`),
-                apiFetch(`/api/stats?session=${state.sessionId}`)
-            ]);
+            let checkins, stats;
+            try {
+                [checkins, stats] = await Promise.all([
+                    apiFetch(`/api/checkin?session=${state.sessionId}`),
+                    apiFetch(`/api/stats?session=${state.sessionId}`)
+                ]);
+            } catch (e) {
+                throw new Error('数据加载失败: ' + (e.message || '未知错误'));
+            }
 
             state.checkinHistory = checkins;
             state.stats = stats;
@@ -127,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 state.sessionId = null;
                 showLoggedOutState();
             } else {
-                showErrorState('加载失败，请刷新重试');
+                showErrorState(error.message || '加载失败，请刷新重试');
             }
         } finally {
             hideLoadingState();
