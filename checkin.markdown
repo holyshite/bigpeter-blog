@@ -7,8 +7,10 @@ permalink: /checkin/
 <!-- CHECKIN-V2: OAuth-based login, Cloudflare Workers backend -->
 <div class="checkin-container">
     <div class="checkin-user-bar" id="userBar" style="display: none;">
-        <img id="userAvatar" class="user-avatar" src="" alt="头像">
-        <span id="userName" class="user-name"></span>
+        <div class="user-info-left">
+            <img id="userAvatar" class="user-avatar" src="" alt="头像">
+            <span id="userName" class="user-name"></span>
+        </div>
         <button type="button" id="logoutBtn" class="logout-btn">退出</button>
     </div>
 
