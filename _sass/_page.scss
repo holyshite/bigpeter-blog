@@ -526,10 +526,37 @@
     }
 }
 
+.tags-scroll-container {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.tags-scroll-wrapper {
+    height: 100%;
+    overflow: hidden;
+}
+
 .tags-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    animation: tags-scroll-vertical 30s linear infinite;
+}
+
+
+
+@keyframes tags-scroll-vertical {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+.tags-scroll-container:hover .tags-list {
+    animation-play-state: paused;
 }
 
 .tag-list-item {
