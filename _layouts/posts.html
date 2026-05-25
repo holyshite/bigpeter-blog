@@ -55,10 +55,10 @@ title: 文章列表
 
     {% capture page_aside %}
     <div class="aside-mini-card">
-        <p>当前共有 <strong>{{ site.posts | size }}</strong> 篇文章。</p>
+        <p>当前共有 <strong id="post-count">{{ site.posts | size }}</strong> 篇文章。</p>
         {% assign latest_post = site.posts.first %}
         {% if latest_post %}
-        <p>最新文章日期：<strong>{{ latest_post.date | date: "%Y-%m-%d" }}</strong></p>
+        <p>最新文章日期：<strong id="latest-date">{{ latest_post.date | date: "%Y-%m-%d" }}</strong></p>
         {% endif %}
     </div>
 
@@ -114,7 +114,11 @@ title: 文章列表
             const tagItems = document.querySelectorAll('.tag-list-item');
             const postItems = document.querySelectorAll('.post-item');
             const asideTitle = document.querySelector('.page-aside-card h2');
+            const postCount = document.getElementById('post-count');
+            const latestDate = document.getElementById('latest-date');
             const originalTitle = asideTitle ? asideTitle.textContent : '全部文章';
+            const originalCount = postCount ? postCount.textContent : '';
+            const originalDate = latestDate ? latestDate.textContent : '';
             let activeTag = null;
 
             // 无限滚动逻辑
@@ -161,22 +165,44 @@ title: 文章列表
                         if (asideTitle) {
                             asideTitle.textContent = originalTitle;
                         }
+                        if (postCount) {
+                            postCount.textContent = originalCount;
+                        }
+                        if (latestDate) {
+                            latestDate.textContent = originalDate;
+                        }
                         tagItems.forEach(function(t) {
                             t.classList.remove('active');
                         });
                     } else {
                         activeTag = tag;
+                        let visibleCount = 0;
+                        let newestDate = '';
+                        
                         postItems.forEach(function(post) {
                             const postTags = post.getAttribute('data-tags');
                             if (postTags && postTags.split(',').includes(tag)) {
                                 post.style.display = '';
+                                visibleCount++;
+                                const postDate = post.querySelector('.post-date');
+                                if (postDate && (!newestDate || postDate.textContent > newestDate)) {
+                                    newestDate = postDate.textContent;
+                                }
                             } else {
                                 post.style.display = 'none';
                             }
                         });
+                        
                         if (asideTitle) {
                             asideTitle.textContent = tag;
                         }
+                        if (postCount) {
+                            postCount.textContent = visibleCount;
+                        }
+                        if (latestDate) {
+                            latestDate.textContent = newestDate;
+                        }
+                        
                         // 高亮所有相同标签
                         tagItems.forEach(function(t) {
                             if (t.getAttribute('data-tag') === tag) {
