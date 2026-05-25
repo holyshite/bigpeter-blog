@@ -550,6 +550,7 @@
 
 .tag-list-item {
     display: inline-block;
+    cursor: pointer;
     transform: scale3d(1, 1, 1);
     transform-origin: center;
     backface-visibility: hidden;
