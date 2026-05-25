@@ -29,7 +29,7 @@ title: 文章列表
 
     <ul class="post-list">
         {% for post in site.posts %}
-        <li class="post-item">
+        <li class="post-item" data-tags="{{ post.tags | join: ',' }}">
             <a href="{{ post.url }}">
                 <div class="post-title">{{ post.title }}</div>
 
@@ -80,16 +80,21 @@ title: 文章列表
     {% endunless %}
     {% endfor %}
 
-    <div class="tags-scroll-container">
+    <div class="tags-scroll-container" id="tags-scroll">
         <div class="tags-scroll-wrapper">
             <div class="tags-list">
                 {% for tag in unique_tags %}
-                <div class="tag-list-item">
+                <div class="tag-list-item" data-tag="{{ tag }}">
                     <span class="tag-list-title">{{ tag }}</span>
                 </div>
                 {% endfor %}
                 {% for tag in unique_tags %}
-                <div class="tag-list-item">
+                <div class="tag-list-item" data-tag="{{ tag }}">
+                    <span class="tag-list-title">{{ tag }}</span>
+                </div>
+                {% endfor %}
+                {% for tag in unique_tags %}
+                <div class="tag-list-item" data-tag="{{ tag }}">
                     <span class="tag-list-title">{{ tag }}</span>
                 </div>
                 {% endfor %}
@@ -103,6 +108,88 @@ title: 文章列表
     <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
     <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
     <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollContainer = document.getElementById('tags-scroll');
+            const tagItems = document.querySelectorAll('.tag-list-item');
+            const postItems = document.querySelectorAll('.post-item');
+            const asideTitle = document.querySelector('.page-aside-card h2');
+            const originalTitle = asideTitle ? asideTitle.textContent : '全部文章';
+            let activeTag = null;
+
+            // 无限滚动逻辑
+            if (scrollContainer) {
+                const totalTags = {{ unique_tags | size }};
+                const scrollHeight = scrollContainer.scrollHeight;
+                const singleSetHeight = scrollHeight / 3;
+                
+                // 初始滚动到中间位置
+                scrollContainer.scrollTop = singleSetHeight;
+                
+                let isResetting = false;
+                
+                scrollContainer.addEventListener('scroll', function() {
+                    if (isResetting) return;
+                    
+                    const scrollTop = scrollContainer.scrollTop;
+                    
+                    // 滚动到接近底部时，无缝跳转到对应的顶部位置
+                    if (scrollTop >= singleSetHeight * 2 - 10) {
+                        isResetting = true;
+                        scrollContainer.scrollTop = scrollTop - singleSetHeight;
+                        isResetting = false;
+                    }
+                    // 滚动到接近顶部时，无缝跳转到对应的底部位置
+                    else if (scrollTop <= 10) {
+                        isResetting = true;
+                        scrollContainer.scrollTop = scrollTop + singleSetHeight;
+                        isResetting = false;
+                    }
+                });
+            }
+
+            // 标签点击过滤逻辑
+            tagItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    const tag = this.getAttribute('data-tag');
+                    
+                    if (activeTag === tag) {
+                        activeTag = null;
+                        postItems.forEach(function(post) {
+                            post.style.display = '';
+                        });
+                        if (asideTitle) {
+                            asideTitle.textContent = originalTitle;
+                        }
+                        tagItems.forEach(function(t) {
+                            t.classList.remove('active');
+                        });
+                    } else {
+                        activeTag = tag;
+                        postItems.forEach(function(post) {
+                            const postTags = post.getAttribute('data-tags');
+                            if (postTags && postTags.split(',').includes(tag)) {
+                                post.style.display = '';
+                            } else {
+                                post.style.display = 'none';
+                            }
+                        });
+                        if (asideTitle) {
+                            asideTitle.textContent = tag;
+                        }
+                        // 高亮所有相同标签
+                        tagItems.forEach(function(t) {
+                            if (t.getAttribute('data-tag') === tag) {
+                                t.classList.add('active');
+                            } else {
+                                t.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

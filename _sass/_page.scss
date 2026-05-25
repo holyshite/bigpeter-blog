@@ -529,34 +529,23 @@
 .tags-scroll-container {
     position: relative;
     height: 300px;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .tags-scroll-wrapper {
-    height: 100%;
-    overflow: hidden;
+    height: auto;
 }
 
 .tags-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    animation: tags-scroll-vertical 30s linear infinite;
-}
-
-
-
-@keyframes tags-scroll-vertical {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-50%);
-    }
-}
-
-.tags-scroll-container:hover .tags-list {
-    animation-play-state: paused;
 }
 
 .tag-list-item {
@@ -594,6 +583,16 @@
     &:not(:hover) {
         animation: post-card-settle 0.18s cubic-bezier(0.22, 1.2, 0.36, 1) both;
     }
+
+    &.active {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow:
+            0 0 20px rgba(255, 255, 255, 0.1),
+            0 0 40px rgba(255, 255, 255, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    }
 }
 
 .tag-list-title {
@@ -620,6 +619,12 @@
     &:hover {
         background: rgba(44, 36, 32, 0.04);
         border-color: rgba(44, 36, 32, 0.08);
+        box-shadow: none;
+    }
+
+    &.active {
+        background: rgba(44, 36, 32, 0.08);
+        border-color: rgba(44, 36, 32, 0.15);
         box-shadow: none;
     }
 }
