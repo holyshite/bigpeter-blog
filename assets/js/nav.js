@@ -228,7 +228,18 @@
 
         function updateTopBtn() {
             ticking = false;
-            topBtn.classList.toggle('top-btn--visible', window.scrollY > SCROLL_THRESHOLD);
+            const isPostPage = topBtn.classList.contains('post-back-btn');
+            
+            if (isPostPage) {
+                // 文章页：滚动超过阈值时切换为回到顶部模式
+                const isScrolled = window.scrollY > SCROLL_THRESHOLD;
+                topBtn.classList.toggle('top-btn--visible', true); // 文章页始终显示
+                topBtn.classList.toggle('top-btn--scrolled', isScrolled);
+                topBtn.setAttribute('aria-label', isScrolled ? '回到顶部' : '返回文章列表');
+            } else {
+                // 非文章页：正常显示/隐藏
+                topBtn.classList.toggle('top-btn--visible', window.scrollY > SCROLL_THRESHOLD);
+            }
         }
 
         updateTopBtn();
@@ -245,7 +256,19 @@
         if (!topBtn) return;
 
         topBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const isPostPage = topBtn.classList.contains('post-back-btn');
+            const isScrolled = topBtn.classList.contains('top-btn--scrolled');
+            
+            if (isPostPage && !isScrolled) {
+                // 文章页且未滚动：返回文章列表
+                const backUrl = topBtn.getAttribute('data-back-url');
+                if (backUrl) {
+                    window.location.href = backUrl;
+                }
+            } else {
+                // 非文章页或已滚动：回到顶部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
     }
 

@@ -168,6 +168,22 @@
                 opacity: 1;
                 pointer-events: auto;
             }
+
+            // 文章页返回按钮样式
+            &.post-back-btn {
+                opacity: 1;
+                pointer-events: auto;
+                
+                .top-btn__icon {
+                    transform: rotate(-90deg);
+                    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+                }
+                
+                // 滚动后切换为向上箭头
+                &.top-btn--scrolled .top-btn__icon {
+                    transform: rotate(0deg);
+                }
+            }
         }
 
         .top-btn__icon {

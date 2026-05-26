@@ -2,9 +2,10 @@
 <header class="site-header">
     <nav class="nav">
         <button
-            class="top-btn"
+            class="top-btn{% if page.layout == 'post' %} post-back-btn{% endif %}"
             type="button"
-            aria-label="回到顶部"
+            aria-label="{% if page.layout == 'post' %}返回文章列表{% else %}回到顶部{% endif %}"
+            {% if page.layout == 'post' %}data-back-url="{{ '/posts/' | relative_url }}"{% endif %}
         >
             <img
                 class="top-btn__icon"
