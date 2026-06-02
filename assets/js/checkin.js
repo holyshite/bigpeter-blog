@@ -67,6 +67,28 @@ document.addEventListener('DOMContentLoaded', function () {
         return response.json();
     }
 
+    // 获取 OAuth 重定向 URL
+    function getOAuthUrl() {
+        const frontendRedirect = window.location.origin + '/checkin/';
+        return `${CONFIG.apiBase}/api/auth/github?redirect=${encodeURIComponent(frontendRedirect)}`;
+    }
+
+    // 自动重定向到 OAuth（带防循环机制）
+    function redirectToOAuth() {
+        // 防止 OAuth 回调失败时无限循环
+        const lastRedirect = sessionStorage.getItem('oauth_redirect_time');
+        const now = Date.now();
+        if (lastRedirect && (now - parseInt(lastRedirect)) < 30000) {
+            // 30秒内已重定向过，不再重定向，显示登录按钮
+            console.warn('OAuth 重定向循环检测，显示登录按钮');
+            showLoggedOutState();
+            return false;
+        }
+        sessionStorage.setItem('oauth_redirect_time', now.toString());
+        window.location.href = getOAuthUrl();
+        return true;
+    }
+
     // 初始化
     async function init() {
         showLoadingState();
@@ -76,14 +98,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (sessionId) {
             localStorage.setItem(CONFIG.storageKeys.session, sessionId);
             state.sessionId = sessionId;
+            // OAuth 成功，清除防循环标记
+            sessionStorage.removeItem('oauth_redirect_time');
         } else {
             state.sessionId = localStorage.getItem(CONFIG.storageKeys.session);
         }
 
-        // 未登录状态
+        // 未登录状态 - 自动发起 OAuth
         if (!state.sessionId) {
-            showLoggedOutState();
-            // 仍加载公开的排行榜数据
+            if (redirectToOAuth()) return;
+            // 如果重定向失败（循环检测），继续加载公开数据
             await loadLeaderboard();
             hideLoadingState();
             return;
@@ -130,10 +154,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         } catch (error) {
             console.error('初始化失败:', error);
-            // session 失效，清除本地存储
+            // session 失效，清除本地存储并自动重新登录
             if (error.message.includes('Session') || error.message.includes('session')) {
                 localStorage.removeItem(CONFIG.storageKeys.session);
                 state.sessionId = null;
+                if (redirectToOAuth()) return;
+                // 如果重定向失败（循环检测），显示登录按钮
                 showLoggedOutState();
             } else {
                 showErrorState(error.message || '加载失败，请刷新重试');
