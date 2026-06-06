@@ -25,89 +25,131 @@ title: 关于
 <body class="star-canvas-page">
     {% include header.html %}
 
-    {% capture page_content %}
     <style>
-        .about-page {
-            --about-primary: rgba(255, 255, 255, 0.95);
-            --about-secondary: rgba(255, 255, 255, 0.7);
-            --about-accent: #ffea01;
-            --about-glow: rgba(255, 234, 1, 0.15);
-            --about-spacing: 2rem;
-        }
-
-        .about-header {
-            text-align: center;
-            margin-bottom: var(--about-spacing);
+        .about-hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
+            overflow: hidden;
         }
 
-        .about-header h2 {
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, #ffea01 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .about-hero-title {
+            font-size: 6rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9);
+            text-stroke: 2px rgba(255, 255, 255, 0.9);
+            user-select: none;
+            z-index: 2;
+            position: relative;
+            will-change: transform, filter, opacity;
         }
 
-        .about-header p {
+        [data-theme="light"] .about-hero-title {
+            -webkit-text-stroke: 2px var(--light-text-primary, #2C2420);
+            text-stroke: 2px var(--light-text-primary, #2C2420);
+        }
+
+        .about-hero-welcome {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-size: 1.25rem;
-            line-height: 1.6;
-            color: var(--about-secondary);
-            max-width: 700px;
-            margin: 0 auto;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            z-index: 1;
+            opacity: 0;
+            will-change: opacity;
         }
 
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-top: 3rem;
+        [data-theme="light"] .about-hero-welcome {
+            color: var(--light-text-primary, #2C2420);
+        }
+
+        .about-hero-welcome .about-highlight {
+            color: #ffea01;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        [data-theme="light"] .about-hero-welcome .about-highlight {
+            color: var(--light-accent, #C4956A);
+        }
+
+        .about-scroll-content {
+            padding: 0 0 80px;
+        }
+
+        .about-cards-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 340px;
         }
 
         @media (max-width: 768px) {
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+            .about-hero-title {
+                font-size: 4rem;
+            }
+
+            .about-hero-welcome {
+                font-size: 1.1rem;
+            }
+
+            .about-cards-wrapper {
+                height: 420px;
             }
         }
 
-        .about-section-full {
-            grid-column: 1 / -1;
-        }
-
-        .about-section {
-            background: rgba(255, 255, 255, 0.03);
+        .about-card {
+            background: rgba(15, 15, 20, 0.85);
             border-radius: 24px;
             padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            will-change: transform;
+            position: absolute;
+            top: 0;
+            width: calc(50% - 1rem);
         }
 
-        .about-section:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 60px var(--about-glow);
+        .about-card:nth-child(1) {
+            left: 0;
         }
 
-        .about-section h3 {
+        .about-card:nth-child(2) {
+            right: 0;
+        }
+
+        .about-card h3 {
             font-size: 1.75rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
-            color: var(--about-primary);
+            color: rgba(255, 255, 255, 0.95);
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
 
-        .about-section h3::before {
+        .about-card h3::before {
             content: '';
             display: block;
             width: 8px;
             height: 24px;
-            background: var(--about-accent);
+            background: #ffea01;
             border-radius: 4px;
+        }
+
+        [data-theme="light"] .about-card h3::before {
+            background: var(--light-accent, #C4956A);
         }
 
         .about-list {
@@ -122,13 +164,8 @@ title: 关于
             display: flex;
             align-items: center;
             gap: 1rem;
-            color: var(--about-secondary);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 1.1rem;
-            transition: color 0.2s ease;
-        }
-
-        .about-list li:hover {
-            color: var(--about-primary);
         }
 
         .about-list li:last-child {
@@ -137,8 +174,12 @@ title: 关于
 
         .about-list li::before {
             content: '▸';
-            color: var(--about-accent);
+            color: #ffea01;
             font-size: 1.2rem;
+        }
+
+        [data-theme="light"] .about-list li::before {
+            color: var(--light-accent, #C4956A);
         }
 
         .about-contact li a {
@@ -148,52 +189,62 @@ title: 关于
         }
 
         .about-contact li a:hover {
-            color: var(--about-accent);
+            color: #ffea01;
             text-decoration: underline;
         }
 
-        .about-highlight {
-            color: var(--about-accent);
-            font-weight: 600;
+        [data-theme="light"] .about-contact li a:hover {
+            color: var(--light-accent, #C4956A);
         }
 
-        /* 亮色主题适配 */
-        [data-theme="light"] .about-page {
-            --about-primary: var(--light-text-primary);
-            --about-secondary: var(--light-text-secondary);
-            --about-accent: var(--light-accent);
-            --about-glow: rgba(196, 149, 106, 0.15);
+        [data-theme="light"] .about-card {
+            background: rgba(255, 252, 247, 0.95);
+            border: 1px solid rgba(44, 36, 32, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
-        [data-theme="light"] .about-header h2 {
-            background: linear-gradient(135deg, #2C2420 0%, #C4956A 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        [data-theme="light"] .about-section {
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            box-shadow: none;
-            padding: 1.5rem 0;
-        }
-
-        [data-theme="light"] .about-section:not(:last-child) {
-            border-bottom: 1px dashed var(--light-hr);
-        }
-
-        [data-theme="light"] .about-section:hover {
-            transform: none;
-            box-shadow: none;
+        [data-theme="light"] .about-card h3 {
+            color: var(--light-text-primary, #2C2420);
         }
 
         [data-theme="light"] .about-list li {
-            border-bottom: 1px solid var(--light-hr);
+            color: var(--light-text-secondary, #6B5B4F);
+            border-bottom: 1px solid var(--light-hr, rgba(44, 36, 32, 0.1));
         }
 
-        /* 友联样式 */
+        .about-friends-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .about-friends-section h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .about-friends-section h3::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 24px;
+            background: #ffea01;
+            border-radius: 4px;
+        }
+
+        [data-theme="light"] .about-friends-section h3 {
+            color: var(--light-text-primary, #2C2420);
+        }
+
+        [data-theme="light"] .about-friends-section h3::before {
+            background: var(--light-accent, #C4956A);
+        }
+
         .friend-links {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -235,7 +286,6 @@ title: 关于
             transform-origin: center;
             backface-visibility: hidden;
             will-change: transform, box-shadow, border-color, background-color;
-            animation: none;
             transition:
                 box-shadow 0.16s cubic-bezier(0.22, 1, 0.36, 1),
                 border-color 0.16s ease-out,
@@ -287,8 +337,6 @@ title: 关于
         }
 
         .friend-link:hover {
-            animation: post-card-pop 0.14s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-            transform: scale3d(1.018, 1.018, 1);
             box-shadow:
                 0 10px 28px rgba(0, 0, 0, 0.1),
                 0 0 40px rgba(255, 255, 255, 0.09),
@@ -300,10 +348,6 @@ title: 关于
                 box-shadow 0.14s cubic-bezier(0.22, 1, 0.36, 1),
                 border-color 0.14s ease-out,
                 background-color 0.14s ease-out;
-        }
-
-        .friend-link:not(:hover) {
-            animation: post-card-settle 0.18s cubic-bezier(0.22, 1.2, 0.36, 1) both;
         }
 
         .friend-avatar {
@@ -333,23 +377,35 @@ title: 关于
         .friend-info a {
             font-size: 0.875rem;
             font-weight: 600;
-            color: var(--about-primary);
+            color: rgba(255, 255, 255, 0.95);
             text-decoration: none;
             transition: color 0.2s ease;
             order: 1;
         }
 
         .friend-info a:hover {
-            color: var(--about-accent);
+            color: #ffea01;
         }
 
-        .glass-card .about-section .friend-links .friend-link .friend-desc {
-            color: var(--about-secondary);
+        [data-theme="light"] .friend-info a {
+            color: var(--light-text-primary, #2C2420);
+        }
+
+        [data-theme="light"] .friend-info a:hover {
+            color: var(--light-accent, #C4956A);
+        }
+
+        .friend-desc {
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.8rem;
             line-height: 1.1;
             margin: 0.0625rem 0 0 0;
             width: 100%;
             order: 3;
+        }
+
+        [data-theme="light"] .friend-desc {
+            color: var(--light-text-secondary, #6B5B4F);
         }
 
         .friend-tags {
@@ -367,11 +423,10 @@ title: 关于
             padding: 0.1rem 0.3rem;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
-            color: var(--about-secondary);
+            color: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* 亮色主题适配 - 友链 */
         [data-theme="light"] .friend-link {
             background: transparent;
             border: none;
@@ -379,7 +434,7 @@ title: 关于
             box-shadow: none;
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
-            border-bottom: 1px dashed var(--light-hr);
+            border-bottom: 1px dashed var(--light-hr, rgba(44, 36, 32, 0.1));
         }
 
         [data-theme="light"] .friend-link::before,
@@ -394,52 +449,64 @@ title: 关于
         }
 
         [data-theme="light"] .friend-avatar {
-            border: 1px solid var(--light-glass-border);
+            border: 1px solid var(--light-glass-border, rgba(44, 36, 32, 0.15));
         }
 
         [data-theme="light"] .friend-tag {
-            background: var(--light-code-bg);
-            border: 1px solid var(--light-glass-border);
-            color: var(--light-text-secondary);
+            background: var(--light-code-bg, #f0ece4);
+            border: 1px solid var(--light-glass-border, rgba(44, 36, 32, 0.15));
+            color: var(--light-text-secondary, #6B5B4F);
         }
 
-        /* 动画关键帧 */
-        @keyframes post-card-settle {
-            0% {
-                transform: scale3d(1.018, 1.018, 1);
-            }
-
-            55% {
-                transform: scale3d(0.992, 0.992, 1);
-            }
-
-            100% {
-                transform: scale3d(1, 1, 1);
-            }
+        .about-footer-icons {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
 
-        @keyframes post-card-pop {
-            0% {
-                transform: scale3d(1, 1, 1);
-            }
+        .home-icon-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+        }
 
-            65% {
-                transform: scale3d(1.026, 1.026, 1);
-            }
+        .home-icon-item {
+            width: 64px;
+            height: 64px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.006);
+            border: 1px solid rgba(255, 255, 255, 0.075);
+            transition: transform 0.2s ease;
+            text-decoration: none;
+        }
 
-            100% {
-                transform: scale3d(1.018, 1.018, 1);
-            }
+        .home-icon-item:hover {
+            transform: scale(1.1);
+        }
+
+        .home-icon-item img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            pointer-events: none;
         }
     </style>
-    <div class="about-page">
-        <div class="about-header">
-            <h2>关于我</h2>
-            <p>欢迎来到我的个人网站！我是 <a href="/BigPeter"
-                    class="about-highlight">BigPeter</a>，一个热爱编程和技术的开发者。这个网站是我用来分享技术心得、项目经验和生活感悟的地方。</p>
-        </div>
-        <div class="about-content">
-            <div class="about-section">
+
+    <div class="about-hero" id="about-hero">
+        <h2 class="about-hero-title" id="about-hero-title">关于</h2>
+        <p class="about-hero-welcome" id="about-hero-welcome">
+            欢迎来到我的个人网站！我是 <a href="/BigPeter" class="about-highlight">BigPeter</a>，一个热爱编程和技术的开发者。这个网站是我用来分享技术心得、项目经验和生活感悟的地方。
+        </p>
+    </div>
+
+    <div class="about-scroll-content" id="about-scroll-content">
+        <div class="about-cards-wrapper" id="about-cards">
+            <div class="about-card" id="about-site-card">
                 <h3>关于本站</h3>
                 <ul class="about-list">
                     <li>Jekyll静态站点生成器</li>
@@ -448,69 +515,210 @@ title: 关于
                     <li>自定义CSS视觉效果</li>
                 </ul>
             </div>
-            <div class="about-section">
+            <div class="about-card" id="about-contact-card">
                 <h3>联系方式</h3>
                 <ul class="about-list about-contact">
                     <li>📧 <a href="mailto:751802108@qq.com">751802108@qq.com</a></li>
                     <li>🐙 <a href="https://github.com/holyshite" target="_blank" rel="noopener">GitHub: BigPeter</a>
                     </li>
                 </ul>
-                <p style="margin-top: 1.5rem; color: var(--about-secondary); font-size: 0.95rem;">
+                <p style="margin-top: 1.5rem; color: rgba(255,255,255,0.7); font-size: 0.95rem;">
                     如果你有任何问题或建议，欢迎通过以上方式联系我。</p>
             </div>
+        </div>
 
-            <div class="about-section about-section-full">
-                <h3>友情链接</h3>
-                <div class="friend-links">
-                    {% for friend in site.data.friends %}
-                    <div class="friend-link">
-                        <div class="friend-avatar">
-                            <img src="{{ friend.avatar }}" alt="{{ friend.name }}头像">
-                        </div>
-                        <div class="friend-info">
-                            <a href="{{ friend.url }}" target="_blank" rel="noopener">{{ friend.name }}</a>
-                            <p class="friend-desc">{{ friend.description }}</p>
-                            <div class="friend-tags">
-                                {% for tag in friend.tags %}
-                                <span class="friend-tag">{{ tag }}</span>
-                                {% endfor %}
-                            </div>
+        <div class="about-friends-section" id="about-friends">
+            <h3>友情链接</h3>
+            <div class="friend-links">
+                {% for friend in site.data.friends %}
+                <div class="friend-link">
+                    <div class="friend-avatar">
+                        <img src="{{ friend.avatar }}" alt="{{ friend.name }}头像">
+                    </div>
+                    <div class="friend-info">
+                        <a href="{{ friend.url }}" target="_blank" rel="noopener">{{ friend.name }}</a>
+                        <p class="friend-desc">{{ friend.description }}</p>
+                        <div class="friend-tags">
+                            {% for tag in friend.tags %}
+                            <span class="friend-tag">{{ tag }}</span>
+                            {% endfor %}
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
-                <p style="margin-top: 1.5rem; color: var(--about-secondary); font-size: 0.95rem;">
-                    欢迎交换友联！如果你也想添加友联，请通过联系方式与我联系。</p>
+                {% endfor %}
+            </div>
+            <p style="margin-top: 1.5rem; color: rgba(255,255,255,0.7); font-size: 0.95rem;">
+                欢迎交换友联！如果你也想添加友联，请通过联系方式与我联系。</p>
+        </div>
+
+        <div class="about-footer-icons">
+            <div class="home-icon-list" aria-label="联系图标">
+                <a class="home-icon-item" href="https://gitee.com/BigPanZH" title="Gitee" aria-label="Gitee">
+                    <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="Gitee">
+                </a>
+                <a class="home-icon-item" href="https://github.com/holyshite" title="GitHub" aria-label="GitHub">
+                    <img src="{{ '/assets/icon/github.svg' | relative_url }}" alt="GitHub">
+                </a>
+                <a class="home-icon-item" href="mailto:616pwpwpwpw@gmail.com" title="Gmail" aria-label="Gmail">
+                    <img src="{{ '/assets/icon/gmail.svg' | relative_url }}" alt="Gmail">
+                </a>
+                <a class="home-icon-item" href="mailto:751802108@qq.com" title="QQ Mail" aria-label="QQ Mail">
+                    <img src="{{ '/assets/icon/QQmail.svg' | relative_url }}" alt="QQ Mail">
+                </a>
+                <a class="home-icon-item" href="https://steamcommunity.com/profiles/76561199520206774/" title="Steam"
+                    aria-label="Steam">
+                    <img src="{{ '/assets/icon/steam.svg' | relative_url }}" alt="Steam">
+                </a>
             </div>
         </div>
-
-        <div class="home-icon-list" aria-label="联系图标"
-            style="margin-top: 3rem; display: flex; justify-content: center; width: 100%;">
-            <a class="home-icon-item" href="https://gitee.com/BigPanZH" title="Gitee" aria-label="Gitee">
-                <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="Gitee">
-            </a>
-            <a class="home-icon-item" href="https://github.com/holyshite" title="GitHub" aria-label="GitHub">
-                <img src="{{ '/assets/icon/github.svg' | relative_url }}" alt="GitHub">
-            </a>
-            <a class="home-icon-item" href="mailto:616pwpwpwpw@gmail.com" title="Gmail" aria-label="Gmail">
-                <img src="{{ '/assets/icon/gmail.svg' | relative_url }}" alt="Gmail">
-            </a>
-            <a class="home-icon-item" href="mailto:751802108@qq.com" title="QQ Mail" aria-label="QQ Mail">
-                <img src="{{ '/assets/icon/QQmail.svg' | relative_url }}" alt="QQ Mail">
-            </a>
-            <a class="home-icon-item" href="https://steamcommunity.com/profiles/76561199520206774/" title="Steam"
-                aria-label="Steam">
-                <img src="{{ '/assets/icon/steam.svg' | relative_url }}" alt="Steam">
-            </a>
-        </div>
     </div>
-    {% endcapture %}
 
-    {% include page.html title=page.title content=page_content %}
-
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
     <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
     <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
     <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
+    <script>
+        (function () {
+            gsap.registerPlugin(ScrollTrigger);
+
+            var hero = document.getElementById('about-hero');
+            var title = document.getElementById('about-hero-title');
+            var welcome = document.getElementById('about-hero-welcome');
+            var cards = document.getElementById('about-cards');
+            var siteCard = document.getElementById('about-site-card');
+            var contactCard = document.getElementById('about-contact-card');
+            var friends = document.getElementById('about-friends');
+            var friendLinks = friends.querySelectorAll('.friend-link');
+
+            // Initial states
+            gsap.set(cards, { opacity: 1 });
+            gsap.set(siteCard, { y: 500, rotation: -12 });
+            gsap.set(contactCard, { y: 500, rotation: 8 });
+            gsap.set(friends, { opacity: 0 });
+            friendLinks.forEach(function (link) {
+                gsap.set(link, { y: -400, opacity: 0, scale: 1 });
+            });
+
+            // Stage 1: hero pin — title blurs/grows, welcome fades in
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: hero,
+                    start: 'top top',
+                    end: '+=800',
+                    scrub: 1,
+                    pin: true,
+                    pinSpacing: true
+                }
+            })
+                .to(title, {
+                    scale: 2.5,
+                    filter: 'blur(20px)',
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'none'
+                }, 0)
+                .to(welcome, {
+                    opacity: 1,
+                    duration: 0.6,
+                    ease: 'none'
+                }, 0.2);
+
+            // Stage 2: per-card animation — cards snap between two states:
+            //   hidden below / centered in screen
+            var cardsTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: cards,
+                    start: 'center center',
+                    end: '+=1400',
+                    scrub: 1,
+                    pin: true,
+                    pinSpacing: true,
+                    snap: {
+                        snapTo: [0, 0.33, 0.67, 1],
+                        duration: 0.15,
+                        delay: 0,
+                        ease: 'power1.inOut'
+                    }
+                }
+            });
+
+            // Card 1: hidden → center (quick appear)
+            cardsTl
+                .fromTo(siteCard,
+                    { y: 500, rotation: -12 },
+                    { y: 0, rotation: -3, duration: 200, ease: 'power4.out' },
+                    0
+                );
+
+            // Card 2: hidden → center (staggered)
+            cardsTl
+                .fromTo(contactCard,
+                    { y: 500, rotation: 8 },
+                    { y: 0, rotation: 3, duration: 200, ease: 'power4.out' },
+                    200
+                );
+
+            // Both cards fly away in different directions
+            cardsTl
+                .to(siteCard,
+                    { y: -600, x: -120, rotation: -25, duration: 200, ease: 'power3.in' },
+                    400
+                )
+                .to(contactCard,
+                    { y: -650, x: 100, rotation: 20, duration: 200, ease: 'power3.in' },
+                    400
+                );
+
+            // Stage 3: friend links drop in — friends section is after the pin spacer,
+            // so it only enters viewport after cards are fully gone
+            ScrollTrigger.create({
+                trigger: friends,
+                start: 'top 90%',
+                onEnter: function () {
+                    gsap.to(friends, { opacity: 1, duration: 0.05 });
+                    gsap.to(friendLinks, {
+                        y: 0,
+                        opacity: 1,
+                        scale: 1,
+                        duration: 1,
+                        ease: 'bounce.out',
+                        stagger: 0.12
+                    });
+                },
+                onLeaveBack: function () {
+                    gsap.to(friendLinks, {
+                        y: -400,
+                        opacity: 0,
+                        duration: 0.3,
+                        ease: 'power2.in',
+                        stagger: 0.05
+                    });
+                    gsap.to(friends, { opacity: 0, duration: 0.2, delay: 0.2 });
+                }
+            });
+
+            // Friend links hover: pop & settle via GSAP (avoids CSS animation conflict)
+            friendLinks.forEach(function (link) {
+                link.addEventListener('mouseenter', function () {
+                    gsap.to(link, {
+                        scale: 1.018,
+                        duration: 0.14,
+                        ease: 'back.out(1.7)',
+                        overwrite: 'auto'
+                    });
+                });
+                link.addEventListener('mouseleave', function () {
+                    gsap.to(link, {
+                        scale: 1,
+                        duration: 0.18,
+                        ease: 'elastic.out(1, 0.3)',
+                        overwrite: 'auto'
+                    });
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>
