@@ -60,6 +60,7 @@
 - 使用 `defer` 或 `async` 加载脚本
 - 兼容现代浏览器（Chrome 90+、Safari 14+）
 - 避免阻塞主线程，重要功能添加注释
+- **关于页面 GSAP**：通过 CDN 加载 `gsap@3` + `ScrollTrigger`，用于翻页/卡片/友链滚动动画
 
 ### Markdown 文章
 - 文章放在 `_posts/` 目录，命名格式：`YYYY-MM-DD-slug.md`

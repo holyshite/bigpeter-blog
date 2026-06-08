@@ -116,6 +116,8 @@
    - 避免阻塞主线程
    - **全局脚本**：所有页面统一加载 `theme.js`、`stars.js`、`nav.js`、`prefetch.js`
      - 提供主题切换、星空动画、导航交互、链接预加载等核心功能
+   - **关于页面 GSAP**：通过 CDN 加载 `gsap@3` + `ScrollTrigger` 插件，用于滚动驱动的翻页、卡片、友链动画
+     - 友链悬浮效果使用 GSAP `mouseenter`/`mouseleave` 事件，避免与 CSS animation 冲突
 
 ## 本地开发
 
@@ -164,4 +166,4 @@ pkill -f "jekyll serve"
 
 ---
 
-*本文档会根据项目发展持续更新。最后更新：2026-04-06*
+*本文档会根据项目发展持续更新。最后更新：2026-06-06*
