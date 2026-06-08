@@ -28,58 +28,90 @@ title: 关于
     <style>
         .about-hero {
             height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
+            perspective: 1200px;
+            perspective-origin: center center;
             overflow: hidden;
         }
 
-        .about-hero-title {
-            font-size: 6rem;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            color: transparent;
-            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9);
-            text-stroke: 2px rgba(255, 255, 255, 0.9);
-            user-select: none;
-            z-index: 2;
-            position: relative;
-            will-change: transform, filter, opacity;
-        }
-
-        [data-theme="light"] .about-hero-title {
-            -webkit-text-stroke: 2px var(--light-text-primary, #2C2420);
-            text-stroke: 2px var(--light-text-primary, #2C2420);
-        }
-
-        .about-hero-welcome {
+        .about-flip-page {
             position: absolute;
-            top: 50%;
+            top: 0;
             left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.25rem;
+            transform: translateX(-50%);
+            width: calc(70% + 60px);
+            max-width: 1260px;
+            height: 100vh;
+            transform-style: preserve-3d;
+            will-change: transform;
+            z-index: 10;
+            background: #000;
+        }
+
+        html[data-theme="light"] .about-flip-page {
+            background: var(--light-page-bg);
+        }
+
+        .about-flip-front,
+        .about-flip-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: inherit;
+        }
+
+        .about-flip-front {
+            z-index: 2;
+        }
+
+        .about-flip-front h2 {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #ffea01 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .about-flip-back {
+            transform: rotateX(180deg);
+        }
+
+        [data-theme="light"] .about-flip-front h2 {
+            background: linear-gradient(135deg, #2C2420 0%, #C4956A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-flip-welcome {
+            font-size: 1.15rem;
             line-height: 2;
-            color: rgba(255, 255, 255, 0.9);
-            text-align: center;
+            color: rgba(255, 255, 255, 0.75);
             max-width: 600px;
-            width: 90%;
-            z-index: 1;
-            opacity: 0;
-            will-change: opacity;
+            text-align: center;
+            padding: 0 2rem;
         }
 
-        [data-theme="light"] .about-hero-welcome {
-            color: var(--light-text-primary, #2C2420);
+        [data-theme="light"] .about-flip-welcome {
+            color: var(--light-text-secondary, #6B5B4F);
         }
 
-        .about-hero-welcome .about-highlight {
+        .about-flip-welcome .about-highlight {
             color: #ffea01;
             font-weight: 600;
             text-decoration: none;
         }
 
-        [data-theme="light"] .about-hero-welcome .about-highlight {
+        [data-theme="light"] .about-flip-welcome .about-highlight {
             color: var(--light-accent, #C4956A);
         }
 
@@ -96,12 +128,12 @@ title: 关于
         }
 
         @media (max-width: 768px) {
-            .about-hero-title {
-                font-size: 4rem;
+            .about-flip-front h2 {
+                font-size: 2.5rem;
             }
 
-            .about-hero-welcome {
-                font-size: 1.1rem;
+            .about-flip-welcome {
+                font-size: 1rem;
             }
 
             .about-cards-wrapper {
@@ -498,10 +530,16 @@ title: 关于
     </style>
 
     <div class="about-hero" id="about-hero">
-        <h2 class="about-hero-title" id="about-hero-title">关于</h2>
-        <p class="about-hero-welcome" id="about-hero-welcome">
-            欢迎来到我的个人网站！我是 <a href="/BigPeter" class="about-highlight">BigPeter</a>，一个热爱编程和技术的开发者。这个网站是我用来分享技术心得、项目经验和生活感悟的地方。
-        </p>
+        <div class="about-flip-page" id="about-flip-page">
+            <div class="about-flip-front">
+                <h2>关于</h2>
+            </div>
+            <div class="about-flip-back">
+                <p class="about-flip-welcome">
+                    欢迎来到我的个人网站！我是 <a href="/BigPeter" class="about-highlight">BigPeter</a>，一个热爱编程和技术的开发者。这个网站是我用来分享技术心得、项目经验和生活感悟的地方。
+                </p>
+            </div>
+        </div>
     </div>
 
     <div class="about-scroll-content" id="about-scroll-content">
@@ -583,8 +621,7 @@ title: 关于
             gsap.registerPlugin(ScrollTrigger);
 
             var hero = document.getElementById('about-hero');
-            var title = document.getElementById('about-hero-title');
-            var welcome = document.getElementById('about-hero-welcome');
+            var flipPage = document.getElementById('about-flip-page');
             var cards = document.getElementById('about-cards');
             var siteCard = document.getElementById('about-site-card');
             var contactCard = document.getElementById('about-contact-card');
@@ -600,29 +637,22 @@ title: 关于
                 gsap.set(link, { y: -400, opacity: 0, scale: 1 });
             });
 
-            // Stage 1: hero pin — title blurs/grows, welcome fades in
+            // Stage 1: hero pin — page flips open at center axis
             gsap.timeline({
                 scrollTrigger: {
                     trigger: hero,
                     start: 'top top',
-                    end: '+=800',
+                    end: '+=1600',
                     scrub: 1,
                     pin: true,
                     pinSpacing: true
                 }
             })
-                .to(title, {
-                    scale: 2.5,
-                    filter: 'blur(20px)',
-                    opacity: 0,
+                .to(flipPage, {
+                    rotationX: -180,
                     duration: 1,
-                    ease: 'none'
-                }, 0)
-                .to(welcome, {
-                    opacity: 1,
-                    duration: 0.6,
-                    ease: 'none'
-                }, 0.2);
+                    ease: 'power2.inOut'
+                }, 0);
 
             // Stage 2: per-card animation — cards snap between two states:
             //   hidden below / centered in screen
