@@ -82,6 +82,15 @@ title: 首页
                 var author = document.getElementById('homeQuoteAuthor');
                 if (!quote || !author) return;
 
+                var quotes = [
+                    '这是一句很有哲理的话...',
+                    '人非无过，孰能圣贤',
+                    '如果你不相信自己，那就相信我',
+                    'efliajdbasdklvgjgaldkja>@.',
+                    'The quick brown fox jumps over the lazy dog'
+                ];
+                quote.dataset.text = quotes[Math.floor(Math.random() * quotes.length)];
+
                 typeText(quote, quote.dataset.text || '', 90, function () {
                     window.setTimeout(function () {
                         typeText(author, author.dataset.text || '', 75);
