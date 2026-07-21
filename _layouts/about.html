@@ -7,748 +7,165 @@ title: 关于
 <html lang="zh-CN" data-theme="light">
 
 <head>
-    <meta charset="UTF-8">
-    <title>{{ page.title }} | {{ site.title }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        (function () {
-            try {
-                var bg = localStorage.getItem('site-bg');
-                if (bg) document.documentElement.setAttribute('data-bg', bg);
-            } catch (e) { }
-        })();
-    </script>
-    <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
+  <meta charset="UTF-8">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function () {
+      try {
+        var bg = localStorage.getItem('site-bg');
+        if (bg) document.documentElement.setAttribute('data-bg', bg);
+      } catch (e) { }
+    })();
+  </script>
+  <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
 </head>
 
 <body class="star-canvas-page">
-    {% include header.html %}
-
-    <style>
-        .about-hero {
-            height: 100vh;
-            position: relative;
-            perspective: 1200px;
-            perspective-origin: center center;
-            overflow: hidden;
-        }
-
-        .about-flip-page {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(70% + 60px);
-            max-width: 1260px;
-            height: 100vh;
-            transform-style: preserve-3d;
-            will-change: transform;
-            z-index: 10;
-            background: #000;
-        }
-
-        html[data-theme="light"] .about-flip-page {
-            background: var(--light-page-bg);
-        }
-
-        .about-flip-front,
-        .about-flip-back {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: inherit;
-        }
-
-        .about-flip-front {
-            z-index: 2;
-        }
-
-        .about-flip-front h2 {
-            font-size: 4rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff 0%, #ffea01 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 0;
-        }
-
-        .about-flip-back {
-            transform: rotateX(180deg);
-        }
-
-        [data-theme="light"] .about-flip-front h2 {
-            background: linear-gradient(135deg, #2C2420 0%, #C4956A 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .about-flip-welcome {
-            font-size: 1.15rem;
-            line-height: 2;
-            color: rgba(255, 255, 255, 0.75);
-            max-width: 600px;
-            text-align: center;
-            padding: 0 2rem;
-        }
-
-        [data-theme="light"] .about-flip-welcome {
-            color: var(--light-text-secondary, #6B5B4F);
-        }
-
-        .about-flip-welcome .about-highlight {
-            color: #ffea01;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        [data-theme="light"] .about-flip-welcome .about-highlight {
-            color: var(--light-accent, #C4956A);
-        }
-
-        .about-scroll-content {
-            padding: 0 0 80px;
-        }
-
-        .about-cards-wrapper {
-            position: relative;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            height: 340px;
-        }
-
-        @media (max-width: 768px) {
-            .about-flip-front h2 {
-                font-size: 2.5rem;
-            }
-
-            .about-flip-welcome {
-                font-size: 1rem;
-            }
-
-            .about-cards-wrapper {
-                height: 420px;
-            }
-        }
-
-        .about-card {
-            background: rgba(15, 15, 20, 0.85);
-            border-radius: 24px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            will-change: transform;
-            position: absolute;
-            top: 0;
-            width: calc(50% - 1rem);
-        }
-
-        .about-card:nth-child(1) {
-            left: 0;
-        }
-
-        .about-card:nth-child(2) {
-            right: 0;
-        }
-
-        .about-card h3 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: rgba(255, 255, 255, 0.95);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .about-card h3::before {
-            content: '';
-            display: block;
-            width: 8px;
-            height: 24px;
-            background: #ffea01;
-            border-radius: 4px;
-        }
-
-        [data-theme="light"] .about-card h3::before {
-            background: var(--light-accent, #C4956A);
-        }
-
-        .about-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .about-list li {
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-        }
-
-        .about-list li:last-child {
-            border-bottom: none;
-        }
-
-        .about-list li::before {
-            content: '▸';
-            color: #ffea01;
-            font-size: 1.2rem;
-        }
-
-        [data-theme="light"] .about-list li::before {
-            color: var(--light-accent, #C4956A);
-        }
-
-        .about-contact li a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .about-contact li a:hover {
-            color: #ffea01;
-            text-decoration: underline;
-        }
-
-        [data-theme="light"] .about-contact li a:hover {
-            color: var(--light-accent, #C4956A);
-        }
-
-        [data-theme="light"] .about-card {
-            background: rgba(255, 252, 247, 0.95);
-            border: 1px solid rgba(44, 36, 32, 0.12);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        [data-theme="light"] .about-card h3 {
-            color: var(--light-text-primary, #2C2420);
-        }
-
-        [data-theme="light"] .about-list li {
-            color: var(--light-text-secondary, #6B5B4F);
-            border-bottom: 1px solid var(--light-hr, rgba(44, 36, 32, 0.1));
-        }
-
-        .about-friends-section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .about-friends-section h3 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: rgba(255, 255, 255, 0.95);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .about-friends-section h3::before {
-            content: '';
-            display: block;
-            width: 8px;
-            height: 24px;
-            background: #ffea01;
-            border-radius: 4px;
-        }
-
-        [data-theme="light"] .about-friends-section h3 {
-            color: var(--light-text-primary, #2C2420);
-        }
-
-        [data-theme="light"] .about-friends-section h3::before {
-            background: var(--light-accent, #C4956A);
-        }
-
-        .friend-links {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.75rem;
-        }
-
-        @media (max-width: 1024px) {
-            .friend-links {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .friend-links {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .friend-link {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            text-align: left;
-            gap: 0.375rem;
-            padding: 0.5rem;
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.006);
-            border: 1px solid rgba(255, 255, 255, 0.075);
-            box-shadow: 0 0 18px rgba(255, 255, 255, 0.06),
-                0 0 42px rgba(255, 255, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
-            -webkit-backdrop-filter: blur(2px) saturate(135%) brightness(1.02);
-            isolation: isolate;
-            transform: scale3d(1, 1, 1);
-            transform-origin: center;
-            backface-visibility: hidden;
-            will-change: transform, box-shadow, border-color, background-color;
-            transition:
-                box-shadow 0.16s cubic-bezier(0.22, 1, 0.36, 1),
-                border-color 0.16s ease-out,
-                background-color 0.16s ease-out;
-            text-decoration: none;
-        }
-
-        .friend-link::before,
-        .friend-link::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-
-        .friend-link::before {
-            inset: 0;
-            padding: 1px;
-            border-radius: inherit;
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.11) 6%, rgba(255, 255, 255, 0.03) 16%, transparent 32%),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.045) 8%, transparent 18%, transparent 82%, rgba(255, 255, 255, 0.03) 92%, rgba(255, 255, 255, 0.06) 100%),
-                radial-gradient(90% 22% at 50% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.16) 28%, rgba(255, 255, 255, 0.05) 56%, transparent 82%);
-            opacity: 0.82;
-            -webkit-mask:
-                linear-gradient(#fff 0 0) content-box,
-                linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask:
-                linear-gradient(#fff 0 0) content-box,
-                linear-gradient(#fff 0 0);
-            mask-composite: exclude;
-            z-index: 0;
-        }
-
-        .friend-link::after {
-            border-radius: inherit;
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.18),
-                inset 0 2px 4px -3px rgba(255, 255, 255, 0.16),
-                inset 1px 0 0 rgba(255, 255, 255, 0.08),
-                inset 2px 0 4px -4px rgba(255, 255, 255, 0.06),
-                inset -1px 0 0 rgba(255, 255, 255, 0.035),
-                inset -2px 0 4px -4px rgba(255, 255, 255, 0.03),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.05),
-                inset 0 -2px 4px -4px rgba(255, 255, 255, 0.025),
-                inset 0 10px 14px -14px rgba(255, 255, 255, 0.24);
-            z-index: 1;
-        }
-
-        .friend-link:hover {
-            box-shadow:
-                0 10px 28px rgba(0, 0, 0, 0.1),
-                0 0 40px rgba(255, 255, 255, 0.09),
-                inset 0 1px 0 rgba(255, 255, 255, 0.14),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.13);
-            background: rgba(255, 255, 255, 0.018);
-            transition:
-                box-shadow 0.14s cubic-bezier(0.22, 1, 0.36, 1),
-                border-color 0.14s ease-out,
-                background-color 0.14s ease-out;
-        }
-
-        .friend-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            overflow: hidden;
-            flex-shrink: 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .friend-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .friend-info {
-            flex: 1;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 0.125rem 0;
-        }
-
-        .friend-info a {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.95);
-            text-decoration: none;
-            transition: color 0.2s ease;
-            order: 1;
-        }
-
-        .friend-info a:hover {
-            color: #ffea01;
-        }
-
-        [data-theme="light"] .friend-info a {
-            color: var(--light-text-primary, #2C2420);
-        }
-
-        [data-theme="light"] .friend-info a:hover {
-            color: var(--light-accent, #C4956A);
-        }
-
-        .friend-desc {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8rem;
-            line-height: 1.1;
-            margin: 0.0625rem 0 0 0;
-            width: 100%;
-            order: 3;
-        }
-
-        [data-theme="light"] .friend-desc {
-            color: var(--light-text-secondary, #6B5B4F);
-        }
-
-        .friend-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 0.25rem;
-            margin-top: 0;
-            order: 2;
-        }
-
-        .friend-tag {
-            font-size: 0.6rem;
-            padding: 0.1rem 0.3rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            color: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        [data-theme="light"] .friend-link {
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            box-shadow: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            border-bottom: 1px dashed var(--light-hr, rgba(44, 36, 32, 0.1));
-        }
-
-        [data-theme="light"] .friend-link::before,
-        [data-theme="light"] .friend-link::after {
-            display: none;
-        }
-
-        [data-theme="light"] .friend-link:hover {
-            background: rgba(44, 36, 32, 0.03);
-            box-shadow: none;
-            border-color: transparent;
-        }
-
-        [data-theme="light"] .friend-avatar {
-            border: 1px solid var(--light-glass-border, rgba(44, 36, 32, 0.15));
-        }
-
-        [data-theme="light"] .friend-tag {
-            background: var(--light-code-bg, #f0ece4);
-            border: 1px solid var(--light-glass-border, rgba(44, 36, 32, 0.15));
-            color: var(--light-text-secondary, #6B5B4F);
-        }
-
-        .about-footer-icons {
-            margin-top: 3rem;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .home-icon-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 18px;
-        }
-
-        .home-icon-item {
-            width: 64px;
-            height: 64px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.006);
-            border: 1px solid rgba(255, 255, 255, 0.075);
-            transition: transform 0.2s ease;
-            text-decoration: none;
-        }
-
-        .home-icon-item:hover {
-            transform: scale(1.1);
-        }
-
-        .home-icon-item img {
-            width: 30px;
-            height: 30px;
-            object-fit: contain;
-            pointer-events: none;
-        }
-    </style>
-
-    <div class="about-hero" id="about-hero">
-        <div class="about-flip-page" id="about-flip-page">
-            <div class="about-flip-front">
-                <h2>关于</h2>
-            </div>
-            <div class="about-flip-back">
-                <p class="about-flip-welcome">
-                    欢迎来到我的个人网站！我是 <a href="/BigPeter" class="about-highlight">BigPeter</a>，一个热爱编程和技术的开发者。这个网站是我用来分享技术心得、项目经验和生活感悟的地方。
-                </p>
-            </div>
+  {% include header.html %}
+
+  <main class="about-page">
+    <section class="about-hero" id="about-hero" aria-labelledby="about-title">
+      <div class="about-hero__inner">
+        <p class="about-hero__kicker">关于 / ABOUT</p>
+        <h1 class="about-hero__title" id="about-title">BigPeter</h1>
+        <p class="about-hero__intro">
+          一个热爱编程和技术的开发者，也在这里记录项目经验、生活感悟，以及那些值得反复思考的片段。
+        </p>
+        <div class="about-hero__topics" aria-label="关注领域">
+          <span>Web 开发</span>
+          <span>开源项目</span>
+          <span>生活记录</span>
         </div>
-    </div>
+        <div class="about-hero__rule" aria-hidden="true">
+          <span>01</span>
+          <span class="about-hero__rule-line"></span>
+        </div>
+      </div>
+    </section>
 
-    <div class="about-scroll-content" id="about-scroll-content">
-        <div class="about-cards-wrapper" id="about-cards">
-            <div class="about-card" id="about-site-card">
-                <h3>关于本站</h3>
-                <ul class="about-list">
-                    <li>Jekyll静态站点生成器</li>
-                    <li>Sass CSS预处理器</li>
-                    <li>JavaScript交互功能</li>
-                    <li>自定义CSS视觉效果</li>
-                </ul>
-            </div>
-            <div class="about-card" id="about-contact-card">
-                <h3>联系方式</h3>
-                <ul class="about-list about-contact">
-                    <li>📧 <a href="mailto:751802108@qq.com">751802108@qq.com</a></li>
-                    <li>🐙 <a href="https://github.com/holyshite" target="_blank" rel="noopener">GitHub: BigPeter</a>
-                    </li>
-                </ul>
-                <p style="margin-top: 1.5rem; color: rgba(255,255,255,0.7); font-size: 0.95rem;">
-                    如果你有任何问题或建议，欢迎通过以上方式联系我。</p>
-            </div>
+    <div class="about-content">
+      <section class="about-profile" aria-labelledby="about-profile-title">
+        <div class="about-section-heading about-profile-heading">
+          <p class="about-section-heading__eyebrow">PROFILE</p>
+          <h2 id="about-profile-title">
+            <span class="about-profile-title__primary">关于</span><!--
+            --><span class="about-profile-title__rest-char">我</span><!--
+            --><span class="about-profile-title__rest-char">与</span><!--
+            --><span class="about-profile-title__rest-char">这</span><!--
+            --><span class="about-profile-title__rest-char">个</span><!--
+            --><span class="about-profile-title__rest-char">站</span><!--
+            --><span class="about-profile-title__rest-char">点</span>
+          </h2>
+          <p>保持好奇，持续构建，也认真保存一路上的想法。</p>
         </div>
 
-        <div class="about-friends-section" id="about-friends">
-            <h3>友情链接</h3>
-            <div class="friend-links">
-                {% for friend in site.data.friends %}
-                <div class="friend-link">
-                    <div class="friend-avatar">
-                        <img src="{{ friend.avatar }}" alt="{{ friend.name }}头像">
-                    </div>
-                    <div class="friend-info">
-                        <a href="{{ friend.url }}" target="_blank" rel="noopener">{{ friend.name }}</a>
-                        <p class="friend-desc">{{ friend.description }}</p>
-                        <div class="friend-tags">
-                            {% for tag in friend.tags %}
-                            <span class="friend-tag">{{ tag }}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
+        <div class="about-cards" id="about-cards">
+          <div class="about-card-track">
+            <article class="about-card">
+              <span class="about-card__number" aria-hidden="true">01</span>
+              <h3>关于本站</h3>
+              <p class="about-card__lead">这是一个由 Jekyll 驱动的个人空间，内容与界面都在持续迭代。</p>
+              <ul class="about-list">
+                <li>Jekyll 静态站点生成器</li>
+                <li>Sass 样式与液态玻璃组件</li>
+                <li>JavaScript 与 GSAP 交互</li>
+                <li>技术文章、项目与生活记录</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="about-card-track">
+            <article class="about-card">
+              <span class="about-card__number" aria-hidden="true">02</span>
+              <h3>保持联系</h3>
+              <p class="about-card__lead">关于技术、项目或博客本身的建议，都欢迎直接联系。</p>
+              <div class="about-contact-links">
+                <a href="mailto:751802108@qq.com">
+                  <span>邮箱</span>
+                  <strong>751802108@qq.com</strong>
+                </a>
+                <a href="https://github.com/holyshite" target="_blank" rel="noopener">
+                  <span>GitHub</span>
+                  <strong>BigPeter</strong>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-friends-section" id="about-friends" aria-labelledby="about-friends-title">
+        <div class="about-section-heading about-reveal">
+          <p class="about-section-heading__eyebrow">FRIENDS</p>
+          <h2 id="about-friends-title">友情链接</h2>
+          <p>网络让不同的表达彼此靠近，这里收录一些常去的个人站点。</p>
+        </div>
+
+        <div class="friend-links">
+          {% for friend in site.data.friends %}
+          <div class="friend-link-track post-item">
+            <a class="friend-link" href="{{ friend.url }}" target="_blank" rel="noopener">
+              <div class="friend-avatar">
+                <img
+                  src="{{ friend.avatar }}"
+                  alt="{{ friend.name }}头像"
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                >
+                <span class="friend-avatar__fallback" aria-hidden="true">{{ friend.name | slice: 0 }}</span>
+              </div>
+              <div class="friend-info">
+                <span class="friend-name">{{ friend.name }}</span>
+                <p class="friend-desc">{{ friend.description }}</p>
+                <div class="friend-tags" aria-label="{{ friend.name }}标签">
+                  {% for tag in friend.tags %}
+                  <span class="friend-tag">{{ tag }}</span>
+                  {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
-            <p style="margin-top: 1.5rem; color: rgba(255,255,255,0.7); font-size: 0.95rem;">
-                欢迎交换友联！如果你也想添加友联，请通过联系方式与我联系。</p>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
         </div>
+      </section>
 
-        <div class="about-footer-icons">
-            <div class="home-icon-list" aria-label="联系图标">
-                <a class="home-icon-item" href="https://gitee.com/BigPanZH" title="Gitee" aria-label="Gitee">
-                    <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="Gitee">
-                </a>
-                <a class="home-icon-item" href="https://github.com/holyshite" title="GitHub" aria-label="GitHub">
-                    <img src="{{ '/assets/icon/github.svg' | relative_url }}" alt="GitHub">
-                </a>
-                <a class="home-icon-item" href="mailto:616pwpwpwpw@gmail.com" title="Gmail" aria-label="Gmail">
-                    <img src="{{ '/assets/icon/gmail.svg' | relative_url }}" alt="Gmail">
-                </a>
-                <a class="home-icon-item" href="mailto:751802108@qq.com" title="QQ Mail" aria-label="QQ Mail">
-                    <img src="{{ '/assets/icon/QQmail.svg' | relative_url }}" alt="QQ Mail">
-                </a>
-                <a class="home-icon-item" href="https://steamcommunity.com/profiles/76561199520206774/" title="Steam"
-                    aria-label="Steam">
-                    <img src="{{ '/assets/icon/steam.svg' | relative_url }}" alt="Steam">
-                </a>
-            </div>
+      <section class="about-social" aria-label="更多联系方式">
+        <p class="about-social__label">ELSEWHERE</p>
+        <div class="home-icon-list" aria-label="联系图标">
+          <a class="home-icon-item" href="https://gitee.com/BigPanZH" title="Gitee" aria-label="Gitee">
+            <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="">
+          </a>
+          <a class="home-icon-item" href="https://github.com/holyshite" title="GitHub" aria-label="GitHub">
+            <img src="{{ '/assets/icon/github.svg' | relative_url }}" alt="">
+          </a>
+          <a class="home-icon-item" href="mailto:616pwpwpwpw@gmail.com" title="Gmail" aria-label="Gmail">
+            <img src="{{ '/assets/icon/gmail.svg' | relative_url }}" alt="">
+          </a>
+          <a class="home-icon-item" href="mailto:751802108@qq.com" title="QQ Mail" aria-label="QQ Mail">
+            <img src="{{ '/assets/icon/QQmail.svg' | relative_url }}" alt="">
+          </a>
+          <a
+            class="home-icon-item"
+            href="https://steamcommunity.com/profiles/76561199520206774/"
+            title="Steam"
+            aria-label="Steam"
+          >
+            <img src="{{ '/assets/icon/steam.svg' | relative_url }}" alt="">
+          </a>
         </div>
+      </section>
     </div>
+  </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-    <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
-    <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
-    <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
-    <script>
-        (function () {
-            gsap.registerPlugin(ScrollTrigger);
-
-            var hero = document.getElementById('about-hero');
-            var flipPage = document.getElementById('about-flip-page');
-            var cards = document.getElementById('about-cards');
-            var siteCard = document.getElementById('about-site-card');
-            var contactCard = document.getElementById('about-contact-card');
-            var friends = document.getElementById('about-friends');
-            var friendLinks = friends.querySelectorAll('.friend-link');
-
-            // Initial states
-            gsap.set(cards, { opacity: 1 });
-            gsap.set(siteCard, { y: 500, rotation: -12 });
-            gsap.set(contactCard, { y: 500, rotation: 8 });
-            gsap.set(friends, { opacity: 0 });
-            friendLinks.forEach(function (link) {
-                gsap.set(link, { y: -400, opacity: 0, scale: 1 });
-            });
-
-            // Stage 1: hero pin — page flips open at center axis
-            gsap.timeline({
-                scrollTrigger: {
-                    trigger: hero,
-                    start: 'top top',
-                    end: '+=1600',
-                    scrub: 1,
-                    pin: true,
-                    pinSpacing: true
-                }
-            })
-                .to(flipPage, {
-                    rotationX: -180,
-                    duration: 1,
-                    ease: 'power2.inOut'
-                }, 0);
-
-            // Stage 2: per-card animation — cards snap between two states:
-            //   hidden below / centered in screen
-            var cardsTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: cards,
-                    start: 'center center',
-                    end: '+=1400',
-                    scrub: 1,
-                    pin: true,
-                    pinSpacing: true,
-                    snap: {
-                        snapTo: [0, 0.33, 0.67, 1],
-                        duration: 0.15,
-                        delay: 0,
-                        ease: 'power1.inOut'
-                    }
-                }
-            });
-
-            // Card 1: hidden → center (quick appear)
-            cardsTl
-                .fromTo(siteCard,
-                    { y: 500, rotation: -12 },
-                    { y: 0, rotation: -3, duration: 200, ease: 'power4.out' },
-                    0
-                );
-
-            // Card 2: hidden → center (staggered)
-            cardsTl
-                .fromTo(contactCard,
-                    { y: 500, rotation: 8 },
-                    { y: 0, rotation: 3, duration: 200, ease: 'power4.out' },
-                    200
-                );
-
-            // Both cards fly away in different directions
-            cardsTl
-                .to(siteCard,
-                    { y: -600, x: -120, rotation: -25, duration: 200, ease: 'power3.in' },
-                    400
-                )
-                .to(contactCard,
-                    { y: -650, x: 100, rotation: 20, duration: 200, ease: 'power3.in' },
-                    400
-                );
-
-            // Stage 3: friend links drop in — friends section is after the pin spacer,
-            // so it only enters viewport after cards are fully gone
-            ScrollTrigger.create({
-                trigger: friends,
-                start: 'top 90%',
-                onEnter: function () {
-                    gsap.to(friends, { opacity: 1, duration: 0.05 });
-                    gsap.to(friendLinks, {
-                        y: 0,
-                        opacity: 1,
-                        scale: 1,
-                        duration: 1,
-                        ease: 'bounce.out',
-                        stagger: 0.12
-                    });
-                },
-                onLeaveBack: function () {
-                    gsap.to(friendLinks, {
-                        y: -400,
-                        opacity: 0,
-                        duration: 0.3,
-                        ease: 'power2.in',
-                        stagger: 0.05
-                    });
-                    gsap.to(friends, { opacity: 0, duration: 0.2, delay: 0.2 });
-                }
-            });
-
-            // Friend links hover: pop & settle via GSAP (avoids CSS animation conflict)
-            friendLinks.forEach(function (link) {
-                link.addEventListener('mouseenter', function () {
-                    gsap.to(link, {
-                        scale: 1.018,
-                        duration: 0.14,
-                        ease: 'back.out(1.7)',
-                        overwrite: 'auto'
-                    });
-                });
-                link.addEventListener('mouseleave', function () {
-                    gsap.to(link, {
-                        scale: 1,
-                        duration: 0.18,
-                        ease: 'elastic.out(1, 0.3)',
-                        overwrite: 'auto'
-                    });
-                });
-            });
-        })();
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
+  <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
+  <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
+  <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
+  <script src="{{ '/assets/js/about.js' | absolute_url }}" defer></script>
 </body>
 
 </html>
