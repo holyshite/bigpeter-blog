@@ -123,3 +123,11 @@
 - Ruby (>= 2.5)
 - Bundler
 - Jekyll (4.4.1)
+
+## Playwright 视觉检查
+- 使用 Playwright 做浏览器视觉检查时，优先使用仓库的 `.playwright/cli.config.json`；其中的 `browser.launchOptions.executablePath` 指向当前已安装的 Chrome for Testing。
+- 当前 Chrome for Testing 可执行文件：`/home/peter/.cache/ms-playwright/chromium-1232/chrome-linux64/chrome`。
+- 对应的 headless shell：`/home/peter/.cache/ms-playwright/chromium_headless_shell-1232/chrome-headless-shell-linux64/chrome-headless-shell`。
+- `playwright-cli` 默认尝试 `/opt/google/chrome/chrome`。该路径缺失时，先检查上述 Playwright 缓存路径，不要直接重新安装 Chrome。
+- Playwright 浏览器版本更新后，保留或同步更新 `.playwright/cli.config.json` 内的可执行文件路径。
+- 不会加载仓库配置的命令可通过 `PLAYWRIGHT_MCP_EXECUTABLE_PATH` 指定浏览器可执行文件。

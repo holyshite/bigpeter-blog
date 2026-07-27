@@ -1,0 +1,122 @@
+---
+layout: none
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="preload" href="{{ '/assets/css/style.css' | relative_url }}" as="style">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+
+<body class="photo-page">
+  {% assign photo_count = site.data.photo | size %}
+  <header class="photo-header">
+    <a class="photo-header__brand" href="{{ '/' | relative_url }}" aria-label="返回 BigPeter 首页">
+      <span>BIGPETER</span>
+      <span>PHOTO ARCHIVE</span>
+    </a>
+    <a class="photo-header__menu" href="#photo-grid">浏览作品 <span aria-hidden="true">↓</span></a>
+  </header>
+
+  <main>
+    <section class="photo-hero" aria-labelledby="photo-title">
+      <p class="photo-hero__eyebrow">VISUAL NOTES / 2026</p>
+      <h1 id="photo-title">影像</h1>
+      <p class="photo-hero__intro">把停留过的画面，编排成一组可以慢慢翻阅的视觉笔记。</p>
+      <div class="photo-hero__images" aria-hidden="true">
+        {% for item in site.data.photo limit: 3 %}
+        <figure class="photo-hero__image photo-hero__image--{{ forloop.index }}">
+          <img src="{{ item.src | relative_url }}" alt="" width="1024" height="1024" fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}">
+        </figure>
+        {% endfor %}
+      </div>
+      <p class="photo-hero__scroll">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></p>
+    </section>
+
+    <section class="photo-statement" aria-label="作品说明">
+      <p>一组关于数字世界、游戏记忆与日常观察的视觉练习。</p>
+      <span>{{ photo_count }} WORKS</span>
+    </section>
+
+    <section class="photo-grid-section" id="photo-grid" aria-labelledby="photo-grid-title">
+      <div class="photo-grid-section__head">
+        <h2 id="photo-grid-title">FREE<br>CANVAS</h2>
+        <button class="photo-reset" type="button" data-photo-reset aria-label="重置作品位置">
+          <span aria-hidden="true">↻</span>
+          <span>重置位置</span>
+        </button>
+      </div>
+
+      <div class="photo-canvas" data-photo-canvas aria-label="可拖动作品画布">
+        {% for item in site.data.photo %}
+        <article class="photo-canvas-card photo-canvas-card--{{ item.ratio }}" data-photo-card>
+          <button
+            class="photo-canvas-card__button"
+            type="button"
+            data-index="{{ forloop.index0 }}"
+            aria-label="查看作品：{{ item.title }}"
+          >
+            <img
+              src="{{ item.src | relative_url }}"
+              alt="{{ item.title }}"
+              width="1024"
+              height="1024"
+              loading="lazy"
+              draggable="false"
+            >
+            <span class="photo-canvas-card__number" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          </button>
+          <div class="photo-canvas-card__details" hidden>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.category }} {{ item.year }}</p>
+            <p>{{ item.description }}</p>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <footer class="photo-footer">
+    <p>BIGPETER / PHOTO ARCHIVE</p>
+    <a href="{{ '/' | relative_url }}">返回首页 <span aria-hidden="true">↗</span></a>
+  </footer>
+
+  <dialog class="photo-dialog" data-photo-dialog aria-labelledby="photo-dialog-title">
+    <button class="photo-dialog__close" type="button" data-photo-close aria-label="关闭作品查看器">×</button>
+    <div class="photo-dialog__content">
+      <div class="photo-dialog__image-wrap">
+        <img
+          class="photo-dialog__image"
+          data-photo-dialog-image
+          src=""
+          alt=""
+          role="button"
+          tabindex="0"
+          draggable="false"
+        >
+      </div>
+      <div class="photo-dialog__info">
+        <p data-photo-dialog-count>01 / {{ photo_count }}</p>
+        <h2 id="photo-dialog-title" data-photo-dialog-title></h2>
+        <p data-photo-dialog-category></p>
+        <p data-photo-dialog-description></p>
+      </div>
+    </div>
+    <div class="photo-dialog__controls">
+      <button type="button" data-photo-previous aria-label="查看上一件作品">←</button>
+      <button type="button" data-photo-next aria-label="查看下一件作品">→</button>
+    </div>
+  </dialog>
+
+  <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/nav.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/prefetch.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/photo.js' | relative_url }}" defer></script>
+</body>
+</html>
