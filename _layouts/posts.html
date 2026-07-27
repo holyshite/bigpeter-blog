@@ -27,9 +27,28 @@ title: 文章列表
 
     {% capture page_content %}
 
-    <ul class="post-list">
+    <form class="post-search" role="search">
+        <label class="post-search__label" for="post-search-input">搜索文章</label>
+        <input
+            class="post-search__input"
+            id="post-search-input"
+            type="text"
+            role="searchbox"
+            placeholder="搜索标题、作者或标签"
+            inputmode="search"
+            enterkeyhint="search"
+            autocomplete="off">
+        <button class="post-search__clear" type="reset" aria-label="清除搜索">清除</button>
+    </form>
+    <p class="post-search__status" id="post-search-status" aria-live="polite"></p>
+
+    <ul class="post-list" id="post-list">
         {% for post in site.posts %}
-        <li class="post-item" data-tags="{{ post.tags | join: ',' }}">
+        <li
+            class="post-item"
+            data-title="{{ post.title | escape }}"
+            data-author="{{ post.author | default: '' | escape }}"
+            data-tags="{{ post.tags | join: ',' | escape }}">
             <a href="{{ post.url }}">
                 <div class="post-title">{{ post.title }}</div>
 
@@ -50,6 +69,12 @@ title: 文章列表
         </li>
         {% endfor %}
     </ul>
+    <nav class="post-pagination" id="post-pagination" aria-label="文章分页" hidden>
+        <button class="post-pagination__button post-pagination__button--prev" id="post-pagination-prev" type="button">上一页</button>
+        <span class="post-pagination__current" id="post-pagination-current" aria-live="polite"></span>
+        <button class="post-pagination__button post-pagination__button--next" id="post-pagination-next" type="button">下一页</button>
+    </nav>
+    <p class="post-search__empty" id="post-search-empty" hidden>没有找到匹配的文章。</p>
 
     {% endcapture %}
 
@@ -116,10 +141,122 @@ title: 文章列表
             const asideTitle = document.querySelector('.page-aside-card h2');
             const postCount = document.getElementById('post-count');
             const latestDate = document.getElementById('latest-date');
+            const searchForm = document.querySelector('.post-search');
+            const searchInput = document.getElementById('post-search-input');
+            const searchStatus = document.getElementById('post-search-status');
+            const emptyState = document.getElementById('post-search-empty');
+            const pagination = document.getElementById('post-pagination');
+            const previousPageButton = document.getElementById('post-pagination-prev');
+            const nextPageButton = document.getElementById('post-pagination-next');
+            const currentPageLabel = document.getElementById('post-pagination-current');
             const originalTitle = asideTitle ? asideTitle.textContent : '全部文章';
-            const originalCount = postCount ? postCount.textContent : '';
-            const originalDate = latestDate ? latestDate.textContent : '';
+            const pageSize = 20;
+            const contextStorageKey = 'post-list-context';
             let activeTag = null;
+            let currentPage = 1;
+
+            function updateTagHighlights() {
+                tagItems.forEach(function(item) {
+                    item.classList.toggle('active', item.getAttribute('data-tag') === activeTag);
+                });
+            }
+
+            function saveContext(matchingPosts) {
+                try {
+                    sessionStorage.setItem(contextStorageKey, JSON.stringify({
+                        query: searchInput ? searchInput.value : '',
+                        activeTag: activeTag,
+                        currentPage: currentPage,
+                        posts: matchingPosts.map(function(post) {
+                            const link = post.querySelector('a');
+                            return {
+                                title: post.getAttribute('data-title') || '',
+                                url: link ? link.href : ''
+                            };
+                        })
+                    }));
+                } catch (error) {
+                    // Session storage is optional; filtering still works without it.
+                }
+            }
+
+            function readContext() {
+                try {
+                    const context = JSON.parse(sessionStorage.getItem(contextStorageKey));
+                    return context && Array.isArray(context.posts) ? context : null;
+                } catch (error) {
+                    return null;
+                }
+            }
+
+            function applyFilters() {
+                const query = searchInput ? searchInput.value.trim().toLocaleLowerCase() : '';
+                let visibleCount = 0;
+                let newestDate = '';
+                const matchingPosts = [];
+
+                postItems.forEach(function(post) {
+                    const postTags = post.getAttribute('data-tags') || '';
+                    const searchableText = [
+                        post.getAttribute('data-title'),
+                        post.getAttribute('data-author'),
+                        postTags
+                    ].join(' ').toLocaleLowerCase();
+                    const matchesTag = !activeTag || postTags.split(',').includes(activeTag);
+                    const matchesQuery = !query || searchableText.includes(query);
+                    const isVisible = matchesTag && matchesQuery;
+
+                    if (isVisible) {
+                        matchingPosts.push(post);
+                        visibleCount++;
+                        const postDate = post.querySelector('.post-date');
+                        if (postDate && (!newestDate || postDate.textContent > newestDate)) {
+                            newestDate = postDate.textContent;
+                        }
+                    }
+                });
+
+                const totalPages = Math.ceil(visibleCount / pageSize);
+                if (currentPage > totalPages) {
+                    currentPage = totalPages || 1;
+                }
+                const firstPostIndex = (currentPage - 1) * pageSize;
+                const lastPostIndex = firstPostIndex + pageSize;
+
+                postItems.forEach(function(post) {
+                    const matchedIndex = matchingPosts.indexOf(post);
+                    post.hidden = matchedIndex < firstPostIndex || matchedIndex >= lastPostIndex;
+                });
+
+                if (asideTitle) {
+                    asideTitle.textContent = activeTag || originalTitle;
+                }
+                if (postCount) {
+                    postCount.textContent = visibleCount;
+                }
+                if (latestDate) {
+                    latestDate.textContent = visibleCount ? newestDate : '';
+                }
+                if (emptyState) {
+                    emptyState.hidden = visibleCount !== 0;
+                }
+                if (searchStatus) {
+                    searchStatus.textContent = query ? '找到 ' + visibleCount + ' 篇匹配文章' : '';
+                }
+                if (pagination) {
+                    pagination.hidden = totalPages <= 1;
+                }
+                if (currentPageLabel) {
+                    currentPageLabel.textContent = totalPages ? currentPage + '/' + totalPages : '';
+                }
+                if (previousPageButton) {
+                    previousPageButton.disabled = currentPage === 1;
+                }
+                if (nextPageButton) {
+                    nextPageButton.disabled = currentPage === totalPages || totalPages === 0;
+                }
+                saveContext(matchingPosts);
+            }
 
             // 无限滚动逻辑
             if (scrollContainer) {
@@ -159,61 +296,59 @@ title: 文章列表
                     
                     if (activeTag === tag) {
                         activeTag = null;
-                        postItems.forEach(function(post) {
-                            post.style.display = '';
-                        });
-                        if (asideTitle) {
-                            asideTitle.textContent = originalTitle;
-                        }
-                        if (postCount) {
-                            postCount.textContent = originalCount;
-                        }
-                        if (latestDate) {
-                            latestDate.textContent = originalDate;
-                        }
-                        tagItems.forEach(function(t) {
-                            t.classList.remove('active');
-                        });
                     } else {
                         activeTag = tag;
-                        let visibleCount = 0;
-                        let newestDate = '';
-                        
-                        postItems.forEach(function(post) {
-                            const postTags = post.getAttribute('data-tags');
-                            if (postTags && postTags.split(',').includes(tag)) {
-                                post.style.display = '';
-                                visibleCount++;
-                                const postDate = post.querySelector('.post-date');
-                                if (postDate && (!newestDate || postDate.textContent > newestDate)) {
-                                    newestDate = postDate.textContent;
-                                }
-                            } else {
-                                post.style.display = 'none';
-                            }
-                        });
-                        
-                        if (asideTitle) {
-                            asideTitle.textContent = tag;
-                        }
-                        if (postCount) {
-                            postCount.textContent = visibleCount;
-                        }
-                        if (latestDate) {
-                            latestDate.textContent = newestDate;
-                        }
-                        
-                        // 高亮所有相同标签
-                        tagItems.forEach(function(t) {
-                            if (t.getAttribute('data-tag') === tag) {
-                                t.classList.add('active');
-                            } else {
-                                t.classList.remove('active');
-                            }
-                        });
                     }
+                    updateTagHighlights();
+                    currentPage = 1;
+                    applyFilters();
                 });
             });
+
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    currentPage = 1;
+                    applyFilters();
+                });
+            }
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                });
+                searchForm.addEventListener('reset', function() {
+                    window.setTimeout(function() {
+                        currentPage = 1;
+                        applyFilters();
+                    }, 0);
+                });
+            }
+            if (previousPageButton) {
+                previousPageButton.addEventListener('click', function() {
+                    if (!previousPageButton.disabled && currentPage > 1) {
+                        currentPage--;
+                        applyFilters();
+                    }
+                });
+            }
+            if (nextPageButton) {
+                nextPageButton.addEventListener('click', function() {
+                    if (!nextPageButton.disabled) {
+                        currentPage++;
+                        applyFilters();
+                    }
+                });
+            }
+
+            const savedContext = readContext();
+            if (savedContext) {
+                if (searchInput) {
+                    searchInput.value = savedContext.query || '';
+                }
+                activeTag = savedContext.activeTag || null;
+                currentPage = Number.isInteger(savedContext.currentPage) ? savedContext.currentPage : 1;
+                updateTagHighlights();
+            }
+            applyFilters();
         });
     </script>
 </body>

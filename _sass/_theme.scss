@@ -9,6 +9,7 @@ body,
 .post-item a,
 .post-card .post-toc,
 .post-card .post-nav a,
+.post-pagination__button,
 .post-card .post-tags .tag,
 .post-meta .post-tags .tag,
 .home-icon-item img {
@@ -88,6 +89,8 @@ html[data-theme="light"] .post-item a,
 html[data-theme="light"] .post-card .post-toc,
 html[data-theme="light"] .post-card .post-nav a,
 html[data-theme="light"] .post-card .post-nav .disabled,
+html[data-theme="light"] .post-pagination__button,
+html[data-theme="light"] .post-pagination__button:disabled,
 html[data-theme="light"] .post-card .post-tags .tag,
 html[data-theme="light"] .post-meta .post-tags .tag,
 html[data-theme="light"] .project-card,
@@ -96,6 +99,8 @@ body.theme-light .post-item a,
 body.theme-light .post-card .post-toc,
 body.theme-light .post-card .post-nav a,
 body.theme-light .post-card .post-nav .disabled,
+body.theme-light .post-pagination__button,
+body.theme-light .post-pagination__button:disabled,
 body.theme-light .post-card .post-tags .tag,
 body.theme-light .post-meta .post-tags .tag,
 body.theme-light .project-card {
@@ -199,7 +204,9 @@ body.theme-light .home-icon-item {
 
 // 文章导航按钮悬停简化
 html[data-theme="light"] .post-card .post-nav a:hover,
-body.theme-light .post-card .post-nav a:hover {
+body.theme-light .post-card .post-nav a:hover,
+html[data-theme="light"] .post-pagination__button:hover:not(:disabled),
+body.theme-light .post-pagination__button:hover:not(:disabled) {
     background: rgba(44, 36, 32, 0.04);
 }
 
@@ -312,6 +319,7 @@ html[data-theme="light"] .post-item .post-meta,
 html[data-theme="light"] .post-card .post-toc a,
 html[data-theme="light"] .post-sidebar-card .post-toc a,
 html[data-theme="light"] .post-card .post-nav a,
+html[data-theme="light"] .post-pagination__button,
 body.theme-light .post-meta,
 body.theme-light .post-card .post-meta,
 body.theme-light .post-card .post-toc .toc-title,
@@ -319,7 +327,8 @@ body.theme-light .post-sidebar-card .post-toc .toc-title,
 body.theme-light .post-item .post-meta,
 body.theme-light .post-card .post-toc a,
 body.theme-light .post-sidebar-card .post-toc a,
-body.theme-light .post-card .post-nav a {
+body.theme-light .post-card .post-nav a,
+body.theme-light .post-pagination__button {
     color: var(--light-text-secondary);
 }
 

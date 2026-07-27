@@ -300,6 +300,14 @@
     }
 
     function initNav() {
+        if (document.body?.dataset?.section !== 'posts') {
+            try {
+                sessionStorage.removeItem('post-list-context');
+            } catch (error) {
+                // Ignore unavailable session storage.
+            }
+        }
+
         setActiveNavLink();
         bindNavClickEvents();
         bindHeaderScrollMotion();
