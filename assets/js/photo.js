@@ -18,6 +18,13 @@
     var wheelDelta = 0;
     var wheelResetTimer = 0;
     var layoutMode = '';
+    var statementBackground = document.querySelector('[data-photo-statement-background]');
+    var statementSection = statementBackground ? statementBackground.closest('.photo-statement') : null;
+    var statementImages = statementBackground ? Array.from(statementBackground.querySelectorAll('.photo-statement__background-image')) : [];
+    var floatingLayers = statementBackground ? Array.from(statementBackground.querySelectorAll('[data-photo-floating-layer]')) : [];
+    var backgroundFrame = 0;
+    var statementBackgroundIndex = -1;
+    var smoothScroller = null;
 
     var desktopLayout = [
       [3, 4, 10], [18, 11, 11], [40, 4, 16], [72, 13, 10], [85, 3, 10],
@@ -58,6 +65,70 @@
         card.style.top = position[1] + '%';
         card.style.width = position[2] + '%';
       });
+    }
+
+    function updateScrollBackground() {
+      if (!statementSection || !statementBackground) return;
+
+      var rect = statementSection.getBoundingClientRect();
+      var travel = Math.max(1, rect.height - window.innerHeight);
+      var progress = Math.max(0, Math.min(1, -rect.top / travel));
+      var scaledProgress = progress * Math.max(1, statementImages.length - 1);
+      var nextIndex = Math.min(statementImages.length - 1, Math.floor(scaledProgress));
+      var reveal = nextIndex >= statementImages.length - 1 ? 1 : scaledProgress - nextIndex;
+      var cardReveal = 1 - Math.pow(1 - reveal, 0.92);
+      if (nextIndex !== statementBackgroundIndex) {
+        statementBackgroundIndex = nextIndex;
+        statementBackground.dataset.activeIndex = String(nextIndex);
+      }
+      statementBackground.style.setProperty('--photo-statement-progress', progress.toFixed(3));
+      statementBackground.style.setProperty('--photo-reveal', reveal.toFixed(3));
+      statementBackground.style.setProperty('--photo-bg-parallax', (progress * -28).toFixed(2) + 'px');
+      statementBackground.style.setProperty('--photo-card-parallax', (progress * -32).toFixed(2) + 'px');
+      floatingLayers.forEach(function (layer, index) {
+        var layerOffset = 0;
+        var isVisible = index <= nextIndex;
+        if (index === nextIndex + 1 && nextIndex < statementImages.length - 1) {
+          isVisible = true;
+          layerOffset = (1 - cardReveal) * statementBackground.clientHeight;
+        }
+        layer.style.visibility = isVisible ? 'visible' : 'hidden';
+        layer.style.transform = 'translate3d(0, ' + layerOffset.toFixed(2) + 'px, 0)';
+      });
+      statementImages.forEach(function (item, index) {
+        var clipPath = 'inset(100% 0 0 0)';
+        if (index <= nextIndex) clipPath = 'inset(0 0 0 0)';
+        if (index === nextIndex + 1) {
+          var top = (1 - reveal) * 100;
+          clipPath = 'polygon(0 ' + top + '%, 100% ' + top + '%, 100% 100%, 0 100%)';
+        }
+        item.style.clipPath = clipPath;
+        item.style.webkitClipPath = clipPath;
+      });
+      statementBackground.dataset.scrollProgress = progress.toFixed(3);
+    }
+
+    function scheduleScrollBackground() {
+      if (backgroundFrame) return;
+      backgroundFrame = window.requestAnimationFrame(function () {
+        backgroundFrame = 0;
+        updateScrollBackground();
+      });
+    }
+
+    function initSmoothScroll() {
+      if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      smoothScroller = new window.Lenis({
+        autoRaf: true,
+        duration: 0.6,
+        easing: function (progress) {
+          return Math.min(1, 1.001 - Math.pow(2, -10 * progress));
+        },
+        smoothWheel: true,
+        wheelMultiplier: 1
+      });
+      smoothScroller.on('scroll', scheduleScrollBackground);
     }
 
     function setZoomState(zoomed) {
@@ -147,6 +218,7 @@
     function open(index) {
       render(index);
       if (typeof dialog.showModal === 'function') dialog.showModal();
+      if (smoothScroller) smoothScroller.stop();
       document.documentElement.classList.add('photo-dialog-open');
       image.focus({ preventScroll: true });
     }
@@ -154,6 +226,7 @@
     function close() {
       dialog.close();
       setZoomState(false);
+      if (smoothScroller) smoothScroller.start();
       document.documentElement.classList.remove('photo-dialog-open');
       buttons[currentIndex].focus();
     }
@@ -238,6 +311,9 @@
 
     buttons.forEach(bindCanvasDrag);
     applyInitialLayout();
+    initSmoothScroll();
+    updateScrollBackground();
+    window.addEventListener('scroll', scheduleScrollBackground, { passive: true });
 
     image.addEventListener('click', toggleZoom);
     image.addEventListener('keydown', function (event) {
@@ -293,6 +369,7 @@
 
     dialog.addEventListener('cancel', function () {
       setZoomState(false);
+      if (smoothScroller) smoothScroller.start();
       document.documentElement.classList.remove('photo-dialog-open');
     });
 

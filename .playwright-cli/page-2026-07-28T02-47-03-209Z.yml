@@ -1,0 +1,128 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "返回 BigPeter 首页" [ref=e3] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e4]: BIGPETER
+      - generic [ref=e5]: PHOTO ARCHIVE
+    - link "浏览作品" [ref=e6] [cursor=pointer]:
+      - /url: "#photo-grid"
+      - text: 浏览作品
+      - generic [ref=e7]: ↓
+  - main [ref=e8]:
+    - region [ref=e9]:
+      - paragraph [ref=e10]: VISUAL NOTES / 2026
+      - heading "影像" [level=1] [ref=e11]
+      - paragraph [ref=e12]: 把停留过的画面，编排成一组可以慢慢翻阅的视觉笔记。
+      - generic [ref=e13]:
+        - figure [ref=e14]
+        - figure [ref=e15]
+        - figure [ref=e16]
+      - paragraph [ref=e17]:
+        - text: SCROLL TO EXPLORE
+        - generic [ref=e18]: ↓
+    - region "作品说明" [ref=e19]:
+      - generic:
+        - figure
+        - generic:
+          - figure
+          - figure
+          - figure
+        - figure
+        - generic:
+          - figure
+          - figure
+          - figure
+        - figure
+    - region [ref=e20]:
+      - generic [ref=e21]:
+        - heading "FREE CANVAS" [level=2] [ref=e22]: FREECANVAS
+        - button "重置作品位置" [ref=e23] [cursor=pointer]:
+          - generic [ref=e24]: ↻
+          - generic [ref=e25]: 重置位置
+      - generic "可拖动作品画布" [ref=e26]:
+        - article [ref=e27]:
+          - button "查看作品：影像 01" [ref=e28]:
+            - img "影像 01"
+            - generic [ref=e29]: "01"
+        - article [ref=e30]:
+          - button "查看作品：影像 02" [ref=e31]:
+            - img "影像 02"
+            - generic [ref=e32]: "02"
+        - article [ref=e33]:
+          - button "查看作品：影像 03" [ref=e34]:
+            - img "影像 03"
+            - generic [ref=e35]: "03"
+        - article [ref=e36]:
+          - button "查看作品：影像 04" [ref=e37]:
+            - img "影像 04"
+            - generic [ref=e38]: "04"
+        - article [ref=e39]:
+          - button "查看作品：影像 05" [ref=e40]:
+            - img "影像 05"
+            - generic [ref=e41]: "05"
+        - article [ref=e42]:
+          - button "查看作品：影像 06" [ref=e43]:
+            - img "影像 06"
+            - generic [ref=e44]: "06"
+        - article [ref=e45]:
+          - button "查看作品：影像 07" [ref=e46]:
+            - img "影像 07"
+            - generic [ref=e47]: "07"
+        - article [ref=e48]:
+          - button "查看作品：影像 08" [ref=e49]:
+            - img "影像 08"
+            - generic [ref=e50]: "08"
+        - article [ref=e51]:
+          - button "查看作品：影像 09" [ref=e52]:
+            - img "影像 09"
+            - generic [ref=e53]: "09"
+        - article [ref=e54]:
+          - button "查看作品：影像 10" [ref=e55]:
+            - img "影像 10"
+            - generic [ref=e56]: "10"
+        - article [ref=e57]:
+          - button "查看作品：影像 11" [ref=e58]:
+            - img "影像 11"
+            - generic [ref=e59]: "11"
+        - article [ref=e60]:
+          - button "查看作品：影像 12" [ref=e61]:
+            - img "影像 12"
+            - generic [ref=e62]: "12"
+        - article [ref=e63]:
+          - button "查看作品：影像 13" [ref=e64]:
+            - img "影像 13"
+            - generic [ref=e65]: "13"
+        - article [ref=e66]:
+          - button "查看作品：影像 14" [ref=e67]:
+            - img "影像 14"
+            - generic [ref=e68]: "14"
+        - article [ref=e69]:
+          - button "查看作品：影像 15" [ref=e70]:
+            - img "影像 15"
+            - generic [ref=e71]: "15"
+        - article [ref=e72]:
+          - button "查看作品：影像 16" [ref=e73]:
+            - img "影像 16"
+            - generic [ref=e74]: "16"
+        - article [ref=e75]:
+          - button "查看作品：影像 17" [ref=e76]:
+            - img "影像 17"
+            - generic [ref=e77]: "17"
+        - article [ref=e78]:
+          - button "查看作品：影像 18" [ref=e79]:
+            - img "影像 18"
+            - generic [ref=e80]: "18"
+        - article [ref=e81]:
+          - button "查看作品：影像 19" [ref=e82]:
+            - img "影像 19"
+            - generic [ref=e83]: "19"
+        - article [ref=e84]:
+          - button "查看作品：影像 20" [ref=e85]:
+            - img "影像 20"
+            - generic [ref=e86]: "20"
+  - contentinfo [ref=e87]:
+    - paragraph [ref=e88]: BIGPETER / PHOTO ARCHIVE
+    - link "返回首页" [ref=e89] [cursor=pointer]:
+      - /url: /
+      - text: 返回首页
+      - generic [ref=e90]: ↗
