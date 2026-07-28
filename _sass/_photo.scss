@@ -347,39 +347,72 @@
 }
 
 .photo-grid-section {
-  background: #090909;
-  color: #f4f2ec;
-  padding: 28px 24px 0;
+  --sideMargin: 4rem;
+  --columns: 12;
+  --columnGap: 2rem;
+  --columnWidth: 9.5rem;
+  --rowHeight: 19.3rem;
+  background: #fff;
+  color: #000;
+  color-scheme: light;
+  font-family: sans-serif;
+  font-size: 10px;
+  padding: 0 var(--sideMargin) 0;
   position: relative;
   z-index: 3;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
 }
 
 .photo-grid-section__head {
   align-items: end;
-  border-top: 1px solid #45433f;
+  border-top: 1px solid #000;
   display: flex;
   justify-content: space-between;
-  padding: 17px 0 48px;
+  margin: 0 auto;
+  max-width: unquote("min(136rem, calc(100vw - var(--sideMargin) * 2))");
+  padding: 3.6rem 0 5.6rem;
 }
 
 .photo-grid-section__head h2 {
-  font-size: clamp(30px, 5.8vw, 82px);
+  font-size: clamp(2.8rem, 5.2vw, 6.6rem);
   font-weight: 400;
-  line-height: 0.79;
+  line-height: 0.82;
   margin: 0;
 }
 
 .photo-reset {
   align-items: center;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.88);
+  bottom: 24px;
+  border-radius: 999px;
   border: 0;
-  color: #f4f2ec;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+  color: #000;
   cursor: pointer;
   display: inline-flex;
   font: inherit;
   font-size: 12px;
   gap: 8px;
-  padding: 8px 0;
+  left: 24px;
+  opacity: 0;
+  padding: 10px 14px;
+  pointer-events: none;
+  position: fixed;
+  transform: translateY(8px);
+  transition: opacity 220ms ease, transform 220ms ease, background-color 220ms ease;
+  z-index: 20;
+}
+
+.photo-reset.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.photo-reset:hover {
+  background: #fff;
 }
 
 .photo-reset span:first-child {
@@ -400,24 +433,32 @@
 }
 
 .photo-canvas {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0 auto;
+  max-width: unquote("min(136rem, calc(100vw - var(--sideMargin) * 2))");
   height: 160vw;
-  max-height: 2400px;
   min-height: 1800px;
   overflow: hidden;
   position: relative;
   user-select: none;
+  z-index: 0;
 }
 
 .photo-canvas-card {
   position: absolute;
+  transform: translate3d(var(--photo-parallax-x, 0px), var(--photo-parallax-offset, 0px), 0);
+  will-change: transform;
 }
 
 .photo-canvas-card__button {
-  background: #1a1a1a;
+  background: #f6f6f6;
   border: 0;
   cursor: grab;
   display: block;
-  overflow: visible;
+  height: 100%;
+  overflow: hidden;
   padding: 0;
   position: relative;
   touch-action: none;
@@ -435,8 +476,8 @@
 .photo-canvas-card__button img {
   -webkit-user-drag: none;
   display: block;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
   pointer-events: none;
   transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
   user-select: none;
@@ -460,12 +501,13 @@
 
 .photo-footer {
   align-items: center;
-  border-top: 1px solid #45433f;
-  color: #a8a59e;
+  background: #fff;
+  border-top: 1px solid #000;
+  color: #000;
   display: flex;
   justify-content: space-between;
-  margin: 0 24px;
-  padding: 18px 0 28px;
+  margin: 0 4rem;
+  padding: 1.8rem 0 2.8rem;
 }
 
 .photo-footer p {
@@ -473,7 +515,7 @@
 }
 
 .photo-footer a {
-  color: #f4f2ec;
+  color: #000;
   text-decoration: none;
 }
 
@@ -742,19 +784,28 @@
   }
 
   .photo-grid-section {
-    padding: 20px 16px 0;
+    --sideMargin: 1.6rem;
+    --columnGap: 1.2rem;
+    --rowHeight: 15.2rem;
+    padding: 0 var(--sideMargin) 0;
   }
 
   .photo-grid-section__head {
-    padding-bottom: 32px;
+    padding: 2rem 0 3.2rem;
   }
 
   .photo-grid-section__head h2 {
-    font-size: 34px;
+    font-size: 3.4rem;
   }
 
   .photo-reset span:last-child {
     display: none;
+  }
+
+  .photo-reset {
+    bottom: 16px;
+    left: 16px;
+    padding: 10px;
   }
 
   .photo-canvas {

@@ -28,7 +28,15 @@ title: 首页
     <main class="home-quote-shell">
         <section class="glass-card home-quote-card" aria-label="首页引言">
             <p class="home-quote-line" id="homeQuoteText" data-text="这是一句很有哲理的话..."></p>
-            <p class="home-quote-author" id="homeQuoteAuthor" data-text="——BigPeter"></p>
+            <p
+                class="home-quote-author"
+                id="homeQuoteAuthor"
+                data-text="——BigPeter"
+                data-photo-url="{{ '/photo/' | relative_url }}"
+                role="link"
+                tabindex="0"
+                aria-label="查看 BigPeter 影像档案"
+            ></p>
             <div class="home-icon-list" aria-label="首页图标">
                 <a class="home-icon-item" href="https://gitee.com/BigPanZH" title="Gitee" aria-label="Gitee">
                     <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="Gitee">
@@ -96,6 +104,19 @@ title: 首页
                         typeText(author, author.dataset.text || '', 75);
                     }, 180);
                 });
+
+                var photoUrl = author.dataset.photoUrl || '';
+                if (photoUrl) {
+                    author.addEventListener('click', function () {
+                        window.location.href = photoUrl;
+                    });
+                    author.addEventListener('keydown', function (event) {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            window.location.href = photoUrl;
+                        }
+                    });
+                }
             }
 
             if (document.readyState === 'loading') {

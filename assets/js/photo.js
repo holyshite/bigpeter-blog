@@ -25,19 +25,50 @@
     var backgroundFrame = 0;
     var statementBackgroundIndex = -1;
     var smoothScroller = null;
-
-    var desktopLayout = [
-      [3, 4, 10], [18, 11, 11], [40, 4, 16], [72, 13, 10], [85, 3, 10],
-      [7, 28, 12], [31, 24, 10], [56, 32, 11], [79, 27, 11], [16, 45, 10],
-      [43, 42, 17], [76, 49, 11], [4, 62, 17], [29, 65, 10], [58, 59, 11],
-      [83, 68, 10], [12, 81, 11], [38, 77, 11], [65, 84, 10], [84, 79, 11]
+    var resetButton = document.querySelector('[data-photo-reset]');
+    var desktopRowTemplates = [
+      [1, 2, 8],
+      [4, 5],
+      [],
+      [2, 8],
+      [],
+      [1, 5, 6],
+      [],
+      [7],
+      [2, 3, 5],
+      [],
+      [],
+      [1, 5, 6],
+      [],
+      [2, 8],
+      [5],
+      [],
+      [1, 2, 6],
+      [8],
+      [],
+      [5, 6],
+      [1],
+      [3],
+      [7, 8],
+      [1],
+      [4, 5],
+      [8],
+      [2],
+      [6],
+      [1],
+      [3, 4],
+      [5, 6],
+      [],
+      [1, 2, 8],
+      [4, 5],
+      [],
+      [2, 8],
+      [],
+      [1]
     ];
-
-    var mobileLayout = [
-      [4, 2, 29], [61, 6, 28], [8, 11, 46], [58, 15, 28], [5, 20, 29],
-      [55, 24, 28], [11, 29, 28], [62, 33, 28], [5, 38, 29], [52, 42, 28],
-      [8, 47, 45], [63, 51, 28], [5, 56, 46], [57, 60, 28], [10, 65, 28],
-      [63, 69, 28], [5, 74, 29], [52, 78, 28], [9, 83, 28], [62, 87, 28]
+    var mobileRowTemplates = [
+      [0, 2], [], [1, 3], [0], [2, 3], [], [0, 1], [2], [1, 3], [],
+      [0, 2], [1], [0, 3], [], [1, 2], [0], [2, 3], [], [0, 1], [3]
     ];
 
     function getWork(index) {
@@ -56,14 +87,112 @@
 
     function applyInitialLayout() {
       var isMobile = window.matchMedia('(max-width: 720px)').matches;
-      var layout = isMobile ? mobileLayout : desktopLayout;
       layoutMode = isMobile ? 'mobile' : 'desktop';
+      var rowTemplates = isMobile ? mobileRowTemplates : desktopRowTemplates;
+      var slotCount = isMobile ? 4 : 12;
+      var canvasStyles = window.getComputedStyle(canvas);
+      var rootFontSize = parseFloat(canvasStyles.fontSize) || 10;
+
+      function readCssSize(name, fallback) {
+        var raw = canvasStyles.getPropertyValue(name).trim();
+        if (!raw) return fallback;
+        var value = parseFloat(raw);
+        if (Number.isNaN(value)) return fallback;
+        if (raw.endsWith('rem')) return value * rootFontSize;
+        if (raw.endsWith('px')) return value;
+        return value * rootFontSize;
+      }
+
+      var columnGap = readCssSize('--columnGap', 2 * rootFontSize);
+      var columnWidth = readCssSize('--columnWidth', 9.5 * rootFontSize);
+      var rowHeight = readCssSize('--rowHeight', 19.3 * rootFontSize);
+      var availableWidth = canvas.clientWidth || 0;
+      var slotWidth = slotCount > 0
+        ? (availableWidth - (slotCount - 1) * columnGap) / slotCount
+        : columnWidth;
+      var cardWidth = Math.max(1, Math.floor(Math.min(columnWidth, slotWidth)));
+      var cardHeight = Math.round(cardWidth * 4 / 3);
+      var slotStep = cardWidth + columnGap;
+      var rowPitch = rowHeight;
+      var cardIndex = 0;
+      var rowTop = 0;
+      var rowIndex = 0;
+
+      rowTemplates.forEach(function (slots) {
+        if (cardIndex >= cards.length) return;
+        if (slots.length === 0) {
+          rowTop += rowPitch;
+          rowIndex += 1;
+          return;
+        }
+
+        slots.forEach(function (slot) {
+          if (cardIndex >= cards.length) return;
+
+          var card = cards[cardIndex];
+          var resolvedSlot = Math.max(1, Math.min(slot, slotCount));
+          var left = (resolvedSlot - 1) * slotStep;
+          var parallaxSpeed = isMobile
+            ? [0.018, 0.026, 0.022, 0.03][cardIndex % 4]
+            : [0.014, 0.02, 0.03, 0.024, 0.036][cardIndex % 5];
+
+          card.style.left = Math.max(0, left) + 'px';
+          card.style.top = rowTop + 'px';
+          card.style.width = cardWidth + 'px';
+          card.style.height = cardHeight + 'px';
+          card.style.setProperty('--photo-parallax-speed', parallaxSpeed.toFixed(3));
+          card.style.setProperty('--photo-parallax-offset', '0px');
+          card.style.setProperty('--photo-parallax-x', '0px');
+          card.dataset.rowIndex = String(rowIndex);
+
+          cardIndex += 1;
+        });
+
+        rowTop += rowPitch;
+        rowIndex += 1;
+      });
+
+      while (cardIndex < cards.length) {
+        var fallbackCard = cards[cardIndex];
+        var fallbackSlot = (cardIndex % slotCount) + 1;
+        var fallbackLeft = (fallbackSlot - 1) * slotStep;
+        fallbackCard.style.left = Math.max(0, fallbackLeft) + 'px';
+        fallbackCard.style.top = rowTop + 'px';
+        fallbackCard.style.width = cardWidth + 'px';
+        fallbackCard.style.height = cardHeight + 'px';
+        fallbackCard.style.setProperty('--photo-parallax-speed', (isMobile ? 0.02 : 0.016).toFixed(3));
+        fallbackCard.style.setProperty('--photo-parallax-offset', '0px');
+        fallbackCard.style.setProperty('--photo-parallax-x', '0px');
+        fallbackCard.dataset.rowIndex = String(rowIndex);
+        cardIndex += 1;
+        rowIndex += 1;
+        rowTop += rowPitch;
+      }
+
+      canvas.style.height = (rowTop + rowPitch + (isMobile ? 56 : 80)) + 'px';
+
+      if (resetButton) {
+        resetButton.classList.remove('is-visible');
+      }
+
+      updateCanvasParallax();
+    }
+
+    function updateCanvasParallax() {
+      var rect = canvas.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+      var progress = 0;
+
+      if (viewportHeight > 0) {
+        progress = Math.max(0, Math.min(1, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
+      }
 
       cards.forEach(function (card, index) {
-        var position = layout[index % layout.length];
-        card.style.left = position[0] + '%';
-        card.style.top = position[1] + '%';
-        card.style.width = position[2] + '%';
+        var speed = parseFloat(card.style.getPropertyValue('--photo-parallax-speed')) || 0.02;
+        var horizontalSpeed = (index % 2 === 0 ? -1 : 1) * speed * 18;
+        var verticalShift = (progress - 0.5) * speed * 160;
+        card.style.setProperty('--photo-parallax-offset', verticalShift.toFixed(2) + 'px');
+        card.style.setProperty('--photo-parallax-x', horizontalSpeed.toFixed(2) + 'px');
       });
     }
 
@@ -82,7 +211,7 @@
       }
       statementBackground.style.setProperty('--photo-statement-progress', progress.toFixed(3));
       statementBackground.style.setProperty('--photo-reveal', reveal.toFixed(3));
-      statementBackground.style.setProperty('--photo-bg-parallax', (progress * -28).toFixed(2) + 'px');
+      statementBackground.style.setProperty('--photo-bg-parallax', (progress * -100).toFixed(2) + 'px');
       var stageHeight = statementBackground.clientHeight;
       floatingLayers.forEach(function (layer, index) {
         var layerSpeed = 0.75;
@@ -103,6 +232,7 @@
         item.style.webkitClipPath = clipPath;
       });
       statementBackground.dataset.scrollProgress = progress.toFixed(3);
+      updateCanvasParallax();
     }
 
     function scheduleScrollBackground() {
@@ -255,6 +385,7 @@
         activeDrag.card.classList.remove('is-dragging');
         if (activeDrag.moved) {
           button.dataset.dragged = 'true';
+          if (resetButton) resetButton.classList.add('is-visible');
           window.setTimeout(function () {
             delete button.dataset.dragged;
           }, 400);
@@ -376,15 +507,13 @@
       if (event.key === 'ArrowRight') transitionTo(currentIndex + 1, 1);
     });
 
-    var reset = document.querySelector('[data-photo-reset]');
-    if (reset) reset.addEventListener('click', applyInitialLayout);
+    if (resetButton) resetButton.addEventListener('click', applyInitialLayout);
 
     var resizeTimer = 0;
     window.addEventListener('resize', function () {
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(function () {
-        var nextMode = window.matchMedia('(max-width: 720px)').matches ? 'mobile' : 'desktop';
-        if (nextMode !== layoutMode) applyInitialLayout();
+        applyInitialLayout();
       }, 180);
     }, { passive: true });
   }
