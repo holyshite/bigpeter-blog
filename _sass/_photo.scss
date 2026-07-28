@@ -186,7 +186,7 @@
 }
 
 .photo-statement {
-  min-height: 450svh;
+  min-height: 600svh;
   overflow: clip;
   padding: 0;
   position: relative;
@@ -363,7 +363,7 @@
 }
 
 .photo-grid-section__head h2 {
-  font-size: clamp(42px, 8.3vw, 114px);
+  font-size: clamp(30px, 5.8vw, 82px);
   font-weight: 400;
   line-height: 0.79;
   margin: 0;
@@ -657,7 +657,7 @@
   }
 
   .photo-statement {
-    min-height: 450svh;
+    min-height: 600svh;
     padding: 0;
   }
 
@@ -750,7 +750,7 @@
   }
 
   .photo-grid-section__head h2 {
-    font-size: 52px;
+    font-size: 34px;
   }
 
   .photo-reset span:last-child {
