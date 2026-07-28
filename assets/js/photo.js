@@ -76,7 +76,6 @@
       var scaledProgress = progress * Math.max(1, statementImages.length - 1);
       var nextIndex = Math.min(statementImages.length - 1, Math.floor(scaledProgress));
       var reveal = nextIndex >= statementImages.length - 1 ? 1 : scaledProgress - nextIndex;
-      var cardProgress = scaledProgress * 0.85;
       if (nextIndex !== statementBackgroundIndex) {
         statementBackgroundIndex = nextIndex;
         statementBackground.dataset.activeIndex = String(nextIndex);
@@ -86,8 +85,9 @@
       statementBackground.style.setProperty('--photo-bg-parallax', (progress * -28).toFixed(2) + 'px');
       var stageHeight = statementBackground.clientHeight;
       floatingLayers.forEach(function (layer, index) {
-        var layerOffset = (index - cardProgress) * stageHeight;
-        var visibilityBuffer = stageHeight * 1.1;
+        var layerSpeed = 0.75;
+        var layerOffset = (index - scaledProgress * layerSpeed) * stageHeight;
+        var visibilityBuffer = stageHeight * 1.3;
         var isVisible = layerOffset > -visibilityBuffer && layerOffset < visibilityBuffer;
         layer.style.visibility = isVisible ? 'visible' : 'hidden';
         layer.style.transform = 'translate3d(0, ' + layerOffset.toFixed(2) + 'px, 0)';
@@ -118,7 +118,7 @@
 
       smoothScroller = new window.Lenis({
         autoRaf: true,
-        duration: 0.6,
+        duration: 0.8,
         easing: function (progress) {
           return Math.min(1, 1.001 - Math.pow(2, -10 * progress));
         },

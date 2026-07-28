@@ -180,9 +180,9 @@
 
 .photo-hero__image--3 {
   bottom: 7vh;
-  height: 30vw;
+  height: 24vw;
   right: 28vw;
-  width: 20vw;
+  width: 32vw;
 }
 
 .photo-statement {
@@ -261,13 +261,14 @@
 .photo-statement__floating-card {
   background: #111;
   border: 1px solid rgba(244, 242, 236, 0.72);
-  height: clamp(180px, 21vw, 320px);
+  height: auto;
   left: 14%;
   margin: 0;
   overflow: hidden;
   position: absolute;
   top: 22%;
-  width: clamp(150px, 19vw, 280px);
+  transform: translate3d(0, -12svh, 0);
+  width: clamp(160px, 20vw, 310px);
 }
 
 .photo-statement__floating-card:nth-child(2) {
@@ -281,54 +282,54 @@
 }
 
 .photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(1) {
-  left: 10%;
-  top: 42%;
+  left: 4%;
+  top: 28%;
 }
 
 .photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(2) {
-  left: 40%;
-  top: 56%;
+  left: 76%;
+  top: 50%;
 }
 
 .photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(3) {
-  left: 68%;
-  top: 46%;
+  left: 40%;
+  top: 70%;
 }
 
 .photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(1) {
-  left: 14%;
-  top: 28%;
-}
-
-.photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(2) {
-  left: 41%;
-  top: 42%;
-}
-
-.photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(3) {
-  left: 67%;
-  top: 32%;
-}
-
-.photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(1) {
-  left: 16%;
+  left: 6%;
   top: 14%;
 }
 
+.photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(2) {
+  left: 74%;
+  top: 40%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(3) {
+  left: 40%;
+  top: 62%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(1) {
+  left: 8%;
+  top: 4%;
+}
+
 .photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(2) {
-  left: 43%;
-  top: 28%;
+  left: 72%;
+  top: 26%;
 }
 
 .photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(3) {
-  left: 69%;
-  top: 18%;
+  left: 38%;
+  top: 52%;
 }
 
 .photo-statement__floating-card img {
   display: block;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   width: 100%;
 }
 
@@ -650,9 +651,9 @@
 
   .photo-hero__image--3 {
     bottom: 15vh;
-    height: 44vw;
+    height: 34vw;
     right: 16vw;
-    width: 30vw;
+    width: 46vw;
   }
 
   .photo-statement {
@@ -674,10 +675,11 @@
   }
 
   .photo-statement__floating-card {
-    height: clamp(145px, 39vw, 215px);
+    height: auto;
     left: 4%;
     top: 23%;
-    width: clamp(125px, 34vw, 185px);
+    transform: translate3d(0, -9svh, 0);
+    width: clamp(130px, 36vw, 195px);
   }
 
   .photo-statement__floating-card:nth-child(2) {
@@ -691,48 +693,48 @@
   }
 
   .photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(1) {
-    left: 4%;
-    top: 40%;
+    left: 2%;
+    top: 26%;
   }
 
   .photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(2) {
-    left: 33%;
-    top: 55%;
+    left: 60%;
+    top: 50%;
   }
 
   .photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(3) {
-    left: 62%;
-    top: 44%;
+    left: 30%;
+    top: 70%;
   }
 
   .photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(1) {
-    left: 6%;
-    top: 27%;
+    left: 3%;
+    top: 12%;
   }
 
   .photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(2) {
-    left: 34%;
-    top: 41%;
+    left: 59%;
+    top: 38%;
   }
 
   .photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(3) {
-    left: 63%;
-    top: 31%;
+    left: 29%;
+    top: 60%;
   }
 
   .photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(1) {
-    left: 8%;
-    top: 14%;
+    left: 4%;
+    top: 2%;
   }
 
   .photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(2) {
-    left: 36%;
-    top: 28%;
+    left: 58%;
+    top: 24%;
   }
 
   .photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(3) {
-    left: 65%;
-    top: 18%;
+    left: 28%;
+    top: 50%;
   }
 
   .photo-statement p {

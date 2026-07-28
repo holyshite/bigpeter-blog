@@ -47,7 +47,7 @@ layout: none
         </figure>
         <div class="photo-statement__floating" data-photo-floating-layer="{{ forloop.index0 }}">
           {% for card in site.data.photo offset: background_offset limit: 3 %}
-          <figure class="photo-statement__floating-card" style="--photo-card-index: {{ forloop.index0 }}">
+          <figure class="photo-statement__floating-card photo-statement__floating-card--{{ card.ratio }}" style="--photo-card-index: {{ forloop.index0 }}">
             <img src="{{ card.src | relative_url }}" alt="" width="1024" height="1024">
           </figure>
           {% endfor %}
