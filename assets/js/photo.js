@@ -76,7 +76,7 @@
       var scaledProgress = progress * Math.max(1, statementImages.length - 1);
       var nextIndex = Math.min(statementImages.length - 1, Math.floor(scaledProgress));
       var reveal = nextIndex >= statementImages.length - 1 ? 1 : scaledProgress - nextIndex;
-      var cardReveal = 1 - Math.pow(1 - reveal, 0.92);
+      var cardReveal = reveal * 0.8;
       if (nextIndex !== statementBackgroundIndex) {
         statementBackgroundIndex = nextIndex;
         statementBackground.dataset.activeIndex = String(nextIndex);
@@ -84,14 +84,12 @@
       statementBackground.style.setProperty('--photo-statement-progress', progress.toFixed(3));
       statementBackground.style.setProperty('--photo-reveal', reveal.toFixed(3));
       statementBackground.style.setProperty('--photo-bg-parallax', (progress * -28).toFixed(2) + 'px');
-      statementBackground.style.setProperty('--photo-card-parallax', (progress * -32).toFixed(2) + 'px');
+      var stageHeight = statementBackground.clientHeight;
       floatingLayers.forEach(function (layer, index) {
         var layerOffset = 0;
-        var isVisible = index <= nextIndex;
-        if (index === nextIndex + 1 && nextIndex < statementImages.length - 1) {
-          isVisible = true;
-          layerOffset = (1 - cardReveal) * statementBackground.clientHeight;
-        }
+        var isVisible = index === nextIndex || index === nextIndex + 1;
+        if (index === nextIndex) layerOffset = -cardReveal * stageHeight;
+        if (index === nextIndex + 1) layerOffset = (1 - cardReveal) * stageHeight;
         layer.style.visibility = isVisible ? 'visible' : 'hidden';
         layer.style.transform = 'translate3d(0, ' + layerOffset.toFixed(2) + 'px, 0)';
       });
@@ -165,7 +163,7 @@
 
     function waitForCurrentImage() {
       if (image.complete && image.naturalWidth > 0) {
-        return typeof image.decode === 'function' ? image.decode().catch(function () {}) : Promise.resolve();
+        return typeof image.decode === 'function' ? image.decode().catch(function () { }) : Promise.resolve();
       }
 
       return new Promise(function (resolve) {
@@ -178,7 +176,7 @@
       if (typeof image.animate !== 'function') return Promise.resolve();
 
       var animation = image.animate(keyframes, options);
-      return animation.finished.catch(function () {}).then(function () {
+      return animation.finished.catch(function () { }).then(function () {
         animation.cancel();
       });
     }
