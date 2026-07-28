@@ -54,7 +54,6 @@
 .photo-hero__eyebrow,
 .photo-hero__scroll,
 .photo-statement span,
-.photo-canvas-card__number,
 .photo-footer {
   font-size: 11px;
   letter-spacing: 0;
@@ -348,16 +347,15 @@
 
 .photo-grid-section {
   --sideMargin: 4rem;
-  --columns: 12;
+  --columns: 8;
   --columnGap: 2rem;
-  --columnWidth: 9.5rem;
   --rowHeight: 19.3rem;
-  background: #fff;
-  color: #000;
-  color-scheme: light;
+  background: #000;
+  color: #f4f2ec;
+  color-scheme: dark;
   font-family: sans-serif;
   font-size: 10px;
-  padding: 0 var(--sideMargin) 0;
+  padding: 0 var(--sideMargin) 8rem;
   position: relative;
   z-index: 3;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -367,7 +365,7 @@
 
 .photo-grid-section__head {
   align-items: end;
-  border-top: 1px solid #000;
+  border-top: 1px solid rgba(244, 242, 236, 0.8);
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
@@ -382,82 +380,42 @@
   margin: 0;
 }
 
-.photo-reset {
-  align-items: center;
-  background: rgba(255, 255, 255, 0.88);
-  bottom: 24px;
-  border-radius: 999px;
-  border: 0;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
-  color: #000;
-  cursor: pointer;
-  display: inline-flex;
-  font: inherit;
-  font-size: 12px;
-  gap: 8px;
-  left: 24px;
-  opacity: 0;
-  padding: 10px 14px;
-  pointer-events: none;
-  position: fixed;
-  transform: translateY(8px);
-  transition: opacity 220ms ease, transform 220ms ease, background-color 220ms ease;
-  z-index: 20;
-}
-
-.photo-reset.is-visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.photo-reset:hover {
-  background: #fff;
-}
-
-.photo-reset span:first-child {
-  font-size: 19px;
-  line-height: 1;
-  transition: transform 300ms ease;
-}
-
-.photo-reset:hover span:first-child {
-  transform: rotate(180deg);
-}
-
-.photo-reset:focus-visible,
-.photo-canvas-card__button:focus-visible,
+.photographyImageGridItem:focus-visible,
 .photo-dialog button:focus-visible {
   outline: 1px solid currentColor;
   outline-offset: 4px;
 }
 
-.photo-canvas {
-  display: flex;
-  flex-direction: column;
+.photographyImageGrid__rows {
+  display: grid;
   gap: 0;
   margin: 0 auto;
   max-width: unquote("min(136rem, calc(100vw - var(--sideMargin) * 2))");
-  height: 160vw;
-  min-height: 1800px;
-  overflow: hidden;
   position: relative;
   user-select: none;
   z-index: 0;
 }
 
-.photo-canvas-card {
-  position: absolute;
-  transform: translate3d(var(--photo-parallax-x, 0px), var(--photo-parallax-offset, 0px), 0);
-  will-change: transform;
+.gridContainer {
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
 }
 
-.photo-canvas-card__button {
-  background: #f6f6f6;
+.photographyImageGrid__row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  column-gap: var(--columnGap);
+  min-height: var(--rowHeight);
+  position: relative;
+}
+
+.photographyImageGridItem {
+  aspect-ratio: 1206 / 1500;
+  background: #0d0d0d;
   border: 0;
   cursor: grab;
   display: block;
-  height: 100%;
+  grid-column: var(--photo-column) / span 1;
   overflow: hidden;
   padding: 0;
   position: relative;
@@ -465,45 +423,50 @@
   width: 100%;
 }
 
-.photo-canvas-card.is-dragging {
-  z-index: 2;
-}
-
-.photo-canvas-card.is-dragging .photo-canvas-card__button {
+.photographyImageGridItem:active {
   cursor: grabbing;
 }
 
-.photo-canvas-card__button img {
-  -webkit-user-drag: none;
-  display: block;
+.photographyImageGridItem.visible {
+  opacity: 1;
+}
+
+.fill {
   height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
-  user-select: none;
   width: 100%;
 }
 
-.photo-canvas-card__number {
-  color: #fff;
-  font-size: 11px;
-  left: 8px;
-  opacity: 0;
-  position: absolute;
-  top: 12px;
-  transition: opacity 180ms ease;
+.draggableElement,
+.photographyImageGridItem__inner,
+.parallax {
+  overflow: hidden;
 }
 
-.photo-canvas-card__button:hover .photo-canvas-card__number,
-.photo-canvas-card__button:focus-visible .photo-canvas-card__number {
-  opacity: 1;
+.photographyImageGridItem__draggable {
+  cursor: grab;
+  transform: translate3d(0, 0, 0);
+  user-select: none;
+}
+
+.parallax__inner {
+  height: 120%;
+  transform: translateY(4.1667%);
+  will-change: transform;
+}
+
+.photographyImageGridItem__image {
+  -webkit-user-drag: none;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
 }
 
 .photo-footer {
   align-items: center;
-  background: #fff;
-  border-top: 1px solid #000;
-  color: #000;
+  background: #000;
+  border-top: 1px solid rgba(244, 242, 236, 0.8);
+  color: #f4f2ec;
   display: flex;
   justify-content: space-between;
   margin: 0 4rem;
@@ -515,7 +478,7 @@
 }
 
 .photo-footer a {
-  color: #000;
+  color: #f4f2ec;
   text-decoration: none;
 }
 
@@ -786,8 +749,9 @@
   .photo-grid-section {
     --sideMargin: 1.6rem;
     --columnGap: 1.2rem;
+    --columns: 4;
     --rowHeight: 15.2rem;
-    padding: 0 var(--sideMargin) 0;
+    padding: 0 var(--sideMargin) 6rem;
   }
 
   .photo-grid-section__head {
@@ -798,20 +762,16 @@
     font-size: 3.4rem;
   }
 
-  .photo-reset span:last-child {
-    display: none;
+  .photographyImageGridItem {
+    grid-column: auto;
   }
 
-  .photo-reset {
-    bottom: 16px;
-    left: 16px;
-    padding: 10px;
+  .photographyImageGrid__row {
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
   }
 
-  .photo-canvas {
-    height: 2600px;
-    max-height: none;
-    min-height: 0;
+  .photographyImageGrid__rows {
+    gap: 0;
   }
 
   .photo-footer {

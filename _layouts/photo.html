@@ -65,37 +65,53 @@ layout: none
     <section class="photo-grid-section" id="photo-grid" aria-labelledby="photo-grid-title">
       <div class="photo-grid-section__head">
         <h2 id="photo-grid-title">FREE<br>CANVAS</h2>
-        <button class="photo-reset" type="button" data-photo-reset aria-label="重置作品位置">
-          <span aria-hidden="true">↻</span>
-          <span>重置位置</span>
-        </button>
       </div>
 
-      <div class="photo-canvas" data-photo-canvas aria-label="可拖动作品画布">
-        {% for item in site.data.photo %}
-        <article class="photo-canvas-card photo-canvas-card--{{ item.ratio }}" data-photo-card data-photo-ratio="{{ item.ratio }}">
+      {% assign photo_grid_rows = site.data.photo_grid_rows %}
+      {% assign photo_cursor = 0 %}
+      {% assign photo_total = site.data.photo | size %}
+      <div class="photographyImageGrid__rows gridContainer" data-photo-canvas aria-label="可拖动作品画布">
+        {% for photo_row in photo_grid_rows %}
+        {% if photo_cursor < photo_total %}
+        <div class="photographyImageGrid__row">
+          {% for photo_slot in photo_row %}
+          {% if photo_cursor < photo_total %}
+          {% assign item = site.data.photo[photo_cursor] %}
           <button
-            class="photo-canvas-card__button"
+            class="photographyImageGridItem visible"
             type="button"
-            data-index="{{ forloop.index0 }}"
-            aria-label="查看作品：{{ item.title }}"
+            data-photo-card
+            data-index="{{ photo_cursor }}"
+            data-photo-title="{{ item.title }}"
+            data-photo-category="{{ item.category }} {{ item.year }}"
+            data-photo-description="{{ item.description }}"
+            data-photo-src="{{ item.src | relative_url }}"
+            aria-label="View image {{ photo_cursor | plus: 1 }}"
+            style="--4cc5196c: {{ photo_slot }}; --photo-column: {{ photo_slot }};"
           >
-            <img
-              src="{{ item.src | relative_url }}"
-              alt="{{ item.title }}"
-              width="1024"
-              height="1024"
-              loading="lazy"
-              draggable="false"
-            >
-            <span class="photo-canvas-card__number" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <div class="draggableElement photographyImageGridItem__draggable fill">
+              <div class="photographyImageGridItem__inner fill">
+                <div class="parallax">
+                  <div class="parallax__inner">
+                    <img
+                      class="image useFade loaded photographyImageGridItem__image fill"
+                      src="{{ item.src | relative_url }}"
+                      alt=""
+                      loading="lazy"
+                      draggable="false"
+                      width="1206"
+                      height="1500"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
           </button>
-          <div class="photo-canvas-card__details" hidden>
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.category }} {{ item.year }}</p>
-            <p>{{ item.description }}</p>
-          </div>
-        </article>
+          {% endif %}
+          {% assign photo_cursor = photo_cursor | plus: 1 %}
+          {% endfor %}
+        </div>
+        {% endif %}
         {% endfor %}
       </div>
     </section>
