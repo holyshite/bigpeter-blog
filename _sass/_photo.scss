@@ -261,23 +261,68 @@
 .photo-statement__floating-card {
   background: #111;
   border: 1px solid rgba(244, 242, 236, 0.72);
-  height: clamp(150px, 18vw, 280px);
-  left: 8%;
+  height: clamp(180px, 21vw, 320px);
+  left: 14%;
   margin: 0;
   overflow: hidden;
   position: absolute;
-  top: 18%;
-  width: clamp(120px, 16vw, 240px);
+  top: 22%;
+  width: clamp(150px, 19vw, 280px);
 }
 
 .photo-statement__floating-card:nth-child(2) {
-  left: 42%;
-  top: 45%;
+  left: 40%;
+  top: 39%;
 }
 
 .photo-statement__floating-card:nth-child(3) {
-  left: 74%;
-  top: 25%;
+  left: 66%;
+  top: 27%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(1) {
+  left: 10%;
+  top: 42%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(2) {
+  left: 40%;
+  top: 56%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(3) {
+  left: 68%;
+  top: 46%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(1) {
+  left: 14%;
+  top: 28%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(2) {
+  left: 41%;
+  top: 42%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(3) {
+  left: 67%;
+  top: 32%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(1) {
+  left: 16%;
+  top: 14%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(2) {
+  left: 43%;
+  top: 28%;
+}
+
+.photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(3) {
+  left: 69%;
+  top: 18%;
 }
 
 .photo-statement__floating-card img {
@@ -303,8 +348,7 @@
 .photo-grid-section {
   background: #090909;
   color: #f4f2ec;
-  margin-top: -150svh;
-  padding: calc(150svh + 28px) 24px 0;
+  padding: 28px 24px 0;
   position: relative;
   z-index: 3;
 }
@@ -630,18 +674,65 @@
   }
 
   .photo-statement__floating-card {
-    height: clamp(125px, 35vw, 190px);
-    left: 5%;
-    top: 20%;
-    width: clamp(105px, 30vw, 165px);
+    height: clamp(145px, 39vw, 215px);
+    left: 4%;
+    top: 23%;
+    width: clamp(125px, 34vw, 185px);
   }
 
   .photo-statement__floating-card:nth-child(2) {
-    left: 36%;
+    left: 33%;
+    top: 39%;
   }
 
   .photo-statement__floating-card:nth-child(3) {
-    left: 67%;
+    left: 62%;
+    top: 28%;
+  }
+
+  .photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(1) {
+    left: 4%;
+    top: 40%;
+  }
+
+  .photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(2) {
+    left: 33%;
+    top: 55%;
+  }
+
+  .photo-statement__floating[data-photo-floating-layer="0"] .photo-statement__floating-card:nth-child(3) {
+    left: 62%;
+    top: 44%;
+  }
+
+  .photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(1) {
+    left: 6%;
+    top: 27%;
+  }
+
+  .photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(2) {
+    left: 34%;
+    top: 41%;
+  }
+
+  .photo-statement__floating[data-photo-floating-layer="1"] .photo-statement__floating-card:nth-child(3) {
+    left: 63%;
+    top: 31%;
+  }
+
+  .photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(1) {
+    left: 8%;
+    top: 14%;
+  }
+
+  .photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(2) {
+    left: 36%;
+    top: 28%;
+  }
+
+  .photo-statement__floating[data-photo-floating-layer="2"] .photo-statement__floating-card:nth-child(3) {
+    left: 65%;
+    top: 18%;
   }
 
   .photo-statement p {
@@ -649,8 +740,7 @@
   }
 
   .photo-grid-section {
-    margin-top: -150svh;
-    padding: calc(150svh + 20px) 16px 0;
+    padding: 20px 16px 0;
   }
 
   .photo-grid-section__head {

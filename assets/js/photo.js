@@ -76,7 +76,7 @@
       var scaledProgress = progress * Math.max(1, statementImages.length - 1);
       var nextIndex = Math.min(statementImages.length - 1, Math.floor(scaledProgress));
       var reveal = nextIndex >= statementImages.length - 1 ? 1 : scaledProgress - nextIndex;
-      var cardReveal = reveal * 0.8;
+      var cardProgress = scaledProgress * 0.85;
       if (nextIndex !== statementBackgroundIndex) {
         statementBackgroundIndex = nextIndex;
         statementBackground.dataset.activeIndex = String(nextIndex);
@@ -86,10 +86,9 @@
       statementBackground.style.setProperty('--photo-bg-parallax', (progress * -28).toFixed(2) + 'px');
       var stageHeight = statementBackground.clientHeight;
       floatingLayers.forEach(function (layer, index) {
-        var layerOffset = 0;
-        var isVisible = index === nextIndex || index === nextIndex + 1;
-        if (index === nextIndex) layerOffset = -cardReveal * stageHeight;
-        if (index === nextIndex + 1) layerOffset = (1 - cardReveal) * stageHeight;
+        var layerOffset = (index - cardProgress) * stageHeight;
+        var visibilityBuffer = stageHeight * 1.1;
+        var isVisible = layerOffset > -visibilityBuffer && layerOffset < visibilityBuffer;
         layer.style.visibility = isVisible ? 'visible' : 'hidden';
         layer.style.transform = 'translate3d(0, ' + layerOffset.toFixed(2) + 'px, 0)';
       });
