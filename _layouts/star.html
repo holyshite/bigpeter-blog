@@ -18,8 +18,8 @@ title: 首页
             } catch (e) { }
         })();
     </script>
-    <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
+    <link rel="preload" href="{{ '/assets/css/style.css' | relative_url }}" as="style">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 
 <body class="star-canvas-page">
@@ -31,26 +31,26 @@ title: 首页
             <p
                 class="home-quote-author"
                 id="homeQuoteAuthor"
-                data-text="——BigPeter"
+                data-text="——{{ site.author.name }}"
                 data-photo-url="{{ '/photo/' | relative_url }}"
                 role="link"
                 tabindex="0"
-                aria-label="查看 BigPeter 影像档案"
+                aria-label="查看 {{ site.author.name }} 影像档案"
             ></p>
             <div class="home-icon-list" aria-label="首页图标">
-                <a class="home-icon-item" href="https://gitee.com/BigPanZH" title="Gitee" aria-label="Gitee">
+                <a class="home-icon-item" href="https://gitee.com/{{ site.author.gitee }}" title="Gitee" aria-label="Gitee">
                     <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="Gitee">
                 </a>
-                <a class="home-icon-item" href="https://github.com/holyshite" title="GitHub" aria-label="GitHub">
+                <a class="home-icon-item" href="https://github.com/{{ site.author.github }}" title="GitHub" aria-label="GitHub">
                     <img src="{{ '/assets/icon/github.svg' | relative_url }}" alt="GitHub">
                 </a>
-                <a class="home-icon-item" href="mailto:616pwpwpwpw@gmail.com" title="Gmail" aria-label="Gmail">
+                <a class="home-icon-item" href="mailto:{{ site.author.gmail }}" title="Gmail" aria-label="Gmail">
                     <img src="{{ '/assets/icon/gmail.svg' | relative_url }}" alt="Gmail">
                 </a>
-                <a class="home-icon-item" href="mailto:751802108@qq.com" title="QQ Mail" aria-label="QQ Mail">
+                <a class="home-icon-item" href="mailto:{{ site.author.qqmail }}" title="QQ Mail" aria-label="QQ Mail">
                     <img src="{{ '/assets/icon/QQmail.svg' | relative_url }}" alt="QQ Mail">
                 </a>
-                <a class="home-icon-item" href="https://steamcommunity.com/profiles/76561199520206774/" title="Steam"
+                <a class="home-icon-item" href="https://steamcommunity.com/profiles/{{ site.author.steam_id }}/" title="Steam"
                     aria-label="Steam">
                     <img src="{{ '/assets/icon/steam.svg' | relative_url }}" alt="Steam">
                 </a>
@@ -58,9 +58,9 @@ title: 首页
         </section>
     </main>
 
-    <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
-    <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
-    <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
+    <script src="{{ '/assets/js/nav.js' | relative_url }}" defer></script>
+    <script src="{{ '/assets/js/prefetch.js' | relative_url }}" defer></script>
     <script>
         (function () {
             function typeText(element, text, speed, done) {

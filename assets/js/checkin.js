@@ -3,7 +3,9 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     const CONFIG = {
-        apiBase: 'https://github-checkin-api.751802108.workers.dev',
+        apiBase: document.querySelector('.checkin-container')
+            ? document.querySelector('.checkin-container').dataset.apiBase
+            : 'https://github-checkin-api.751802108.workers.dev',
         storageKeys: {
             session: 'checkin_session',
             checkinHistory: 'checkin_history_cache'

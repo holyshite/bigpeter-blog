@@ -18,8 +18,8 @@ title: 项目
             } catch (e) { }
         })();
     </script>
-    <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
+    <link rel="preload" href="{{ '/assets/css/style.css' | relative_url }}" as="style">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 
 <body class="star-canvas-page">
@@ -81,9 +81,9 @@ title: 项目
 
     {% include page.html title=page.title content=page_content aside_title="项目信息" aside_content=page_aside aside_tags_title="项目标签" aside_tags_content=page_tags %}
 
-    <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
-    <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
-    <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
+    <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
+    <script src="{{ '/assets/js/nav.js' | relative_url }}" defer></script>
+    <script src="{{ '/assets/js/prefetch.js' | relative_url }}" defer></script>
 </body>
 
 </html>

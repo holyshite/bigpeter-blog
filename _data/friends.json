@@ -1,32 +1,22 @@
 [
   {
-    "name": "沫之白",
-    "url": "https://fartmonarch.xyz/",
-    "avatar": "https://fartmonarch.xyz/images/avatar.png",
-    "description": "前端的大手子，big hand",
+    "name": "示例友链一",
+    "url": "https://example.com",
+    "avatar": "https://example.com/avatar.png",
+    "description": "这是一个示例友链，请替换为你的朋友。",
     "tags": [
       "技术",
-      "设计"
+      "博客"
     ]
   },
   {
-    "name": "evanescent",
-    "url": "https://evanescent521.github.io/",
-    "avatar": "https://shared.akamai.steamstatic.com/community_assets/images/items/1504020/4495cb7125faf0795bf63ce532290bc28bebb440.gif",
-    "description": "这是我的一个老弟，大家给点面子",
+    "name": "示例友链二",
+    "url": "https://example.org",
+    "avatar": "https://example.org/avatar.png",
+    "description": "第二个示例友链，展示描述和标签样式。",
     "tags": [
       "设计",
-      "博客"
-    ]
-  },
-  {
-    "name": "Jokerlove",
-    "url": "https://jokerlove0626.github.io/",
-    "avatar": "https://jokerlove0626.github.io/img/my_avatar.png",
-    "description": "浙大研究生，我唯一的浙大人脉",
-    "tags": [
-      "技术",
-      "博客"
+      "摄影"
     ]
   }
 ]

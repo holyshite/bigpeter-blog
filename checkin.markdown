@@ -5,7 +5,7 @@ permalink: /checkin/
 ---
 
 <!-- CHECKIN-V2: OAuth-based login, Cloudflare Workers backend -->
-<div class="checkin-container">
+<div class="checkin-container" data-api-base="{{ site.checkin.api_base }}">
 
     <div class="checkin-status">
         <div id="todayStatus" class="status-pending">
@@ -14,7 +14,7 @@ permalink: /checkin/
         <button id="checkinBtn" class="checkin-btn" disabled>
             <span class="btn-text">打卡中...</span>
         </button>
-        <a id="loginBtn" class="checkin-btn" href="https://github-checkin-api.751802108.workers.dev/api/auth/github" style="display: none;">GitHub 登录</a>
+        <a id="loginBtn" class="checkin-btn" href="{{ site.checkin.api_base }}/api/auth/github" style="display: none;">GitHub 登录</a>
     </div>
 
     <div class="checkin-stats">

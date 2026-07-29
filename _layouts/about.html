@@ -18,8 +18,8 @@ title: 关于
       } catch (e) { }
     })();
   </script>
-  <link rel="preload" href="{{ '/assets/css/style.css' | absolute_url }}" as="style">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | absolute_url }}">
+  <link rel="preload" href="{{ '/assets/css/style.css' | relative_url }}" as="style">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 
 <body class="star-canvas-page">
@@ -29,9 +29,9 @@ title: 关于
     <section class="about-hero" id="about-hero" aria-labelledby="about-title">
       <div class="about-hero__inner">
         <p class="about-hero__kicker">关于 / ABOUT</p>
-        <h1 class="about-hero__title" id="about-title">BigPeter</h1>
+        <h1 class="about-hero__title" id="about-title">{{ site.author.name }}</h1>
         <p class="about-hero__intro">
-          一个热爱编程和技术的开发者，也在这里记录项目经验、生活感悟，以及那些值得反复思考的片段。
+          {{ site.author.bio }}
         </p>
         <div class="about-hero__topics" aria-label="关注领域">
           <span>Web 开发</span>
@@ -82,13 +82,13 @@ title: 关于
               <h3>保持联系</h3>
               <p class="about-card__lead">关于技术、项目或博客本身的建议，都欢迎直接联系。</p>
               <div class="about-contact-links">
-                <a href="mailto:751802108@qq.com">
+                <a href="mailto:{{ site.author.email }}">
                   <span>邮箱</span>
-                  <strong>751802108@qq.com</strong>
+                  <strong>{{ site.author.email }}</strong>
                 </a>
-                <a href="https://github.com/holyshite" target="_blank" rel="noopener">
+                <a href="https://github.com/{{ site.author.github }}" target="_blank" rel="noopener">
                   <span>GitHub</span>
-                  <strong>BigPeter</strong>
+                  <strong>{{ site.author.name }}</strong>
                 </a>
               </div>
             </article>
@@ -135,21 +135,21 @@ title: 关于
       <section class="about-social" aria-label="更多联系方式">
         <p class="about-social__label">ELSEWHERE</p>
         <div class="home-icon-list" aria-label="联系图标">
-          <a class="home-icon-item" href="https://gitee.com/BigPanZH" title="Gitee" aria-label="Gitee">
+          <a class="home-icon-item" href="https://gitee.com/{{ site.author.gitee }}" title="Gitee" aria-label="Gitee">
             <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="">
           </a>
-          <a class="home-icon-item" href="https://github.com/holyshite" title="GitHub" aria-label="GitHub">
+          <a class="home-icon-item" href="https://github.com/{{ site.author.github }}" title="GitHub" aria-label="GitHub">
             <img src="{{ '/assets/icon/github.svg' | relative_url }}" alt="">
           </a>
-          <a class="home-icon-item" href="mailto:616pwpwpwpw@gmail.com" title="Gmail" aria-label="Gmail">
+          <a class="home-icon-item" href="mailto:{{ site.author.gmail }}" title="Gmail" aria-label="Gmail">
             <img src="{{ '/assets/icon/gmail.svg' | relative_url }}" alt="">
           </a>
-          <a class="home-icon-item" href="mailto:751802108@qq.com" title="QQ Mail" aria-label="QQ Mail">
+          <a class="home-icon-item" href="mailto:{{ site.author.qqmail }}" title="QQ Mail" aria-label="QQ Mail">
             <img src="{{ '/assets/icon/QQmail.svg' | relative_url }}" alt="">
           </a>
           <a
             class="home-icon-item"
-            href="https://steamcommunity.com/profiles/76561199520206774/"
+            href="https://steamcommunity.com/profiles/{{ site.author.steam_id }}/"
             title="Steam"
             aria-label="Steam"
           >
@@ -162,10 +162,10 @@ title: 关于
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
-  <script src="{{ '/assets/js/theme.js' | absolute_url }}" defer></script>
-  <script src="{{ '/assets/js/nav.js' | absolute_url }}" defer></script>
-  <script src="{{ '/assets/js/prefetch.js' | absolute_url }}" defer></script>
-  <script src="{{ '/assets/js/about.js' | absolute_url }}" defer></script>
+  <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/nav.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/prefetch.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/about.js' | relative_url }}" defer></script>
 </body>
 
 </html>

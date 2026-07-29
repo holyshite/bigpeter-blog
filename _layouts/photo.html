@@ -17,8 +17,8 @@ layout: none
   {% assign photo_count = site.data.photo | size %}
   {% assign photo_backgrounds = 'bg_1.webp|bg_2.webp|bg_3.webp' | split: '|' %}
   <header class="photo-header">
-    <a class="photo-header__brand" href="{{ '/' | relative_url }}" aria-label="返回 BigPeter 首页">
-      <span>BIGPETER</span>
+    <a class="photo-header__brand" href="{{ '/' | relative_url }}" aria-label="返回 {{ site.author.name }} 首页">
+      <span>{{ site.author.name | upcase }}</span>
       <span>PHOTO ARCHIVE</span>
     </a>
     <a class="photo-header__menu" href="#photo-grid">浏览作品 <span aria-hidden="true">↓</span></a>
@@ -118,7 +118,7 @@ layout: none
   </main>
 
   <footer class="photo-footer">
-    <p>BIGPETER / PHOTO ARCHIVE</p>
+    <p>{{ site.author.name | upcase }} / PHOTO ARCHIVE</p>
     <a href="{{ '/' | relative_url }}">返回首页 <span aria-hidden="true">↗</span></a>
   </footer>
 
