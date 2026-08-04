@@ -23,9 +23,10 @@
         var statementBackgroundIndex = -1;
         var smoothScroller = null;
         var hintMoveFrame = 0;
+        var dragCount = 0;
 
         function getActiveCanvas() {
-            return isMobileQuery.matches ? mobileCanvas : desktopCanvas;
+            return isMobileQuery.matches && mobileCanvas ? mobileCanvas : desktopCanvas;
         }
 
         function isMobile() {
@@ -54,6 +55,7 @@
                 dragInstances.push(window.PhotoDrag.create(draggableEl, {
                     bounds: gridSection,
                     onDragStart: function () {
+                        dragCount += 1;
                         if (smoothScroller) smoothScroller.stop();
                         document.documentElement.classList.add('photo-dragging');
                         if (!interactionEnabled) {
@@ -62,8 +64,11 @@
                         }
                     },
                     onDragEnd: function () {
-                        if (smoothScroller) smoothScroller.start();
-                        document.documentElement.classList.remove('photo-dragging');
+                        dragCount = Math.max(0, dragCount - 1);
+                        if (dragCount === 0) {
+                            if (smoothScroller && !dialog.open) smoothScroller.start();
+                            document.documentElement.classList.remove('photo-dragging');
+                        }
                     }
                 }));
             });
@@ -76,6 +81,9 @@
                 card.removeEventListener('dragstart', preventDrag);
             });
             dragInstances.forEach(function (instance) { instance.destroy(); });
+            dragCount = 0;
+            document.documentElement.classList.remove('photo-dragging');
+            if (smoothScroller && !dialog.open) smoothScroller.start();
             dragInstances = [];
             cards = [];
         }
@@ -102,6 +110,7 @@
             if (!statementSection || !statementBackground) return;
 
             var rect = statementSection.getBoundingClientRect();
+            var stageHeight = statementBackground.clientHeight;
             var travel = Math.max(1, rect.height - window.innerHeight);
             var progress = Math.max(0, Math.min(1, -rect.top / travel));
             var scaledProgress = progress * Math.max(1, statementImages.length - 1);
@@ -114,7 +123,6 @@
             statementBackground.style.setProperty('--photo-statement-progress', progress.toFixed(3));
             statementBackground.style.setProperty('--photo-reveal', reveal.toFixed(3));
             statementBackground.style.setProperty('--photo-bg-parallax', (progress * -100).toFixed(2) + 'px');
-            var stageHeight = statementBackground.clientHeight;
             floatingLayers.forEach(function (layer, index) {
                 var layerSpeed = 0.75;
                 var layerOffset = (index - scaledProgress * layerSpeed) * stageHeight;
