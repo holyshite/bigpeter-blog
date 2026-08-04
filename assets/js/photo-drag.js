@@ -57,9 +57,7 @@
     }
 
     function stopInertia() {
-      if (inertiaFrame) { CAF(inertiaFrame); inertiaFrame = 0; }
-      velocityX = 0;
-      velocityY = 0;
+      if (inertiaFrame) { CAF(inertiaFrame); inertiaFrame = 0; velocityX = 0; velocityY = 0; onDragEnd(); }
     }
 
     function startInertia() {
