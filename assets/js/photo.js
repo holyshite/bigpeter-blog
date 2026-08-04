@@ -14,6 +14,9 @@
         var hintOnReset = false;
         var resetButton = document.querySelector('[data-photo-reset]');
         var hint = document.querySelector('[data-photo-hint]');
+        var dot = document.querySelector('[data-photo-dot]');
+        var dotSize = 12;
+        var dotGap = 10;
         var gridSection = document.querySelector('.photo-grid-section');
         var gridInner = document.querySelector('.photographyImageGrid__containerInner');
         var statementBackground = document.querySelector('[data-photo-statement-background]');
@@ -183,6 +186,7 @@
                 visible = hintHovering && !dialog.open && !hintOnReset;
             }
             hint.classList.toggle('is-visible', visible);
+            if (dot) dot.classList.toggle('is-visible', visible);
         }
 
         function scheduleHintMove(event) {
@@ -190,7 +194,12 @@
             if (hintMoveFrame) return;
             hintMoveFrame = window.requestAnimationFrame(function () {
                 hintMoveFrame = 0;
-                hint.style.transform = 'translate3d(' + (event.clientX + 14) + 'px, ' + (event.clientY + 14) + 'px, 0)';
+                var isOnPhoto = !!(event.target && event.target.closest && event.target.closest('[data-photo-card]'));
+                if (dot) {
+                    dot.classList.toggle('is-visible', !isOnPhoto);
+                    dot.style.transform = 'translate3d(' + (event.clientX - dotSize / 2) + 'px, ' + (event.clientY - dotSize / 2) + 'px, 0)';
+                }
+                hint.style.transform = 'translate3d(' + (event.clientX + dotSize / 2 + dotGap) + 'px, ' + (event.clientY - hint.offsetHeight / 2) + 'px, 0)';
             });
         }
 

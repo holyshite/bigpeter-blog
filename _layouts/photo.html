@@ -14,6 +14,7 @@ layout: none
 </head>
 
 <body class="photo-page">
+  {% include liquid-glass-filter.html %}
   {% assign photo_count = site.data.photo | size %}
   {% assign photo_backgrounds = 'bg_1.webp|bg_2.webp|bg_3.webp' | split: '|' %}
   <header class="photo-header">
@@ -178,6 +179,7 @@ layout: none
         </svg>
         <span>Reset</span>
       </button>
+      <div class="photo-canvas-dot" data-photo-dot aria-hidden="true"></div>
       <div class="photo-canvas-hint" data-photo-hint role="status">
         <span class="photo-canvas-hint__desktop">Click or drag to explore</span>
         <span class="photo-canvas-hint__mobile">Tap or drag to explore</span>

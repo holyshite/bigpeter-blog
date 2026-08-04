@@ -368,29 +368,57 @@
     cursor: pointer;
     display: flex;
     font: inherit;
-    font-size: 11px;
-    gap: 0.8rem;
+    font-size: 13px;
+    font-weight: 600;
+    gap: 1rem;
     left: var(--sideMargin);
     margin: 0;
-    mix-blend-mode: difference;
     opacity: 0;
-    padding: 0.4rem 0.6rem;
+    padding: 0.6rem 1.2rem;
     pointer-events: none;
     position: fixed;
     transition: opacity 300ms ease;
     z-index: 5;
+
+    svg {
+      height: 18px;
+      width: 18px;
+    }
   }
 
   .photo-canvas__reset.is-visible {
+    @include liquid-glass-surface($radius: 999px);
+    backdrop-filter: blur(8px) saturate(135%) brightness(1.02);
+    -webkit-backdrop-filter: blur(8px) saturate(135%) brightness(1.02);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.03),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03);
     opacity: 1;
     pointer-events: auto;
+    position: fixed;
+  }
+
+  .photo-canvas-dot {
+    background: #fff;
+    border-radius: 50%;
+    height: 12px;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    transition: opacity 200ms ease;
+    width: 12px;
+    z-index: 6;
   }
 
   .photo-canvas-hint {
     color: #fff;
-    font-size: 11px;
+    font-size: 15px;
+    font-weight: 600;
     left: 0;
     letter-spacing: 0;
+    margin: 0;
     mix-blend-mode: difference;
     opacity: 0;
     pointer-events: none;
@@ -401,7 +429,8 @@
     z-index: 6;
   }
 
-  .photo-canvas-hint.is-visible {
+  .photo-canvas-hint.is-visible,
+  .photo-canvas-dot.is-visible {
     opacity: 1;
   }
 
@@ -425,6 +454,10 @@
   font-weight: 400;
   line-height: 0.82;
   margin: 0;
+}
+
+.photographyImageGrid__containerInner {
+  cursor: none;
 }
 
 .photographyImageGrid__rows {
@@ -463,7 +496,7 @@
   aspect-ratio: calc(1 / var(--row-ratio, 1.3333));
   background: transparent;
   border: 0;
-  cursor: pointer;
+  cursor: grab;
   display: block;
   grid-column: var(--photo-column) / span 1;
   grid-row: 1;
@@ -488,7 +521,7 @@
 }
 
 .draggableElement {
-  cursor: pointer;
+  cursor: grab;
   overflow: hidden;
   transform: translate3d(0, 0, 0);
   user-select: none;
@@ -1044,6 +1077,10 @@
   }
 
   .photo-grid-section .photo-canvas-hint__desktop {
+    display: none;
+  }
+
+  .photo-grid-section .photo-canvas-dot {
     display: none;
   }
 
