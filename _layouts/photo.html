@@ -74,7 +74,17 @@ layout: none
           {% assign photo_cursor = 0 %}
           {% for photo_row in site.data.photo_grid_rows %}
           {% if photo_cursor < photo_total %}
-          <div class="photographyImageGrid__row">
+          {% assign row_ratio = 0 %}
+          {% assign ratio_cursor = photo_cursor %}
+          {% for ratio_slot in photo_row %}
+            {% if ratio_cursor < photo_total %}
+              {% assign slot_aspect = site.data.photo[ratio_cursor].aspect %}
+              {% assign row_ratio = slot_aspect | at_least: row_ratio %}
+            {% endif %}
+            {% assign ratio_cursor = ratio_cursor | plus: 1 %}
+          {% endfor %}
+          {% if row_ratio == 0 %}{% assign row_ratio = 1.3333 %}{% endif %}
+          <div class="photographyImageGrid__row" style="--row-ratio: {{ row_ratio }};">
             {% for photo_slot in photo_row %}
             {% if photo_cursor < photo_total %}
             {% assign item = site.data.photo[photo_cursor] %}
@@ -116,7 +126,17 @@ layout: none
           {% for mobile_cycle in (1..photo_total) %}
           {% if mobile_cursor >= photo_total %}{% break %}{% endif %}
           {% assign mobile_row = site.data.photo_grid_rows_mobile[mobile_row_idx] %}
-          <div class="photographyImageGrid__row">
+          {% assign mobile_ratio = 0 %}
+          {% assign mobile_ratio_cursor = mobile_cursor %}
+          {% for mobile_ratio_slot in mobile_row %}
+            {% if mobile_ratio_cursor < photo_total %}
+              {% assign mobile_slot_aspect = site.data.photo[mobile_ratio_cursor].aspect %}
+              {% assign mobile_ratio = mobile_slot_aspect | at_least: mobile_ratio %}
+            {% endif %}
+            {% assign mobile_ratio_cursor = mobile_ratio_cursor | plus: 1 %}
+          {% endfor %}
+          {% if mobile_ratio == 0 %}{% assign mobile_ratio = 1.3333 %}{% endif %}
+          <div class="photographyImageGrid__row" style="--row-ratio: {{ mobile_ratio }};">
             {% for mobile_col in mobile_row %}
             {% if mobile_cursor < photo_total %}
             {% assign mobile_item = site.data.photo[mobile_cursor] %}
@@ -171,7 +191,9 @@ layout: none
   </footer>
 
   <dialog class="photo-dialog" data-photo-dialog aria-labelledby="photo-dialog-title">
-    <button class="photo-dialog__close" type="button" data-photo-close aria-label="关闭作品查看器">×</button>
+    <button class="photo-dialog__close" type="button" data-photo-close aria-label="关闭作品查看器">
+      <span class="photo-dialog__close-inner">cd ..</span>
+    </button>
     <div class="photo-dialog__content">
       <div class="photo-dialog__main">
         <div class="photo-dialog__image-wrap">
@@ -185,17 +207,26 @@ layout: none
             draggable="false"
             aria-label="放大作品"
           >
-          <span class="photo-dialog__zoom-indicator" data-photo-zoom-indicator aria-hidden="true">( + )</span>
         </div>
         <div class="photo-dialog__info" aria-live="polite">
-          <p data-photo-dialog-count>01 / {{ photo_count }}</p>
-          <h2 id="photo-dialog-title" data-photo-dialog-title></h2>
-          <p data-photo-dialog-category></p>
+          <p class="photo-dialog__count" data-photo-dialog-count>01 / {{ photo_count }}</p>
           <p data-photo-dialog-description></p>
         </div>
         <div class="photo-dialog__controls">
-          <button type="button" data-photo-previous aria-label="查看上一件作品">←</button>
-          <button type="button" data-photo-next aria-label="查看下一件作品">→</button>
+          <button type="button" data-photo-previous aria-label="查看上一件作品" dir="left">
+            <div class="photo-dialog__arrow-inner">
+              <span class="photo-dialog__arrow-icon">←</span>
+              <span class="photo-dialog__arrow-icon">←</span>
+              <span class="photo-dialog__arrow-icon">←</span>
+            </div>
+          </button>
+          <button type="button" data-photo-next aria-label="查看下一件作品" dir="right">
+            <div class="photo-dialog__arrow-inner">
+              <span class="photo-dialog__arrow-icon">→</span>
+              <span class="photo-dialog__arrow-icon">→</span>
+              <span class="photo-dialog__arrow-icon">→</span>
+            </div>
+          </button>
         </div>
       </div>
       <div class="photo-dialog__thumbs" data-photo-thumbs aria-label="作品缩略图列表">

@@ -1,294 +1,343 @@
 - src: /assets/images/photos/1.webp
   title: 影像 01
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/2.webp
   title: 影像 02
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/3.webp
   title: 影像 03
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.75
 - src: /assets/images/photos/4.webp
   title: 影像 04
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/5.webp
   title: 影像 05
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/6.webp
   title: 影像 06
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/7.webp
   title: 影像 07
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/8.webp
   title: 影像 08
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/9.webp
   title: 影像 09
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/10.webp
   title: 影像 10
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/11.webp
   title: 影像 11
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.7333
 - src: /assets/images/photos/12.webp
   title: 影像 12
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/13.webp
   title: 影像 13
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.75
 - src: /assets/images/photos/14.webp
   title: 影像 14
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/15.webp
   title: 影像 15
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/16.webp
   title: 影像 16
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/17.webp
   title: 影像 17
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/18.webp
   title: 影像 18
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/19.webp
   title: 影像 19
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/20.webp
   title: 影像 20
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3229
 - src: /assets/images/photos/21.webp
   title: 影像 21
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/22.webp
   title: 影像 22
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/23.webp
   title: 影像 23
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.75
 - src: /assets/images/photos/24.webp
   title: 影像 24
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/25.webp
   title: 影像 25
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/26.webp
   title: 影像 26
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.7778
 - src: /assets/images/photos/27.webp
   title: 影像 27
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/28.webp
   title: 影像 28
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/29.webp
   title: 影像 29
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/30.webp
   title: 影像 30
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/31.webp
   title: 影像 31
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/32.webp
   title: 影像 32
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/33.webp
   title: 影像 33
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.778
 - src: /assets/images/photos/34.webp
   title: 影像 34
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.75
 - src: /assets/images/photos/35.webp
   title: 影像 35
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.75
 - src: /assets/images/photos/36.webp
   title: 影像 36
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.75
 - src: /assets/images/photos/37.webp
   title: 影像 37
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/38.webp
   title: 影像 38
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/39.webp
   title: 影像 39
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/40.webp
   title: 影像 40
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.75
 - src: /assets/images/photos/41.webp
   title: 影像 41
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.75
 - src: /assets/images/photos/42.webp
   title: 影像 42
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: wide
+  aspect: 0.5625
 - src: /assets/images/photos/43.webp
   title: 影像 43
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/44.webp
   title: 影像 44
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/45.webp
   title: 影像 45
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/46.webp
   title: 影像 46
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/47.webp
   title: 影像 47
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.7787
 - src: /assets/images/photos/48.webp
   title: 影像 48
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.3333
 - src: /assets/images/photos/49.webp
   title: 影像 49
   category: 日常记录
-  year: "2026"
+  year: '2026'
   description: 收录于 BigPeter 影像档案。
   ratio: portrait
+  aspect: 1.7778

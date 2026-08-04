@@ -347,7 +347,6 @@
 
 .photo-grid-section {
   --sideMargin: 4rem;
-  --rowHeight: 13rem;
   background: #000;
   color: #f4f2ec;
   color-scheme: dark;
@@ -443,22 +442,33 @@
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
   column-gap: 2rem;
-  height: var(--rowHeight);
   pointer-events: none;
   position: relative;
 }
 
+.photographyImageGrid__row::before {
+  aspect-ratio: calc(1 / var(--row-ratio, 1.3333));
+  content: "";
+  display: block;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  width: calc((100% - 7 * 2rem) / 8);
+}
+
 .photographyImageGrid__row:not(:first-child) {
-  margin-top: calc(var(--rowHeight) * -0.5);
+  margin-top: calc((100% - 7 * 2rem) / 8 * var(--row-ratio, 1.3333) * -0.5);
 }
 
 .photographyImageGridItem {
-  background: #0d0d0d;
+  aspect-ratio: calc(1 / var(--row-ratio, 1.3333));
+  background: transparent;
   border: 0;
   cursor: pointer;
   display: block;
   grid-column: var(--photo-column) / span 1;
-  height: 100%;
+  grid-row: 1;
+  height: auto;
+  min-height: 0;
   overflow: visible;
   padding: 0;
   pointer-events: auto;
@@ -581,12 +591,14 @@
 }
 
 .photo-dialog__close {
-  font-size: 31px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
   line-height: 1;
   padding: 0;
   position: absolute;
-  right: 24px;
-  top: 18px;
+  left: 40px;
+  top: 34px;
   z-index: 3;
 }
 
@@ -632,18 +644,6 @@
   transition: none;
 }
 
-.photo-dialog__zoom-indicator {
-  bottom: 14px;
-  color: #fff;
-  font-size: 13px;
-  letter-spacing: 0;
-  mix-blend-mode: difference;
-  pointer-events: none;
-  position: absolute;
-  right: 22px;
-  z-index: 2;
-}
-
 .photo-dialog__info {
   bottom: 17px;
   max-width: 460px;
@@ -662,24 +662,85 @@
   margin: 0 0 10px;
 }
 
-.photo-dialog__info h2 {
-  font-size: clamp(22px, 2.3vw, 38px);
-  font-weight: 400;
+.photo-dialog__info .photo-dialog__count {
+  color: #f4f2ec;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
   line-height: 1;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
 }
 
 .photo-dialog__controls {
   bottom: 24px;
   display: flex;
-  gap: 20px;
-  left: 24px;
+  gap: 32px;
+  left: 40px;
   position: absolute;
+  z-index: 2;
 }
 
 .photo-dialog__controls button {
   font-size: 26px;
-  padding: 5px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0;
+}
+
+.photo-dialog__arrow-inner {
+  overflow: clip;
+  position: relative;
+}
+
+.photo-dialog__arrow-icon {
+  display: block;
+  line-height: 1;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.photo-dialog__arrow-icon:first-child {
+  position: relative;
+}
+
+.photo-dialog__arrow-icon:nth-child(2),
+.photo-dialog__arrow-icon:nth-child(3) {
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.photo-dialog__controls button[dir="left"] .photo-dialog__arrow-icon:nth-child(2),
+.photo-dialog__controls button[dir="left"] .photo-dialog__arrow-icon:nth-child(3) {
+  transform: translateX(100%);
+}
+
+.photo-dialog__controls button[dir="left"]:hover .photo-dialog__arrow-icon:nth-child(1) {
+  transform: translateX(-100%);
+}
+
+.photo-dialog__controls button[dir="left"]:hover .photo-dialog__arrow-icon:nth-child(2) {
+  transform: translateX(0);
+}
+
+.photo-dialog__controls button[dir="left"]:hover .photo-dialog__arrow-icon:nth-child(3) {
+  transform: translateX(100%);
+}
+
+.photo-dialog__controls button[dir="right"] .photo-dialog__arrow-icon:nth-child(2),
+.photo-dialog__controls button[dir="right"] .photo-dialog__arrow-icon:nth-child(3) {
+  transform: translateX(-100%);
+}
+
+.photo-dialog__controls button[dir="right"]:hover .photo-dialog__arrow-icon:nth-child(1) {
+  transform: translateX(100%);
+}
+
+.photo-dialog__controls button[dir="right"]:hover .photo-dialog__arrow-icon:nth-child(2) {
+  transform: translateX(0);
+}
+
+.photo-dialog__controls button[dir="right"]:hover .photo-dialog__arrow-icon:nth-child(3) {
+  transform: translateX(-100%);
 }
 
 .photo-dialog__thumbs {
@@ -896,8 +957,8 @@
   }
 
   .photo-dialog__close {
-    right: 16px;
-    top: 12px;
+    left: 16px;
+    top: 20px;
   }
 
   .photo-dialog__content {
@@ -926,10 +987,6 @@
 
   .photo-dialog__info p {
     margin-bottom: 6px;
-  }
-
-  .photo-dialog__info h2 {
-    margin-bottom: 8px;
   }
 
   .photo-dialog__controls {
@@ -966,6 +1023,14 @@
   .photographyImageGrid__row {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 1.2rem;
+  }
+
+  .photographyImageGrid__row::before {
+    width: calc((100% - 2 * 1.2rem) / 3);
+  }
+
+  .photographyImageGrid__row:not(:first-child) {
+    margin-top: calc((100% - 2 * 1.2rem) / 3 * var(--row-ratio, 1.3333) * -0.5);
   }
 
   .photo-grid-section .photo-canvas__reset {

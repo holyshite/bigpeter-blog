@@ -15,6 +15,7 @@
         var resetButton = document.querySelector('[data-photo-reset]');
         var hint = document.querySelector('[data-photo-hint]');
         var gridSection = document.querySelector('.photo-grid-section');
+        var gridInner = document.querySelector('.photographyImageGrid__containerInner');
         var statementBackground = document.querySelector('[data-photo-statement-background]');
         var statementSection = statementBackground ? statementBackground.closest('.photo-statement') : null;
         var statementImages = statementBackground ? Array.from(statementBackground.querySelectorAll('.photo-statement__background-image')) : [];
@@ -53,7 +54,7 @@
                 var draggableEl = card.querySelector('.photographyImageGridItem__draggable');
                 if (!draggableEl) return;
                 dragInstances.push(window.PhotoDrag.create(draggableEl, {
-                    bounds: gridSection,
+                    bounds: gridInner || gridSection,
                     onDragStart: function () {
                         dragCount += 1;
                         if (smoothScroller) smoothScroller.stop();

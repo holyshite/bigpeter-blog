@@ -7,11 +7,8 @@
 
     var image = dialog.querySelector('[data-photo-dialog-image]');
     var imageWrap = dialog.querySelector('.photo-dialog__image-wrap');
-    var title = dialog.querySelector('[data-photo-dialog-title]');
-    var category = dialog.querySelector('[data-photo-dialog-category]');
     var description = dialog.querySelector('[data-photo-dialog-description]');
     var count = dialog.querySelector('[data-photo-dialog-count]');
-    var zoomIndicator = dialog.querySelector('[data-photo-zoom-indicator]');
     var thumbs = dialog.querySelector('[data-photo-thumbs]');
     var thumbButtons = Array.from(dialog.querySelectorAll('[data-photo-thumb]'));
     var closeButton = dialog.querySelector('[data-photo-close]');
@@ -21,7 +18,6 @@
     var currentIndex = 0;
     var isTransitioning = false;
     var scale = 1;
-    var wheelResetTimer = 0;
     var thumbDrag = null;
     var total = thumbButtons.length;
 
@@ -40,9 +36,7 @@
       var panX = imageWrap.style.getPropertyValue('--photo-pan-x') || '0px';
       var panY = imageWrap.style.getPropertyValue('--photo-pan-y') || '0px';
       image.style.transform = 'translate3d(' + panX + ', ' + panY + ', 0) scale(' + scale.toFixed(3) + ')';
-      var zoomed = scale > 1;
-      if (zoomIndicator) zoomIndicator.textContent = zoomed ? '( - )' : '( + )';
-      image.setAttribute('aria-label', zoomed ? '缩小当前图片' : '放大当前图片');
+      image.setAttribute('aria-label', scale > 1 ? '缩小当前图片' : '放大当前图片');
     }
 
     function preloadAdjacentImages() {
@@ -60,8 +54,16 @@
         thumb.setAttribute('aria-pressed', String(active));
       });
       var activeThumb = thumbButtons[currentIndex];
-      if (activeThumb) {
-        activeThumb.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+      if (!activeThumb) return;
+      var barRect = thumbs.getBoundingClientRect();
+      var thumbRect = activeThumb.getBoundingClientRect();
+      var horizontal = thumbs.offsetWidth >= thumbs.offsetHeight * 1.5;
+      if (horizontal) {
+        var leftOffset = thumbRect.left - barRect.left - (barRect.width - thumbRect.width) / 2;
+        thumbs.scrollTo({ left: thumbs.scrollLeft + leftOffset, behavior: 'smooth' });
+      } else {
+        var topOffset = thumbRect.top - barRect.top - (barRect.height - thumbRect.height) / 2;
+        thumbs.scrollTo({ top: thumbs.scrollTop + topOffset, behavior: 'smooth' });
       }
     }
 
@@ -74,8 +76,6 @@
       applyScale();
       image.src = work.src;
       image.alt = work.title;
-      title.textContent = work.title;
-      category.textContent = work.category;
       description.textContent = work.description;
       count.textContent = String(currentIndex + 1).padStart(2, '0')
         + ' / '
@@ -176,13 +176,8 @@
     imageWrap.addEventListener('wheel', function (event) {
       event.preventDefault();
       if (isTransitioning) return;
-      scale = Math.min(3, Math.max(1, scale - event.deltaY * 0.001));
-      image.classList.add('is-dragging');
-      applyScale();
-      window.clearTimeout(wheelResetTimer);
-      wheelResetTimer = window.setTimeout(function () {
-        image.classList.remove('is-dragging');
-      }, 150);
+      var direction = event.deltaY > 0 ? 1 : -1;
+      transitionTo(currentIndex + direction, direction);
     }, { passive: false });
 
     imageWrap.addEventListener('pointermove', function (event) {
