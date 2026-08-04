@@ -587,19 +587,26 @@
   position: absolute;
   right: 24px;
   top: 18px;
-  z-index: 1;
+  z-index: 3;
 }
 
 .photo-dialog__content {
+  display: flex;
   height: 100%;
   position: relative;
   width: 100%;
 }
 
+.photo-dialog__main {
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+}
+
 .photo-dialog__image-wrap {
   align-items: center;
   display: flex;
-  inset: 48px 68px 62px;
+  inset: 48px 24px 62px 68px;
   justify-content: center;
   overflow: hidden;
   position: absolute;
@@ -618,14 +625,23 @@
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
   user-select: none;
   width: 100%;
+  will-change: transform;
 }
 
-.photo-dialog.is-zoomed .photo-dialog__image {
-  cursor: zoom-out;
-  transform:
-    translate3d(var(--photo-pan-x), var(--photo-pan-y), 0)
-    scale(2.25);
-  transition-duration: 180ms;
+.photo-dialog__image.is-dragging {
+  transition: none;
+}
+
+.photo-dialog__zoom-indicator {
+  bottom: 14px;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  position: absolute;
+  right: 22px;
+  z-index: 2;
 }
 
 .photo-dialog__info {
@@ -664,6 +680,56 @@
 .photo-dialog__controls button {
   font-size: 26px;
   padding: 5px;
+}
+
+.photo-dialog__thumbs {
+  display: flex;
+  flex: 0 0 118px;
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 76px 20px 24px 20px;
+  position: relative;
+  scrollbar-width: none;
+  touch-action: none;
+  width: 118px;
+}
+
+.photo-dialog__thumbs::-webkit-scrollbar {
+  display: none;
+}
+
+.photo-dialog__thumb {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  flex: 0 0 auto;
+  opacity: 0.55;
+  padding: 0;
+  position: relative;
+  transition: opacity 250ms ease, transform 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  transform: scale(1);
+  width: 78px;
+}
+
+.photo-dialog__thumb img {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.photo-dialog__thumb:hover,
+.photo-dialog__thumb.is-active {
+  opacity: 1;
+  transform: scale(1.5);
+  z-index: 1;
+}
+
+.photo-dialog__thumb:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
 }
 
 .photo-dialog-open {
@@ -835,19 +901,27 @@
   }
 
   .photo-dialog__content {
-    height: 100%;
+    flex-direction: column;
+  }
+
+  .photo-dialog__main {
+    flex: 1 1 auto;
+    min-height: 0;
   }
 
   .photo-dialog__image-wrap {
-    inset: 48px 16px 154px;
+    inset: 48px 16px 12px;
   }
 
   .photo-dialog__info {
-    bottom: 47px;
+    bottom: auto;
     left: 16px;
     max-width: calc(100% - 32px);
+    padding-left: 64px;
     right: 16px;
     text-align: left;
+    top: 48px;
+    width: calc(100% - 32px);
   }
 
   .photo-dialog__info p {
@@ -859,8 +933,24 @@
   }
 
   .photo-dialog__controls {
-    bottom: 13px;
+    bottom: auto;
     left: 16px;
+    top: 46px;
+  }
+
+  .photo-dialog__thumbs {
+    align-items: center;
+    flex: 0 0 92px;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 16px;
+    width: 100%;
+  }
+
+  .photo-dialog__thumb {
+    flex: 0 0 auto;
+    width: 64px;
   }
 }
 
