@@ -897,6 +897,10 @@
   }
 }
 
+html.photo-dragging {
+  overflow: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .photo-page *,
   .photo-page *::before,
