@@ -83,6 +83,7 @@ layout: none
               type="button"
               data-photo-card
               data-index="{{ photo_cursor }}"
+              aria-label="View image {{ photo_cursor | plus: 1 }}"
               style="--photo-column: {{ photo_slot }};"
             >
               <div class="draggableElement photographyImageGridItem__draggable fill">
@@ -124,6 +125,7 @@ layout: none
               type="button"
               data-photo-card
               data-index="{{ mobile_cursor }}"
+              aria-label="View image {{ mobile_cursor | plus: 1 }}"
               style="--photo-column: {{ mobile_col }};"
             >
               <div class="draggableElement photographyImageGridItem__draggable fill">
