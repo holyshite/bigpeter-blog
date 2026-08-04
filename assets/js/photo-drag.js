@@ -98,12 +98,17 @@
       if (event.pointerType === 'mouse' && event.button !== 0) return;
       pointerId = event.pointerId;
       var offset = currentOffset();
+      if (resetAnimation) {
+        resetAnimation.cancel();
+        resetAnimation = null;
+      }
       baseX = offset.x;
       baseY = offset.y;
       startClientX = event.clientX;
       startClientY = event.clientY;
       x = baseX;
       y = baseY;
+      apply();
       moved = false;
       dragging = true;
       history = [];
@@ -155,6 +160,7 @@
       stopInertia();
       dragging = false;
       pointerId = null;
+      moved = false;
       element.classList.remove('is-dragging');
       if (resetAnimation) {
         resetAnimation.cancel();
@@ -175,14 +181,19 @@
         if (resetAnimation !== animation) return;
         x = 0;
         y = 0;
-        apply();
+        animation.cancel();
         resetAnimation = null;
+        apply();
       });
     }
 
     function destroy() {
       destroyed = true;
       stopInertia();
+      if (resetAnimation) {
+        resetAnimation.cancel();
+        resetAnimation = null;
+      }
       dragging = false;
       pointerId = null;
       element.classList.remove('is-dragging');
