@@ -1,22 +1,43 @@
 [
   {
-    "name": "示例项目一",
-    "description": "这是一个示例项目，展示项目卡片的基本样式。请替换为你的真实项目。",
-    "url": "https://example.com",
-    "icon": "/assets/images/ai-pic-stardew.webp",
+    "name": "复古游戏博物馆",
+    "description": "这是用vue+vite做的前端，后端用的是flask，数据库存储在MySQL中",
+    "url": "https://retro-game-museum.pages.dev/",
+    "icon": "/assets/images/retro-game-museum.webp",
     "tags": [
       "技术",
       "开源"
     ]
   },
   {
-    "name": "示例项目二",
-    "description": "第二个示例项目，用于测试响应式布局和标签展示。",
-    "url": "https://example.com",
-    "icon": "/assets/images/ai-pic-mita.webp",
+    "name": "鸿蒙仿叮咚买菜",
+    "description": "在DevEco Studio中使用鸿蒙OS的能力，仿照叮咚买菜开发的一个购物APP",
+    "url": "https://gitee.com/BigPanZH/dingdong-shopping",
+    "icon": "/assets/images/dingdong.webp",
     "tags": [
       "设计",
-      "全栈"
+      "APP"
+    ]
+  },
+  {
+    "name": "Claude HUD for API",
+    "description": "为使用 API 连接的 Claude Code 实时显示 token 用量、模型名称和上下文窗口信息的终端状态栏插件。",
+    "url": "https://github.com/holyshite/claude-hud-for-api",
+    "icon": "/assets/images/claude-hud.webp",
+    "tags": [
+      "技术",
+      "开源",
+      "TypeScript"
+    ]
+  },
+  {
+    "name": "Bireader 双语阅读器",
+    "description": "这是一个双语阅读软件，可以借助 AI 来实现翻译以及分析翻译结果，支持epub和pdf",
+    "url": "https://github.com/holyshite/bireader",
+    "icon": "/assets/images/bireader.webp",
+    "tags": [
+      "Vue",
+      "AI"
     ]
   }
 ]
