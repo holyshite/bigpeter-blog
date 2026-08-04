@@ -347,7 +347,6 @@
 
 .photo-grid-section {
   --sideMargin: 4rem;
-  --columnGap: 2rem;
   --rowHeight: 13rem;
   background: #000;
   color: #f4f2ec;
@@ -430,7 +429,6 @@
 }
 
 .photographyImageGrid__rows {
-  --rowHeight: 13rem;
   display: none;
   flex-direction: column;
   position: relative;
@@ -444,7 +442,7 @@
 .photographyImageGrid__row {
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
-  grid-column-gap: 2rem;
+  column-gap: 2rem;
   height: var(--rowHeight);
   pointer-events: none;
   position: relative;
@@ -474,10 +472,6 @@
   outline-offset: 4px;
 }
 
-.photographyImageGridItem.visible {
-  opacity: 1;
-}
-
 .fill {
   height: 100%;
   width: 100%;
@@ -488,11 +482,12 @@
   overflow: hidden;
   transform: translate3d(0, 0, 0);
   user-select: none;
-  will-change: transform;
 }
 
 .draggableElement.is-dragging {
   cursor: grabbing;
+  position: relative;
+  z-index: 10;
 }
 
 .photographyImageGridItem__inner {
@@ -500,12 +495,12 @@
   opacity: 0;
   overflow: hidden;
   transition: opacity 0.8s ease;
-  will-change: transform, opacity;
   width: 100%;
 }
 
 .photographyImageGridItem.visible .photographyImageGridItem__inner {
   opacity: 1;
+  will-change: opacity;
 }
 
 .photographyImageGridItem__image {
@@ -524,7 +519,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .photographyImageGridItem__image {
+  .photographyImageGridItem__image,
+  .photographyImageGridItem__inner {
     transition: none;
   }
 }
@@ -815,7 +811,6 @@
 
   .photo-grid-section {
     --sideMargin: 1.6rem;
-    --rowHeight: 13rem;
     padding: 0 var(--sideMargin) 6rem;
   }
 
@@ -881,7 +876,7 @@
 
   .photographyImageGrid__row {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-column-gap: 1.2rem;
+    column-gap: 1.2rem;
   }
 
   .photo-grid-section .photo-canvas__reset {
