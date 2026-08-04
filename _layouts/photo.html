@@ -173,27 +173,47 @@ layout: none
   <dialog class="photo-dialog" data-photo-dialog aria-labelledby="photo-dialog-title">
     <button class="photo-dialog__close" type="button" data-photo-close aria-label="关闭作品查看器">×</button>
     <div class="photo-dialog__content">
-      <div class="photo-dialog__image-wrap">
-        <img
-          class="photo-dialog__image"
-          data-photo-dialog-image
-          src=""
-          alt=""
-          role="button"
-          tabindex="0"
-          draggable="false"
+      <div class="photo-dialog__main">
+        <div class="photo-dialog__image-wrap">
+          <img
+            class="photo-dialog__image"
+            data-photo-dialog-image
+            src=""
+            alt=""
+            role="button"
+            tabindex="0"
+            draggable="false"
+          >
+          <span class="photo-dialog__zoom-indicator" data-photo-zoom-indicator aria-hidden="true">( + )</span>
+        </div>
+        <div class="photo-dialog__info">
+          <p data-photo-dialog-count>01 / {{ photo_count }}</p>
+          <h2 id="photo-dialog-title" data-photo-dialog-title></h2>
+          <p data-photo-dialog-category></p>
+          <p data-photo-dialog-description></p>
+        </div>
+        <div class="photo-dialog__controls">
+          <button type="button" data-photo-previous aria-label="查看上一件作品">←</button>
+          <button type="button" data-photo-next aria-label="查看下一件作品">→</button>
+        </div>
+      </div>
+      <div class="photo-dialog__thumbs" data-photo-thumbs aria-label="作品缩略图列表">
+        {% for item in site.data.photo %}
+        <button
+          type="button"
+          class="photo-dialog__thumb"
+          data-photo-thumb="{{ forloop.index0 }}"
+          data-photo-src="{{ item.src | relative_url }}"
+          data-photo-title="{{ item.title }}"
+          data-photo-category="{{ item.category }} {{ item.year }}"
+          data-photo-description="{{ item.description }}"
+          aria-label="缩略图 {{ forloop.index }}"
+          aria-pressed="false"
         >
+          <img src="{{ item.src | relative_url }}" alt="" loading="lazy" draggable="false" width="200" height="250">
+        </button>
+        {% endfor %}
       </div>
-      <div class="photo-dialog__info">
-        <p data-photo-dialog-count>01 / {{ photo_count }}</p>
-        <h2 id="photo-dialog-title" data-photo-dialog-title></h2>
-        <p data-photo-dialog-category></p>
-        <p data-photo-dialog-description></p>
-      </div>
-    </div>
-    <div class="photo-dialog__controls">
-      <button type="button" data-photo-previous aria-label="查看上一件作品">←</button>
-      <button type="button" data-photo-next aria-label="查看下一件作品">→</button>
     </div>
   </dialog>
 
@@ -201,6 +221,8 @@ layout: none
   <script src="{{ '/assets/js/nav.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/prefetch.js' | relative_url }}" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.17/dist/lenis.min.js" defer></script>
+  <script src="{{ '/assets/js/photo-drag.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/photo-viewer.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/photo.js' | relative_url }}" defer></script>
 </body>
 </html>
