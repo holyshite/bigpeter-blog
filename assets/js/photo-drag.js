@@ -44,8 +44,9 @@
       if (!bounds) return;
       var canvasRect = bounds.getBoundingClientRect();
       var rect = element.getBoundingClientRect();
-      var baseLeft = rect.left - x;
-      var baseTop = rect.top - y;
+      var applied = currentOffset();
+      var baseLeft = rect.left - applied.x;
+      var baseTop = rect.top - applied.y;
       var minVisible = Math.min(rect.width, rect.height) * 0.2;
       var minX = canvasRect.left - baseLeft - minVisible;
       var maxX = canvasRect.right - baseLeft - rect.width + minVisible;
@@ -171,6 +172,7 @@
       });
       resetAnimation = animation;
       animation.finished.catch(function () {}).then(function () {
+        if (resetAnimation !== animation) return;
         x = 0;
         y = 0;
         apply();
