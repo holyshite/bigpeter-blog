@@ -21,7 +21,6 @@
     var currentIndex = 0;
     var isTransitioning = false;
     var scale = 1;
-    var wheelDelta = 0;
     var wheelResetTimer = 0;
     var thumbDrag = null;
     var total = thumbButtons.length;

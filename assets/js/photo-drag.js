@@ -113,7 +113,6 @@
       stopInertia();
       try { element.setPointerCapture(pointerId); } catch (err) {}
       element.classList.add('is-dragging');
-      onDragStart();
     }
 
     function onPointerMove(event) {
@@ -122,6 +121,7 @@
       y = baseY + (event.clientY - startClientY);
       if (!moved && (Math.abs(event.clientX - startClientX) > 5 || Math.abs(event.clientY - startClientY) > 5)) {
         moved = true;
+        onDragStart();
       }
       clamp();
       apply();
@@ -142,8 +142,6 @@
         } else {
           startInertia();
         }
-      } else {
-        onDragEnd();
       }
     }
 
