@@ -183,10 +183,11 @@ layout: none
             role="button"
             tabindex="0"
             draggable="false"
+            aria-label="放大作品"
           >
           <span class="photo-dialog__zoom-indicator" data-photo-zoom-indicator aria-hidden="true">( + )</span>
         </div>
-        <div class="photo-dialog__info">
+        <div class="photo-dialog__info" aria-live="polite">
           <p data-photo-dialog-count>01 / {{ photo_count }}</p>
           <h2 id="photo-dialog-title" data-photo-dialog-title></h2>
           <p data-photo-dialog-category></p>
