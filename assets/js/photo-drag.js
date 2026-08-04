@@ -28,6 +28,7 @@
     var inertiaFrame = 0;
     var suppressClick = false;
     var destroyed = false;
+    var resetAnimation = null;
 
     function currentOffset() {
       var matrix = new DOMMatrixReadOnly(window.getComputedStyle(element).transform);
@@ -43,11 +44,13 @@
       if (!bounds) return;
       var canvasRect = bounds.getBoundingClientRect();
       var rect = element.getBoundingClientRect();
+      var baseLeft = rect.left - x;
+      var baseTop = rect.top - y;
       var minVisible = Math.min(rect.width, rect.height) * 0.2;
-      var minX = canvasRect.left - rect.right + minVisible;
-      var maxX = canvasRect.right - rect.left - minVisible;
-      var minY = canvasRect.top - rect.bottom + minVisible;
-      var maxY = canvasRect.bottom - rect.top - minVisible;
+      var minX = canvasRect.left - baseLeft - minVisible;
+      var maxX = canvasRect.right - baseLeft - rect.width + minVisible;
+      var minY = canvasRect.top - baseTop - minVisible;
+      var maxY = canvasRect.bottom - baseTop - rect.height + minVisible;
       x = Math.min(Math.max(x, minX), maxX);
       y = Math.min(Math.max(y, minY), maxY);
     }
@@ -60,11 +63,11 @@
 
     function startInertia() {
       var len = history.length;
-      if (len < 2) return;
+      if (len < 2) { onDragEnd(); return; }
       var last = history[len - 1];
       var prev = history[len - 2];
       var dt = (last.t - prev.t) / 1000;
-      if (dt <= 0 || dt > 0.1) return;
+      if (dt <= 0 || dt > 0.1) { onDragEnd(); return; }
       var maxV = 5000;
       velocityX = Math.max(-maxV, Math.min(maxV, (last.x - prev.x) / dt));
       velocityY = Math.max(-maxV, Math.min(maxV, (last.y - prev.y) / dt));
@@ -152,6 +155,11 @@
       dragging = false;
       pointerId = null;
       element.classList.remove('is-dragging');
+      if (resetAnimation) {
+        resetAnimation.cancel();
+        resetAnimation = null;
+      }
+      apply();
       var from = 'translate3d(' + x.toFixed(2) + 'px, ' + y.toFixed(2) + 'px, 0)';
       var animation = element.animate([
         { transform: from },
@@ -161,10 +169,12 @@
         easing: EASE,
         fill: 'forwards'
       });
+      resetAnimation = animation;
       animation.finished.catch(function () {}).then(function () {
         x = 0;
         y = 0;
         apply();
+        resetAnimation = null;
       });
     }
 
