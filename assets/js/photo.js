@@ -28,6 +28,7 @@
         var smoothScroller = null;
         var hintMoveFrame = 0;
         var dragCount = 0;
+        var dragSequence = 0;
 
         function getActiveCanvas() {
             return isMobileQuery.matches && mobileCanvas ? mobileCanvas : desktopCanvas;
@@ -54,14 +55,14 @@
             cards.forEach(function (card) {
                 card.addEventListener('dragstart', preventDrag);
                 if (isMobile() || !window.PhotoDrag) return;
-                var draggableEl = card.querySelector('.photographyImageGridItem__draggable');
-                if (!draggableEl) return;
-                dragInstances.push(window.PhotoDrag.create(draggableEl, {
+                dragInstances.push(window.PhotoDrag.create(card, {
                     bounds: gridInner || gridSection,
                     onDragStart: function () {
                         dragCount += 1;
                         if (smoothScroller) smoothScroller.stop();
                         document.documentElement.classList.add('photo-dragging');
+                        dragSequence += 1;
+                        card.style.zIndex = String(10 + dragSequence);
                         if (!interactionEnabled) {
                             interactionEnabled = true;
                             if (resetButton) resetButton.classList.add('is-visible');
@@ -230,7 +231,11 @@
             resetButton.addEventListener('click', function () {
                 interactionEnabled = false;
                 resetButton.classList.remove('is-visible');
+                cards.forEach(function (card) { card.classList.remove('is-dragging'); });
                 dragInstances.forEach(function (instance) { instance.reset(); });
+                window.setTimeout(function () {
+                    cards.forEach(function (card) { card.style.zIndex = ''; });
+                }, 1050);
             });
             resetButton.addEventListener('mouseenter', function () {
                 hintOnReset = true;

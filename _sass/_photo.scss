@@ -533,6 +533,12 @@
   z-index: 10;
 }
 
+.photographyImageGridItem.is-dragging {
+  cursor: grabbing;
+  position: relative;
+  z-index: 10;
+}
+
 .photographyImageGridItem__inner {
   height: 100%;
   opacity: 0;
