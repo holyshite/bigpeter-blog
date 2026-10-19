@@ -1,171 +1,94 @@
 ---
 layout: none
-title: 关于
 ---
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
-
+<html lang="zh-CN" class="foundations-document" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <title>{{ page.title }} | {{ site.title }}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    (function () {
-      try {
-        var bg = localStorage.getItem('site-bg');
-        if (bg) document.documentElement.setAttribute('data-bg', bg);
-      } catch (e) { }
-    })();
-  </script>
-  <link rel="preload" href="{{ '/assets/css/style.css' | relative_url }}" as="style">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }} · BigPeter</title>
+  <meta name="description" content="{{ site.author.bio | escape }}">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
+<body class="foundations-page{% unless page.about_section %} is-index{% endunless %}" data-initial-section="{{ page.about_section | default: 'index' }}" data-about-root="{{ '/about/' | relative_url }}">
+  <a class="f-skip" href="#foundation-main">跳到主要内容</a>
+  <header class="f-header">
+    <a class="f-brand" href="{{ '/' | relative_url }}" aria-label="BigPeter 首页">BigPeter<span>©</span></a>
+    <a class="f-header__chapter" href="{{ '/about/' | relative_url }}" data-route="index">个人索引</a>
+    <div class="f-header__actions">
+      <button class="f-theme" type="button" aria-label="切换深浅主题" aria-pressed="false" data-theme-toggle>◐</button>
+      <button class="f-menu-toggle" type="button" aria-expanded="false" aria-controls="foundation-menu" data-menu-toggle>Index <span aria-hidden="true">＋</span></button>
+    </div>
+  </header>
 
-<body class="star-canvas-page">
-  {% include header.html %}
+  <nav class="f-menu" id="foundation-menu" aria-label="关于页面索引" hidden>
+    <div class="f-menu__chapters">
+      {% for chapter in site.data.about.chapters %}
+      <a href="{{ '/about/' | append: chapter.key | append: '/' | relative_url }}" data-route="{{ chapter.key }}"><small>0{{ forloop.index }}</small>{{ chapter.title }}<span>↗</span></a>
+      {% endfor %}
+    </div>
+    <div class="f-menu__links">
+      <a href="{{ '/about/' | relative_url }}" data-route="index">旋转索引 ↗</a>
+      <a href="{{ '/posts/' | relative_url }}">文章 ↗</a>
+      <a href="{{ '/projects/' | relative_url }}">项目 ↗</a>
+      <a href="{{ '/photo/' | relative_url }}">影像 ↗</a>
+      <a href="{{ '/checkin/' | relative_url }}">打卡 ↗</a>
+      <a href="mailto:{{ site.author.email }}">联系我 ↗</a>
+    </div>
+  </nav>
 
-  <main class="about-page">
-    <section class="about-hero" id="about-hero" aria-labelledby="about-title">
-      <div class="about-hero__inner">
-        <p class="about-hero__kicker">关于 / ABOUT</p>
-        <h1 class="about-hero__title" id="about-title">{{ site.author.name }}</h1>
-        <p class="about-hero__intro">
-          {{ site.author.bio }}
-        </p>
-        <div class="about-hero__topics" aria-label="关注领域">
-          <span>Web 开发</span>
-          <span>开源项目</span>
-          <span>生活记录</span>
-        </div>
-        <div class="about-hero__rule" aria-hidden="true">
-          <span>01</span>
-          <span class="about-hero__rule-line"></span>
-        </div>
-      </div>
-    </section>
-
-    <div class="about-content">
-      <section class="about-profile" aria-labelledby="about-profile-title">
-        <div class="about-section-heading about-profile-heading">
-          <p class="about-section-heading__eyebrow">PROFILE</p>
-          <h2 id="about-profile-title">
-            <span class="about-profile-title__primary">关于</span><!--
-            --><span class="about-profile-title__rest-char">我</span><!--
-            --><span class="about-profile-title__rest-char">与</span><!--
-            --><span class="about-profile-title__rest-char">这</span><!--
-            --><span class="about-profile-title__rest-char">个</span><!--
-            --><span class="about-profile-title__rest-char">站</span><!--
-            --><span class="about-profile-title__rest-char">点</span>
-          </h2>
-          <p>保持好奇，持续构建，也认真保存一路上的想法。</p>
-        </div>
-
-        <div class="about-cards" id="about-cards">
-          <div class="about-card-track">
-            <article class="about-card">
-              <span class="about-card__number" aria-hidden="true">01</span>
-              <h3>关于本站</h3>
-              <p class="about-card__lead">这是一个由 Jekyll 驱动的个人空间，内容与界面都在持续迭代。</p>
-              <ul class="about-list">
-                <li>Jekyll 静态站点生成器</li>
-                <li>Sass 样式与液态玻璃组件</li>
-                <li>JavaScript 与 GSAP 交互</li>
-                <li>技术文章、项目与生活记录</li>
-              </ul>
-            </article>
-          </div>
-
-          <div class="about-card-track">
-            <article class="about-card">
-              <span class="about-card__number" aria-hidden="true">02</span>
-              <h3>保持联系</h3>
-              <p class="about-card__lead">关于技术、项目或博客本身的建议，都欢迎直接联系。</p>
-              <div class="about-contact-links">
-                <a href="mailto:{{ site.author.email }}">
-                  <span>邮箱</span>
-                  <strong>{{ site.author.email }}</strong>
-                </a>
-                <a href="https://github.com/{{ site.author.github }}" target="_blank" rel="noopener">
-                  <span>GitHub</span>
-                  <strong>{{ site.author.name }}</strong>
-                </a>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="about-friends-section" id="about-friends" aria-labelledby="about-friends-title">
-        <div class="about-section-heading about-reveal">
-          <p class="about-section-heading__eyebrow">FRIENDS</p>
-          <h2 id="about-friends-title">友情链接</h2>
-          <p>网络让不同的表达彼此靠近，这里收录一些常去的个人站点。</p>
-        </div>
-
-        <div class="friend-links">
-          {% for friend in site.data.friends %}
-          <div class="friend-link-track post-item">
-            <a class="friend-link" href="{{ friend.url }}" target="_blank" rel="noopener">
-              <div class="friend-avatar">
-                <img
-                  src="{{ friend.avatar }}"
-                  alt="{{ friend.name }}头像"
-                  width="48"
-                  height="48"
-                  loading="lazy"
-                >
-                <span class="friend-avatar__fallback" aria-hidden="true">{{ friend.name | slice: 0 }}</span>
-              </div>
-              <div class="friend-info">
-                <span class="friend-name">{{ friend.name }}</span>
-                <p class="friend-desc">{{ friend.description }}</p>
-                <div class="friend-tags" aria-label="{{ friend.name }}标签">
-                  {% for tag in friend.tags %}
-                  <span class="friend-tag">{{ tag }}</span>
-                  {% endfor %}
-                </div>
-              </div>
-            </a>
-          </div>
+  <main id="foundation-main">
+    <section class="f-index" aria-label="BigPeter 的五个侧面" data-view="index"{% if page.about_section %} hidden{% endif %}>
+      <div class="f-index__intro"><h1>Always<br><em>curious.</em></h1><p>关于 BigPeter 的五个侧面</p></div>
+      <div class="f-orbit" data-orbit>
+        <div class="f-orbit__ring" data-orbit-ring>
+          {% for chapter in site.data.about.chapters %}
+          <a class="f-orbit__card" href="{{ '/about/' | append: chapter.key | append: '/' | relative_url }}" data-route="{{ chapter.key }}" data-orbit-card="{{ forloop.index0 }}" aria-label="探索 {{ chapter.title }}">
+            <div class="f-orbit__art f-art f-art--{{ chapter.key }}">{% include about/card-art.html key=chapter.key %}</div>
+          </a>
           {% endfor %}
         </div>
-      </section>
+      </div>
+      <div class="f-index__caption" aria-live="polite"><span data-orbit-count>01 / 05</span><h2 data-orbit-title>Logo</h2><p data-orbit-description>一个名字，一点个人印记。</p></div>
+      <div class="f-index__controls">
+        <button type="button" class="f-circle" data-orbit-prev aria-label="上一个入口">←</button>
+        <button type="button" class="f-circle" data-orbit-pause aria-label="暂停旋转" aria-pressed="false">Ⅱ</button>
+        <button type="button" class="f-circle" data-orbit-next aria-label="下一个入口">→</button>
+      </div>
+      <p class="f-index__hint">拖动 / 滚动探索 <span>·</span> 点击展开</p>
+    </section>
 
-      <section class="about-social" aria-label="更多联系方式">
-        <p class="about-social__label">ELSEWHERE</p>
-        <div class="home-icon-list" aria-label="联系图标">
-          <a class="home-icon-item" href="https://gitee.com/{{ site.author.gitee }}" title="Gitee" aria-label="Gitee">
-            <img src="{{ '/assets/icon/gitee.svg' | relative_url }}" alt="">
-          </a>
-          <a class="home-icon-item" href="https://github.com/{{ site.author.github }}" title="GitHub" aria-label="GitHub">
-            <img src="{{ '/assets/icon/github.svg' | relative_url }}" alt="">
-          </a>
-          <a class="home-icon-item" href="mailto:{{ site.author.gmail }}" title="Gmail" aria-label="Gmail">
-            <img src="{{ '/assets/icon/gmail.svg' | relative_url }}" alt="">
-          </a>
-          <a class="home-icon-item" href="mailto:{{ site.author.qqmail }}" title="QQ Mail" aria-label="QQ Mail">
-            <img src="{{ '/assets/icon/QQmail.svg' | relative_url }}" alt="">
-          </a>
-          <a
-            class="home-icon-item"
-            href="https://steamcommunity.com/profiles/{{ site.author.steam_id }}/"
-            title="Steam"
-            aria-label="Steam"
-          >
-            <img src="{{ '/assets/icon/steam.svg' | relative_url }}" alt="">
-          </a>
-        </div>
-      </section>
-    </div>
+    {% for chapter in site.data.about.chapters %}
+    <article class="f-chapter f-chapter--{{ chapter.key }}" data-view="{{ chapter.key }}"{% unless page.about_section == chapter.key %} hidden{% endunless %} aria-labelledby="title-{{ chapter.key }}">
+      <header class="f-chapter__intro">
+        <div class="f-chapter__eyebrow"><span>关于 / 0{{ forloop.index }}</span><span>{{ chapter.zh }}</span></div>
+        <h1 id="title-{{ chapter.key }}" tabindex="-1">{{ chapter.title }}</h1>
+        <p>{{ chapter.intro }}</p>
+      </header>
+      {% case chapter.key %}
+        {% when 'logo' %}{% include about/logo.html %}
+        {% when 'typography' %}{% include about/typography.html %}
+        {% when 'color' %}{% include about/color.html %}
+        {% when 'photography' %}{% include about/photography.html %}
+        {% when 'motion' %}{% include about/motion.html %}
+      {% endcase %}
+      {% assign next_index = forloop.index | modulo: 5 %}
+      {% assign next_chapter = site.data.about.chapters[next_index] %}
+      <footer class="f-next">
+        <a href="{{ '/about/' | append: next_chapter.key | append: '/' | relative_url }}" data-route="{{ next_chapter.key }}"><small>继续探索</small><span>{{ next_chapter.title }}</span><span aria-hidden="true">↗</span></a>
+        <div><a href="{{ '/about/' | relative_url }}" data-route="index">返回索引</a><span>BigPeter © {{ 'now' | date: '%Y' }}</span><a href="mailto:{{ site.author.email }}">Say hello ↗</a></div>
+      </footer>
+    </article>
+    {% endfor %}
   </main>
-
+  {% include about/viewer.html %}
+  <div class="f-transition" aria-hidden="true" data-transition></div>
+  <script type="application/json" id="foundation-data">{{ site.data.about | jsonify }}</script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
-  <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
-  <script src="{{ '/assets/js/nav.js' | relative_url }}" defer></script>
-  <script src="{{ '/assets/js/prefetch.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/photo-drag.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/photo-viewer.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/about-sections.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/about.js' | relative_url }}" defer></script>
 </body>
-
 </html>

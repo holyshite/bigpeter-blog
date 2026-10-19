@@ -1,0 +1,12 @@
+{% case include.key %}
+{% when 'logo' %}
+  <span class="f-art__label">01 / PERSONAL MARK</span><div class="f-art__logo">{% include about/mark.html %}<b>BigPeter</b></div><span class="f-art__bottom">A work in progress.</span>
+{% when 'typography' %}
+  <span class="f-art__label">02 / WORDS & THOUGHTS</span><div class="f-art__type"><span>Aa</span><span>字里<br>行间</span></div><span class="f-art__bottom">Stay curious. Keep making.</span>
+{% when 'color' %}
+  <span class="f-art__label">03 / EVERYDAY PALETTE</span><div class="f-art__swatches"><i></i><i></i><i></i><i></i></div><b class="f-art__color-word">In<br><em>color.</em></b>
+{% when 'photography' %}
+  <img class="f-art__photo-bg" src="{{ '/assets/images/photos/7.webp' | relative_url }}" alt="" width="1200" height="900"><span class="f-art__label">04 / THROUGH MY EYES</span><img class="f-art__photo-front" src="{{ '/assets/images/photos/3.webp' | relative_url }}" alt="" width="4608" height="3456"><span class="f-art__bottom">A moment, kept.</span>
+{% when 'motion' %}
+  <span class="f-art__label">05 / A LITTLE MOVEMENT</span><div class="f-art__motion"><i></i><i></i><i></i><i></i></div><b class="f-art__motion-word">Make<br><em>it move.</em></b>
+{% endcase %}

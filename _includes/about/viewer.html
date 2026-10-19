@@ -1,0 +1,11 @@
+<dialog class="photo-dialog" data-photo-dialog aria-labelledby="photo-dialog-title">
+  <h2 id="photo-dialog-title" class="f-sr-only">BigPeter 影像浏览</h2>
+  <button class="photo-dialog__close" type="button" data-photo-close aria-label="关闭图片">×</button>
+  <div class="photo-dialog__content"><div class="photo-dialog__main">
+    <div class="photo-dialog__image-wrap"><img class="photo-dialog__image" data-photo-dialog-image src="" alt="" role="button" tabindex="0" draggable="false" aria-label="点击缩放图片"></div>
+    <div class="photo-dialog__info" aria-live="polite"><p data-photo-dialog-count></p><p data-photo-dialog-description></p></div>
+    <div class="photo-dialog__controls"><button type="button" data-photo-previous aria-label="上一张">←</button><button type="button" data-photo-next aria-label="下一张">→</button></div>
+  </div><div class="photo-dialog__thumbs" data-photo-thumbs>
+    {% for photo in site.data.photo %}<button type="button" class="photo-dialog__thumb" data-photo-thumb="{{ forloop.index0 }}" data-photo-src="{{ photo.src | relative_url }}" data-photo-title="{{ photo.title | escape }}" data-photo-category="{{ photo.category | escape }}" data-photo-description="{{ photo.description | escape }}" aria-label="缩略图 {{ forloop.index }}" aria-pressed="false"><img src="{{ photo.src | relative_url }}" alt="" width="80" height="100" loading="lazy"></button>{% endfor %}
+  </div></div>
+</dialog>
