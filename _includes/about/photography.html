@@ -1,0 +1,11 @@
+<section class="f-photo-hero" data-photo-hero><img src="{{ '/assets/images/photos/7.webp' | relative_url }}" width="1200" height="900" alt="生活影像" loading="lazy"><div class="f-photo-hero__front"><img src="{{ '/assets/images/photos/3.webp' | relative_url }}" width="4608" height="3456" alt="蓝色陶瓷器物" loading="lazy"></div><span>A moment,<br><em>kept.</em></span></section>
+<section class="f-section f-photo-sets">
+  <header class="f-section-head"><h2>沿途的片段。</h2><button type="button" class="f-text-button" data-photo-shuffle>换一组 ↻</button></header>
+  <div class="f-photo-strip" data-photo-strip>{% for photo in site.data.photo limit: 6 %}<button type="button" data-photo-open="{{ forloop.index0 }}" aria-label="查看 {{ photo.title }}"><img src="{{ photo.src | relative_url }}" alt="{{ photo.title }}" loading="lazy" width="900" height="1200"></button>{% endfor %}</div>
+</section>
+<section class="f-statement" data-reveal><p>不必每次都有目的。<br><span>看见，就已经很好。</span></p></section>
+<section class="f-section f-free-section">
+  <header class="f-section-head"><div><h2>一面自由的墙。</h2><p>拖动照片重新摆放，点击放大。</p></div><button class="f-text-button" type="button" data-canvas-reset>复位 ↺</button></header>
+  <div class="f-photo-canvas" data-photo-canvas>{% for photo in site.data.photo limit: 18 %}<button type="button" class="f-photo-tile" data-photo-open="{{ forloop.index0 }}" data-canvas-tile aria-label="查看 {{ photo.title }}"><img src="{{ photo.src | relative_url }}" alt="{{ photo.title }}" loading="lazy" width="900" height="1200"></button>{% endfor %}</div>
+</section>
+<section class="f-section f-photo-stack-section"><header class="f-section-head"><h2>翻一翻，再停一会。</h2><div><button type="button" class="f-circle" data-stack-prev aria-label="上一张">←</button><button type="button" class="f-circle" data-stack-next aria-label="下一张">→</button></div></header><div class="f-photo-stack" data-photo-stack>{% for photo in site.data.photo offset: 18 limit: 5 %}<button type="button" data-photo-open="{{ forloop.index0 | plus: 18 }}" aria-label="查看 {{ photo.title }}"><img src="{{ photo.src | relative_url }}" alt="{{ photo.title }}" loading="lazy" width="900" height="1200"></button>{% endfor %}</div><p data-stack-count class="f-stack-count" aria-live="polite">01 / 05</p></section>

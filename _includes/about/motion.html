@@ -1,0 +1,16 @@
+<section class="f-motion-hero" data-motion-hero><div class="f-motion-hero__words"><span>Less friction.</span><span><em>More feeling.</em></span></div><div class="f-motion-hero__orbs"><i></i><i></i><i></i></div></section>
+<section class="f-section">
+  <header class="f-section-head"><h2>感受一点变化。</h2><p>调整速度，或拖动时间轴。</p></header>
+  <div class="f-motion-playground" data-motion-playground><div class="f-motion-track"><span class="f-motion-ball" data-motion-ball></span><span class="f-motion-ball" data-motion-ball></span><span class="f-motion-ball" data-motion-ball></span></div><span class="f-motion-playground__word">A little<br><em>momentum.</em></span></div>
+  <div class="f-toolbar f-motion-controls"><div class="f-tabs"><button type="button" data-motion-play aria-pressed="true">暂停 Ⅱ</button><button type="button" data-motion-replay>重播 ↻</button></div><label>速度 <select data-motion-speed aria-label="动画速度"><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><label>曲线 <select data-motion-ease aria-label="动画曲线"><option value="power3.inOut">Flow</option><option value="elastic.out(1,0.5)">Elastic</option><option value="back.inOut(1.7)">Back</option></select></label><input type="range" min="0" max="100" value="0" data-motion-scrub aria-label="动画进度"></div>
+</section>
+<section class="f-section">
+  <header class="f-section-head"><h2>五种节奏。</h2><p>点开，看看它如何发生。</p></header>
+  <div class="f-motion-accordion" data-motion-accordion>{% assign modes = 'Flow,Spring,Layers,Orbit,Play' | split: ',' %}{% for mode in modes %}<button type="button" class="f-motion-tile{% if forloop.first %} is-active{% endif %}" data-motion-tile="{{ forloop.index0 }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"><span class="f-motion-tile__label">0{{ forloop.index }} / {{ mode }}</span><span class="f-motion-tile__art"><i></i><i></i><i></i></span><strong>{{ mode }}<span>↗</span></strong></button>{% endfor %}</div>
+</section>
+<section class="f-section f-motion-composition">
+  <div class="f-motion-composition__type" data-reveal><span>BUILD, BREAK, REPEAT.</span><p>Keep<br><em>making.</em></p></div>
+  <div class="f-motion-composition__image" data-parallax><img src="{{ '/assets/images/retro-game-museum.webp' | relative_url }}" alt="像素游戏手柄" width="1024" height="1024" loading="lazy"></div>
+  <div class="f-motion-composition__small" data-parallax><span>const curiosity = true;</span><b>↗</b><span>下一个想法，也许就在下一次尝试里。</span></div>
+</section>
+<section class="f-statement" data-reveal><p>让交互有呼吸。<br><span>让变化有理由。</span></p></section>

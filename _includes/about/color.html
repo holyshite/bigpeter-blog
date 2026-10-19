@@ -1,0 +1,15 @@
+<section class="f-color-lab f-section" data-color-lab>
+  <div class="f-color-poster" data-poster data-layout="0"><span class="f-poster__caption">BIGPETER / EVERYDAY STUDIES</span><h2>Make room<br>for <em>curiosity.</em></h2><div class="f-poster__shape"><i></i><i></i><i></i></div><span class="f-poster__bottom">从平常里，找到一点不同。</span></div>
+  <div class="f-toolbar"><span data-palette-name>暖纸 / 01</span><div class="f-tabs"><button type="button" data-color-shuffle>换组颜色 ↻</button><button type="button" data-layout-shuffle>换个构图 ◫</button></div></div>
+</section>
+<section class="f-section">
+  <header class="f-section-head"><h2>我的基础色。</h2><p>点击色值即可复制。</p></header>
+  <div class="f-palette-grid">{% assign names = '暖纸,墨色,砂岩,苔绿' | split: ',' %}{% for color in site.data.about.palettes[0].colors %}<button type="button" class="f-swatch" data-copy-color="{{ color }}" style="--swatch:{{ color }};--swatch-ink:{% if forloop.index == 2 %}#f3efe5{% else %}#242521{% endif %}" aria-label="复制色值 {{ color }}"><span>{{ names[forloop.index0] }}</span><span>{{ color | upcase }}</span></button>{% endfor %}</div><p class="f-copy-status" role="status" data-color-status></p>
+</section>
+<section class="f-section">
+  <header class="f-section-head"><h2>不同的情绪。</h2><p>一种配色，一种语气。</p></header>
+  <div class="f-palette-picker" aria-label="选择配色">{% for palette in site.data.about.palettes %}<button type="button" data-palette="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"><span>{% for color in palette.colors %}<i style="background:{{ color }}"></i>{% endfor %}</span>{{ palette.name }}</button>{% endfor %}</div>
+  <div class="f-color-studies"><div class="f-color-study f-color-study--type" data-reveal><span>PALETTE IN USE</span><p>Stay<br><em>curious.</em></p></div><div class="f-color-study f-color-study--image" data-reveal><img src="{{ '/assets/images/photos/3.webp' | relative_url }}" alt="生活里的蓝与金" width="4608" height="3456" loading="lazy"><span>从一件器物里，收集蓝与金。</span></div></div>
+  <button type="button" class="f-explore-color" data-color-explore><span>Explore color.</span><span>↗</span></button>
+</section>
+<dialog class="f-color-dialog" data-color-dialog aria-labelledby="color-dialog-title"><div class="f-color-dialog__head"><h2 id="color-dialog-title">Color studies.</h2><button type="button" data-color-close aria-label="关闭配色探索">关闭 ×</button></div><div class="f-color-dialog__preview"><p>Life, in<br><em>full color.</em></p><div class="f-color-dialog__shapes"><i></i><i></i><i></i></div></div><div class="f-color-dialog__palettes">{% for palette in site.data.about.palettes %}<button type="button" data-palette="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ palette.name }}<span>{% for color in palette.colors %}<i style="background:{{ color }}"></i>{% endfor %}</span></button>{% endfor %}</div></dialog>

@@ -1,0 +1,16 @@
+<section class="f-type-hero" data-reveal><span>Thoughts become words.</span><div data-type-marquee>Big<span>Peter</span></div><span>WORDS, WITH A PERSONALITY.</span></section>
+<section class="f-section">
+  <header class="f-section-head"><h2>试着写一点。</h2><p>点击文字，就能编辑。</p></header>
+  <div class="f-type-controls f-toolbar"><div class="f-tabs" aria-label="字体风格"><button type="button" data-type-font="sans" aria-pressed="true">Sans</button><button type="button" data-type-font="serif" aria-pressed="false">Serif</button><button type="button" data-type-font="mono" aria-pressed="false">Mono</button></div><label>字号 <input type="range" min="32" max="180" value="100" data-type-size aria-label="字号"></label><button type="button" class="f-text-button" data-type-shuffle>换一句 ↻</button></div>
+  <div class="f-type-editor" contenteditable="true" role="textbox" aria-label="自由编辑字体样张" aria-multiline="true" spellcheck="false" data-type-editor>保持好奇，<br>Keep making.</div>
+</section>
+<section class="f-section f-type-specimens">
+  <div class="f-type-specimen" data-reveal><div><h2>Sans</h2><span>清晰 / 直接</span></div><p>Less, but<br><em>with feeling.</em></p><span>让表达回到想法本身。</span></div>
+  <div class="f-type-specimen f-type-specimen--serif" data-reveal><div><h2>Serif</h2><span>温度 / 叙事</span></div><p>Ordinary<br><em>little things.</em></p><span>日常里，也有值得停留的瞬间。</span></div>
+  <div class="f-type-specimen f-type-specimen--mono" data-reveal><div><h2>Mono</h2><span>秩序 / 构建</span></div><p>Hello,<br>world<span class="f-caret">_</span></p><span>从一行代码，开始一个想法。</span></div>
+</section>
+<section class="f-section">
+  <header class="f-section-head"><h2>字的游乐场。</h2><button type="button" class="f-text-button" data-glyph-shuffle>打乱字形 ↻</button></header>
+  <div class="f-glyphs" aria-label="点击字形切换风格">{% assign glyphs = 'A,B,P,a,g,&,?,好,奇' | split: ',' %}{% for glyph in glyphs %}<button type="button" data-glyph aria-label="切换 {{ glyph }} 的字形">{{ glyph }}</button>{% endfor %}</div>
+</section>
+<section class="f-section f-type-story" data-reveal><span>一篇小小的随笔</span><h2>慢一点，<br>也在往前。</h2><p>做一个项目，读一本书，或者只是认真地过完今天。比起赶到哪里，我更在意沿途看见了什么。</p><a class="f-text-button" href="{{ '/posts/' | relative_url }}">进入文章 ↗</a></section>
