@@ -433,6 +433,23 @@
     text-align: right;
 }
 
+.home-quote-card .home-version-notice {
+    margin: 28px 0;
+    font-size: 1rem;
+    line-height: 1.6;
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 4px;
+        }
+    }
+}
+
 .home-icon-list {
     margin-top: auto;
     display: flex;
